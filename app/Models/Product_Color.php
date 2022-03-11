@@ -2,10 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Product_With_Color;
 use Illuminate\Database\Eloquent\Model;
 
 class Product_Color extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'color', 'hex_code'
+    ];
+
+    public function product_with_color(){
+        return $this->hasMany(Product_With_Color::class);
+    }
 }

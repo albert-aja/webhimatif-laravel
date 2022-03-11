@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Main_Model;
 
-class History extends Model
+class History extends Main_Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'history'
+    ];
 }

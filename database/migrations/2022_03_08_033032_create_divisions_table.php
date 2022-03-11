@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('division')->comment('Nama Divisi');
             $table->string('slug')->unique()->comment('Slug Divisi');
             $table->string('alias')->unique()->comment('Singkatan Divisi (Halaman Divisi)');
+            $table->timestamps();
             $table->softDeletes();
         });
     }

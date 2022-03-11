@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('maintenance__infos', function (Blueprint $table) {
             $table->id();
             $table->boolean('is_maintenance');
+            $table->timestamps();
         });
     }
 

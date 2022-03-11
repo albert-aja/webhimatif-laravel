@@ -1,0 +1,124 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto%20Mono:wght@300..700&display=swap");
+
+body {
+  background: #0c1429;
+  color: #d3d7de;
+  font-family: "Roboto Mono", "Courier new";
+  font-size: 1.6rem;
+  line-height: 1.5em;
+}
+
+.d-block {
+  display: block;
+}
+
+.pl-25 {
+  padding-left: 25px;
+}
+
+a {
+  color: #fff;
+}
+
+.code-area {
+  width: max-content;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.code-area > span {
+  display: block;
+}
+
+.red {
+  color: #d65562;
+}
+
+.yellow {
+  color: #e8d44c;
+}
+
+.orange {
+  color: #d55d28;
+}
+
+.blue-1 {
+  color: #4ca8ef;
+}
+
+.blue-2 {
+  color: #1795f5;
+  padding-left: 3em;
+}
+
+.green {
+  color: #06ad06;
+}
+
+.text {
+  margin: 3.2rem auto;
+}
+
+.box__button {
+  width: min-content;
+  float: right;
+  display: block;
+  position: relative;
+  background: #ff5e65;
+  border: 1px solid transparent;
+  border-radius: 50px;
+  height: 3.2rem;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  line-height: 50px;
+  font-size: 18px;
+  padding: 0 4.8rem;
+  white-space: nowrap;
+  margin-top: 1.6rem;
+  transition: background 0.5s ease;
+  overflow: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+.box__button:before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 100px;
+  background: #fff;
+  bottom: -25px;
+  left: 0;
+  border: 2px solid #fff;
+  transform: translateX(-50px) rotate(45deg);
+  transition: transform 0.5s ease;
+}
+
+.box__button:hover {
+  background: transparent;
+  border-color: #fff;
+}
+
+.box__button:hover:before {
+  transform: translateX(250px) rotate(45deg);
+}
+
+@media screen and (max-width: 992px) {
+  .code-area {
+    font-size: 2.3rem;
+    min-width: auto;
+    width: 80%;
+    margin: auto;
+    padding: 5px;
+    padding-left: 10px;
+    line-height: 6.5vw;
+  }
+  .box__button {
+    font-size: 2.3rem;
+    padding: 1rem 4.8rem;
+    width: inherit;
+  }
+}

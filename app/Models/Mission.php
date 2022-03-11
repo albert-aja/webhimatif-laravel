@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Main_Model;
 
-class Mission extends Model
+class Mission extends Main_Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'mission'
+    ];
 }

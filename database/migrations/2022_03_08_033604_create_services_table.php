@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('service')->comment('Nama Layanan');
             $table->string('link')->nullable()->comment('Link Layanan');
+            $table->timestamps();
         });
     }
 

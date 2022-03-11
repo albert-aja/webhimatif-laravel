@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
             $table->text('history')->comment('Sejarah');
+            $table->timestamps();
         });
     }
 

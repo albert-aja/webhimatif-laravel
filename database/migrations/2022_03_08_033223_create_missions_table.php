@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('missions', function (Blueprint $table) {
             $table->id();
             $table->string('mission')->comment('Misi Himatif');
+            $table->timestamps();
         });
     }
 

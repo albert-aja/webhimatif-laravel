@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('management__years', function (Blueprint $table) {
             $table->id();
             $table->string('year')->comment('Tahun Kepengurusan');
+            $table->timestamps();
         });
     }
 

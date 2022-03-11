@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Commitee;
+use App\Models\Main_Model;
 
-class Position extends Model
+class Position extends Main_Model
 {
-    use HasFactory;
+    protected $fillable = ['position'];
+
+    //relations
+    public function commitee(){
+        return $this->hasMany(Commitee::class);
+    }
 }

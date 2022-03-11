@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('product__colors', function (Blueprint $table) {
             $table->id();
-            $table->string('color_name')->comment('Warna');
+            $table->string('color')->comment('Warna');
             $table->string('hex_code')->comment('Hex Code Warna');
+            $table->timestamps();
         });
     }
 

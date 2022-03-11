@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('category')->comment('Nama Kategori');
             $table->string('slug')->unique()->comment('Slug Kategori');
             $table->string('photo')->comment('Foto Kategori (Halaman Home)');
+            $table->timestamps();
         });
     }
 

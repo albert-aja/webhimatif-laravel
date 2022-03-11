@@ -2,10 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Main_Model;
 
-class UM_Contact extends Model
-{
-    use HasFactory;
+class UM_Contact extends Main_Model
+{    
+    protected $fillable = [
+        'social', 'link', 'icon', 'color'
+    ];
+
+    public function getExistedContact(){
+        return $this->select('icon')
+                    ->get();
+    }
 }

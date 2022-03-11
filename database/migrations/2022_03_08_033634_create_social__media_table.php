@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('link')->comment('Link Media Sosial');
             $table->string('icon')->comment('Ikon Media Sosial');
             $table->string('color')->comment('Warna background Media Sosial');
+            $table->timestamps();
         });
     }
 

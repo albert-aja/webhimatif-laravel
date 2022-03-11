@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('reset_hash')->nullable();
             $table->timestamp('reset_at')->nullable();
             $table->timestamp('reset_expires')->nullable();
+            $table->timestamps();
         });
     }
 

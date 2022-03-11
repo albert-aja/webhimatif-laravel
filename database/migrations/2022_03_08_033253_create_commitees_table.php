@@ -21,6 +21,7 @@ return new class extends Migration
                     ->constrained()->nullOnDelete()->onUpdate('cascade');
             $table->foreignId('division_id')->comment('Divisi Pengurus')
                     ->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamps();
         });
     }
 

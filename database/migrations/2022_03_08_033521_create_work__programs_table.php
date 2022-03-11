@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description')->comment('Deskripsi Progja');
             $table->foreignId('division_id')->comment('Divisi Terkait')
                     ->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamps();
         });
     }
 
