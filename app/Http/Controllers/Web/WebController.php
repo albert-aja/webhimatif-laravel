@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
 use App\Models\Post;
 use App\Models\Vision;
@@ -24,8 +24,6 @@ use App\ViewModels\HimatifShopViewModel;
 class WebController extends Controller
 {
 	public function __construct(){
-		$this->postLimit = 3; //jumlah berita yang muncul pada section berita di home page
-
         $this->data = [
             'socials'	=> Social_Media::all(),
             'services' 	=> Service::all(),
@@ -38,7 +36,7 @@ class WebController extends Controller
 		$viewModel = new WebHomeViewModel(
             Mission::get(),
 			Product_Category::all(),
-			Post::orderBy('created_at', 'DESC')->take($this->postLimit)->get(),
+			Post::orderBy('created_at', 'DESC')->take(config('constants.postLimit'))->get(),
 			$this->data['divisions']
         );
 
@@ -51,7 +49,7 @@ class WebController extends Controller
 		$this->data['divisions'] 	= $viewModel->divisions();
 		$this->data['videos'] 		= $viewModel->youtube();
 
-		return view('v_client.index', $this->data);
+		return view('v_web.index', $this->data);
 	}
 
 	public function divisi(Division $division){
@@ -73,7 +71,7 @@ class WebController extends Controller
 		$this->data['commitees'] 	= $viewModel->commitees();
 		$this->data['programs'] 	= $viewModel->programs();
 		
-		return view('v_client.divisi', $this->data);
+		return view('v_web.divisi', $this->data);
 	}
 
 	public function Himatif_Shop(){
@@ -89,7 +87,7 @@ class WebController extends Controller
 		$this->data['categories'] 	= $category->count_category();
 		$this->data['items'] 		= $viewModel->shop_items()->shuffle();
 
-		return view('v_client.shop', $this->data);
+		return view('v_web.shop', $this->data);
 	}
 
 	public function berita(){	
@@ -98,7 +96,7 @@ class WebController extends Controller
 		$this->data['title'] ='Himatif News';
 		$this->data['breadcrumbs']	= $breadcrumbs->buildAuto();
 
-		return view('v_client.news', $this->data);
+		return view('v_web.news', $this->data);
 	}
 
 	public function article(Post $post){
@@ -108,7 +106,7 @@ class WebController extends Controller
 		// (bukan berita yang dibuka dan berita yang sudah muncul di related)
 		$latest = Post::latest()->whereNot(function ($query) {
 												$query->where('id', $this->article['id']);
-											})->take($this->postLimit)->get();
+											})->take(config('constants.postLimit'))->get();
 
 		$viewModel = new ArticleViewModel(
 			$this->article,
@@ -125,6 +123,6 @@ class WebController extends Controller
 			'viewed' => $viewModel->viewers()
 		]);
 
-		return view('v_client.article', $this->data);
+		return view('v_web.article', $this->data);
 	}
 }

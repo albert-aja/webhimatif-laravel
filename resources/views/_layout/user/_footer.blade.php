@@ -63,7 +63,7 @@
     <div class="container py-4">
       <div class="copyright">
         <p>
-          &copy; Copyright <strong><span>{{ date("Y") }}<a href={{ route('admin-login') }}> Himatif USU</a></span></strong>. All Rights Reserved.
+          &copy; Copyright <strong><span>{{ date("Y") }}<a href={{ route('auth-login') }}> Himatif USU</a></span></strong>. All Rights Reserved.
         </p>
       </div>
     </div>

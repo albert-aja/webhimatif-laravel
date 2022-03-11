@@ -10,7 +10,7 @@ class ManagementYearController extends Controller
     public function periode(){
 		$this->data['title'] = 'Periode Kepengurusan';
 
-		return view('v_server/config/tahun', $this->data);
+		return view('v_admin/config/tahun', $this->data);
 	}
 
 	public function edit_periode(){

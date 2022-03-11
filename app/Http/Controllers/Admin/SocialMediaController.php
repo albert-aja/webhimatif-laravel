@@ -10,7 +10,7 @@ class SocialMediaController extends Controller
 	public function sosial(){
 		$this->data['title'] = 'Media Sosial';
 		
-		return view('v_server/config/social/data', $this->data);
+		return view('v_admin/config/social/data', $this->data);
 	}
 
 	public function getSocial(){

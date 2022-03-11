@@ -26,7 +26,7 @@
                 <div class="row item-container" data-aos="fade-up">
 
                     @foreach($items as $item)
-                    <div class="grid-item col-6 col-md-4 col-lg-3 g-5 {{ $item['category_slug'] }}">
+                    <div class="grid-item col-6 col-md-4 col-lg-3 g-4 {{ $item['category_slug'] }}">
                         <div class="post-box">
                             <div class="post-img">
                                 <img

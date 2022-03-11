@@ -64,7 +64,7 @@ class ShopItemController extends Controller
 	public function index(){
 		$this->data['title'] = 'Item';
 	
-		return view('v_server/shop/item/data', $this->data);
+		return view('v_admin/shop/item/data', $this->data);
 	}
 
 	public function getItem(){
@@ -132,7 +132,7 @@ class ShopItemController extends Controller
 		$this->data['kategori'] = $this->m_kategoriProduk->findAll();
 		$this->data['warna'] 	= $this->m_warna->findAll();
 
-		return view('v_server/shop/item/add', $this->data);
+		return view('v_admin/shop/item/add', $this->data);
 	}
 
 	public function add_item(){
@@ -241,7 +241,7 @@ class ShopItemController extends Controller
 		$this->data['kategori'] = $this->m_kategoriProduk->findAll();
 		$this->data['warna'] = $this->m_warna->findAll();
 		
-		return view('v_server/shop/item/edit', $this->data);
+		return view('v_admin/shop/item/edit', $this->data);
 	}
 
 	public function update_item(){
@@ -395,7 +395,7 @@ class ShopItemController extends Controller
 	public function kategori(){
 		$this->data['title'] = 'Kategori';
 		
-		return view('v_server/shop/kategori/data', $this->data);
+		return view('v_admin/shop/kategori/data', $this->data);
 	}
 
 	public function getCategory(){
@@ -427,7 +427,7 @@ class ShopItemController extends Controller
 	public function view_add_category(){
 		$this->data['title'] = 'Tambah Kategori';
 		
-		return view('v_server/shop/kategori/add', $this->data);
+		return view('v_admin/shop/kategori/add', $this->data);
 	}
 
 	public function add_category(){
@@ -486,7 +486,7 @@ class ShopItemController extends Controller
 
 		$this->data['kategori'] = $this->m_kategoriProduk->find($id);
 		
-		return view('v_server/shop/kategori/edit', $this->data);
+		return view('v_admin/shop/kategori/edit', $this->data);
 	}
 
 	public function edit_category(){
@@ -547,7 +547,7 @@ class ShopItemController extends Controller
 	public function warna(){
 		$this->data['title'] = 'Warna';
 		
-		return view('v_server/shop/warna/data', $this->data);
+		return view('v_admin/shop/warna/data', $this->data);
 	}
 
 	public function getWarna(){
@@ -582,7 +582,7 @@ class ShopItemController extends Controller
 	public function view_add_warna(){
 		$this->data['title'] = 'Tambah Warna';
 		
-		return view('v_server/shop/warna/add', $this->data);
+		return view('v_admin/shop/warna/add', $this->data);
 	}
 
 	public function add_warna(){
@@ -629,7 +629,7 @@ class ShopItemController extends Controller
 
 		$this->data['warna'] = $this->m_warna->find($id);
 		
-		return view('v_server/shop/warna/edit', $this->data);
+		return view('v_admin/shop/warna/edit', $this->data);
 	}
 
 	public function edit_warna(){
@@ -679,7 +679,7 @@ class ShopItemController extends Controller
 
 		$this->data['item'] = $this->m_shop->joinTable()->where('shop.id', $id)->first();
 		
-		return view('v_server/shop/item/rearrange_modal', $this->data);
+		return view('v_admin/shop/item/rearrange_modal', $this->data);
 	}
 
 	public function updateOrder(){

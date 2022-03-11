@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&amp;display=swap");
+
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
+:root {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(202, 202, 202) transparent;
+
+    /* color palette */
+    --himatif_blue: #132249;
+    --himatif_yellow: #ebb633;
+}
+
+::-webkit-scrollbar {
+    width: 0.6em;
+}
+
+::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background-color: rgb(202, 202, 202);
+}

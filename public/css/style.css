@@ -1,37 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&amp;display=swap");
-/*--------------------------------------------------------------
-# General
---------------------------------------------------------------*/
-:root {
-    scroll-behavior: smooth;
-
-    /* color palette */
-    --himatif_blue: #132249;
-    --himatif_yellow: #ebb633;
-}
-
-html,
-.search_result {
-    scrollbar-width: thin;
-    scrollbar-color: rgb(202, 202, 202) transparent;
-}
-
-html::-webkit-scrollbar,
-.search_result::-webkit-scrollbar {
-    width: 0.6em;
-}
-
-html::-webkit-scrollbar-track,
-.search_result::-webkit-scrollbar-track {
-    background-color: rgba(255, 255, 255, 0);
-    border-radius: 100px;
-}
-
-html::-webkit-scrollbar-thumb,
-.search_result::-webkit-scrollbar-thumb {
-    border-radius: 100px;
-    background-color: rgb(202, 202, 202);
-}
+@import "main.css";
 
 .btn-seal {
     padding: 0.7rem 0.8rem;
@@ -753,6 +720,22 @@ form .inner-form .input-field {
     box-shadow: 0px 1px 8px 1px #dcdcdc;
     max-height: 18rem;
     overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(202, 202, 202) transparent;
+}
+
+.search_result::-webkit-scrollbar {
+    width: 0.6em;
+}
+
+.search_result::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 100px;
+}
+
+.search_result::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background-color: rgb(202, 202, 202);
 }
 
 .search_result .result_row {

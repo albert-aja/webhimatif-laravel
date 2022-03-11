@@ -17,9 +17,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'email', 'username', 'password', 'activation_hash',
+        'activation_status', 'activation_at', 'activation_expires',
+        'reset_hash', 'reset_at', 'reset_expires'
     ];
 
     /**
@@ -39,10 +39,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    //functions
-    public function oldPassword(){
-        return $this->select('id, password_hash')
-                    ->first();
-    }
 }

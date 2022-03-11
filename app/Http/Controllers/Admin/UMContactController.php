@@ -10,7 +10,7 @@ class UMContactController extends Controller
 	public function index(){
 		$this->data['title'] = 'Kontak UM';
 
-		return view('v_server/shop/kontak/data', $this->data);
+		return view('v_admin/shop/kontak/data', $this->data);
 	}
 
 	public function getKontakUM(){
@@ -51,7 +51,7 @@ class UMContactController extends Controller
             array_push($this->data['existed'], $c['icon']);
         }
 
-		return view('v_server/shop/kontak/add', $this->data);
+		return view('v_admin/shop/kontak/add', $this->data);
 	}
 
 	public function add_kontakUM(){
@@ -121,7 +121,7 @@ class UMContactController extends Controller
             array_push($this->data['existed'], $c['icon']);
         }
 
-		return view('v_server/shop/kontak/edit', $this->data);
+		return view('v_admin/shop/kontak/edit', $this->data);
 	}
 
 	public function edit_kontakUM(){

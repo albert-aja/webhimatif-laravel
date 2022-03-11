@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
 use App\Models\Post;
 use App\Models\Shop_Item;
 use App\Models\UM_Contact;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\ViewModels\LoadPostViewModel;
 use App\ViewModels\ItemModalViewModel;
@@ -28,7 +27,7 @@ class WebAjaxController extends Controller
 		$this->data['contacts']		= $viewModel->um_contacts();
 		$this->data['colors'] 		= $item->product_with_color;
 
-		return view('v_client.ajax.item_modal', $this->data);
+		return view('v_web.ajax.item_modal', $this->data);
 	}
 
 	public function load_post(){
@@ -38,7 +37,7 @@ class WebAjaxController extends Controller
 		$posts = Post::latest()->skip($page)->take($limit)->get();
 
 		if($posts->count() < 1){
-			return view('v_client.ajax.no_data');
+			return view('v_web.ajax.no_data');
 		}
 
 		$viewModel = new LoadPostViewModel(
@@ -47,7 +46,7 @@ class WebAjaxController extends Controller
 
 		$this->data['posts'] = $viewModel->posts();
 
-		return view('v_client.ajax.load_post', $this->data);
+		return view('v_web.ajax.load_post', $this->data);
 	}
 
 	public function search_title(){
@@ -66,6 +65,6 @@ class WebAjaxController extends Controller
 			$this->data['results'] = 0;
 		}
 
-		return view('v_client.ajax.search_result', $this->data);
+		return view('v_web.ajax.search_result', $this->data);
     }
 }

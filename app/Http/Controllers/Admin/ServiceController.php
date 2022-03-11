@@ -10,7 +10,7 @@ class ServiceController extends Controller
 	public function service(){
 		$this->data['title'] = 'Layanan';
 		
-		return view('v_server/config/layanan/data', $this->data);
+		return view('v_admin/config/layanan/data', $this->data);
 	}
 
 	public function getService(){

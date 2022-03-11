@@ -12,7 +12,7 @@ class HistoryController extends Controller
 
 		$this->data['sejarah'] = $this->m_sejarah->first() ?? '';
 		
-		return view('v_server/config/sejarah', $this->data);
+		return view('v_admin/config/sejarah', $this->data);
 	}
 
 	public function edit_sejarah(){

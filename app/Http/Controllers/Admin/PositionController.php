@@ -10,7 +10,7 @@ class PositionController extends Controller
 	public function index(){
 		$this->data['title'] = 'Jabatan';
 
-		return view('v_server/jabatan/data', $this->data);
+		return view('v_admin/jabatan/data', $this->data);
 	}
 
 	public function getJabatan(){
@@ -38,7 +38,7 @@ class PositionController extends Controller
 	public function view_add_jabatan(){
 		$this->data['title'] = 'Tambah Jabatan';
 
-		return view('v_server/jabatan/add', $this->data);
+		return view('v_admin/jabatan/add', $this->data);
 	}
 
 	public function add_jabatan(){
@@ -75,7 +75,7 @@ class PositionController extends Controller
 
 		$this->data['jabatan'] = $this->m_jabatan->find($id);
 
-		return view('v_server/jabatan/edit', $this->data);
+		return view('v_admin/jabatan/edit', $this->data);
 	}
 
 	public function edit_jabatan(){

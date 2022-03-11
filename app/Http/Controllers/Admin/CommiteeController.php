@@ -125,7 +125,7 @@ class CommiteeController extends AdminController
 			$this->data['jabatan'] = $this->m_jabatan->find([1, 2, 6]);
 		}
 		
-		return view('v_server/pengurus/add', $this->data);
+		return view('v_admin/pengurus/add', $this->data);
 	}
 	
 	public function add_pengurus(){
@@ -192,7 +192,7 @@ class CommiteeController extends AdminController
 			$this->data['jabatan'] = $this->m_jabatan->find([1, 2, 6]);
 		}
 		
-		return view('v_server/pengurus/edit', $this->data);
+		return view('v_admin/pengurus/edit', $this->data);
 	}
 	
 	public function edit_pengurus(){

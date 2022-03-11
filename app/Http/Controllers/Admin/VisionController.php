@@ -12,7 +12,7 @@ class VisionController extends Controller
 
 		$this->data['visi'] = $this->m_visi->first() ?? '';
 		
-		return view('v_server/config/visi', $this->data);
+		return view('v_admin/config/visi', $this->data);
 	}
 
 	public function edit_visi(){

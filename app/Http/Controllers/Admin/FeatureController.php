@@ -23,7 +23,7 @@ class FeatureController extends Controller
 	public function get_status(){
 		$this->data['statusWeb'] = $this->m_webInfo->first();
 
-		return view('v_server/maintenance_status', $this->data);
+		return view('v_admin/maintenance_status', $this->data);
 	}
 
 	//function toggle maintenance
@@ -45,7 +45,7 @@ class FeatureController extends Controller
 	public function change_password(){
         $this->data['title'] = 'Ubah Password';
 		
-		return view('v_server/profile', $this->data);
+		return view('v_admin/profile', $this->data);
 	}
 
 	public function insert_new_password(){
@@ -117,7 +117,7 @@ class FeatureController extends Controller
 			}
 		}
 
-		return view('v_server/freshStart', $this->data);
+		return view('v_admin/freshStart', $this->data);
 	}
 
 	public function regression(){

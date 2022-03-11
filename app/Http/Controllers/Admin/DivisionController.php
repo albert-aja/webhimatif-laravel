@@ -10,7 +10,7 @@ class DivisionController extends Controller
 	public function index(){
 		$this->data['title'] = 'Divisi';
 		
-		return view('v_server/divisi/data', $this->data);
+		return view('v_admin/divisi/data', $this->data);
 	}
 
 	public function getDivisi(){
@@ -41,7 +41,7 @@ class DivisionController extends Controller
 	public function view_add_divisi(){
 		$this->data['title'] = 'Tambah Divisi';
 		
-		return view('v_server/divisi/add', $this->data);
+		return view('v_admin/divisi/add', $this->data);
 	}
 
 	public function add_divisi(){
@@ -91,7 +91,7 @@ class DivisionController extends Controller
 		
 		$this->data['divisi'] = $this->m_divisi->getDataBySlug($slug);
 		
-		return view('v_server/divisi/edit', $this->data);
+		return view('v_admin/divisi/edit', $this->data);
 	}
 
 	public function edit_divisi(){
@@ -148,7 +148,7 @@ class DivisionController extends Controller
 
 		$this->data['title'] = 'Pengurus ' .$this->data['divisi']['alias'];
 		
-		return view('v_server/pengurus/data', $this->data);
+		return view('v_admin/pengurus/data', $this->data);
 	}
 
 	public function progja(){
@@ -158,7 +158,7 @@ class DivisionController extends Controller
 		
 		$this->data['title'] = 'Program Kerja ' .$this->data['divisi']['alias'];
 		
-		return view('v_server/progja/data', $this->data);
+		return view('v_admin/progja/data', $this->data);
 	}
     /**
      * Display a listing of the resource.

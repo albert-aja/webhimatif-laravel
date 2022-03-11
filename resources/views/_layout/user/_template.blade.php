@@ -27,10 +27,10 @@
     @include('_layout.user._navbar')
 
     @if(is_null(Request::segment(1)))
-      @include('_layout/user/_hero')
+      @include('_layout.user._hero')
     @else
       @if(strtolower(Request::segment(1)) != 'artikel' && strtolower(Request::segment(2)) != 'preview_article')
-        @include('_layout/user/_header')
+        @include('_layout.user._header')
       @else
         <div class="scroll-progress" id="scroll-progress-bot"></div>
       @endif
@@ -40,7 +40,7 @@
     @yield('content')
     
     <!-- footer -->
-    @include('_layout/user/_footer')
+    @include('_layout.user._footer')
 
     <a href={{ (!is_null(Request::segment(1)) && strtolower(Request::segment(1)) == 'artikel') ? '#news' : '#hero'}} class="back-to-top d-flex align-items-center justify-content-center">
       <i class="bi bi-arrow-up-short"></i>
@@ -48,7 +48,7 @@
 
     <!-- js script -->
     @stack('prepend-script')
-    @include('_layout/user/_js')
+    @include('_layout.user._js')
     @stack('addon-script')
   </body>
 </html>

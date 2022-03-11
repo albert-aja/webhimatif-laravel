@@ -96,7 +96,7 @@ class PostController extends Controller
 	public function index(){
 		$this->data['title'] = 'Berita';
 		
-		return view('v_server/berita/data', $this->data);
+		return view('v_admin/berita/data', $this->data);
 	}
 
 	public function getArticle(){
@@ -149,7 +149,7 @@ class PostController extends Controller
 		$this->data['title'] 	= 'Write';
 		$this->data['divisi'] 	= $this->m_divisi->findAll();
 		
-		return view('v_server/berita/write', $this->data);
+		return view('v_admin/berita/write', $this->data);
 	}
 
 	public function write_article(){
@@ -283,7 +283,7 @@ class PostController extends Controller
 		$this->data['layanan'] = $this->m_service->findAll();
 		$this->data['divisi']  = $this->m_divisi->findAll();
 		
-		return view('v_server/berita/preview', $this->data);
+		return view('v_admin/berita/preview', $this->data);
 	}
 
 	public function edit_article(){
@@ -296,7 +296,7 @@ class PostController extends Controller
 
 		$this->data['folder'] = getFolderPath($this->data['post']['created_at'], $this->data['post']['slug']);
 
-		return view('v_server/berita/edit', $this->data);
+		return view('v_admin/berita/edit', $this->data);
 	}
 
 	public function update_article(){

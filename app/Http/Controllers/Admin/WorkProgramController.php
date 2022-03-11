@@ -67,7 +67,7 @@ class WorkProgramController extends Controller
 		
 		$this->data['divisi'] = $this->m_divisi->getDataBySlug($slug);
 		
-		return view('v_server/progja/add', $this->data);
+		return view('v_admin/progja/add', $this->data);
 	}
 	
 	public function add_progja(){
@@ -119,7 +119,7 @@ class WorkProgramController extends Controller
 
 		$this->data['title'] = 'Edit Progja';
 		
-		return view('v_server/progja/edit', $this->data);
+		return view('v_admin/progja/edit', $this->data);
 	}
 	
 	public function edit_progja(){

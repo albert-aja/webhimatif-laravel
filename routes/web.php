@@ -1,11 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\WebController;
-use App\Http\Controllers\WebAjaxController;
+
+use App\Http\Controllers\Web\WebController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Web\WebAjaxController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 //Web
 Route::controller(WebController::class)->group(function () {
@@ -23,6 +25,22 @@ Route::controller(WebAjaxController::class)->group(function (){
     Route::get('/ajax_request/search_title', 'search_title')->name('ajax-searchpost');
 });
 
-Route::controller(AdminController::class)->group(function () {
-    Route::get('/Login', 'index')->name('admin-login');
+//Auth
+Route::controller(LoginController::class)->group(function () {
+    Route::get('/Login', 'index')->name('auth-login');
+    Route::post('/Login', 'attemptLogin')->name('auth-attempt');
+    Route::post('/logout', 'logout')->name('auth-logout');
+});
+
+Route::controller(RegisterController::class)->group(function () {
+    Route::get('/Register', 'index')->name('auth-register');
+});
+
+Route::controller(ForgotPasswordController::class)->group(function () {
+    Route::get('/ForgotPassword', 'index')->name('auth-forgot');
+});
+
+//Admin
+Route::controller(AdminController::class)->prefix('Admin')->middleware('auth')->group(function () {
+    Route::get('/Dashboard', 'index')->name('admin-dashboard');
 });

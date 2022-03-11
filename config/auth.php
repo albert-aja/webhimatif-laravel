@@ -108,4 +108,93 @@ return [
 
     'password_timeout' => 10800,
 
+    /*
+	 / --------------------------------------------------------------------
+	 / Authentication
+	 / --------------------------------------------------------------------
+	 /
+	 / Fields that are available to be used as credentials for login.
+	 /
+	 */
+    'valid_fields' => [
+		'email',
+		// 'username',
+	],
+
+    /*
+	 / --------------------------------------------------------------------
+	 / Allow User Registration
+	 / --------------------------------------------------------------------
+	 /
+	 / When enabled (default) any unregistered user may apply for a new
+	 / account. If you disable registration you may need to ensure your
+	 / controllers and views know not to offer registration.
+	 /
+	 */
+	'allowRegistration' => false,
+
+    /*
+	 / --------------------------------------------------------------------
+	 / Require Confirmation Registration via Email
+	 / --------------------------------------------------------------------
+	 /
+	 / When enabled, every registered user will receive an email message
+	 / with an activation link to confirm the account.
+	 /
+	 / @var string|null Name of the ActivatorInterface class
+	 */
+	'requireActivation' => 'App\Http\Controllers\Auth\VerificationController',
+
+    /*
+	 / --------------------------------------------------------------------
+	 / Allow Password Reset via Email
+	 / --------------------------------------------------------------------
+	 /
+	 / When enabled, users will have the option to reset their password
+	 / via the specified Resetter. Default setting is email.
+	 /
+	 / @var string|null Name of the ResetterInterface class
+	 */
+	'activeResetter' => false,
+	// 'activeResetter' => 'App\Http\Controllers\Auth\ResetPasswordController',
+
+    /*
+	 / --------------------------------------------------------------------
+	 / Encryption Algorithm to Use
+	 / --------------------------------------------------------------------
+	 /
+	 / Valid values are
+	 / - PASSWORD_DEFAULT (default)
+	 / - PASSWORD_BCRYPT
+	 / - PASSWORD_ARGON2I  - As of PHP 7.2 only if compiled with support for it
+	 / - PASSWORD_ARGON2ID - As of PHP 7.3 only if compiled with support for it
+	 /
+	 / If you choose to use any ARGON algorithm, then you might want to
+	 / uncomment the "ARGON2i/D Algorithm" options to suit your needs
+	 /
+	 / @var string|int
+	 */
+	'hashAlgorithm' => PASSWORD_DEFAULT,
+
+    /*
+	 / --------------------------------------------------------------------
+	 / Minimum Password Length
+	 / --------------------------------------------------------------------
+	 /
+	 / The minimum length that a password must be to be accepted.
+	 / Recommended minimum value by NIST = 8 characters.
+	 /
+	 */
+	'minimumPasswordLength' => 8,
+    
+	/*
+	 / --------------------------------------------------------------------
+	 / Reset Time
+	 / --------------------------------------------------------------------
+	 /
+	 / The amount of time that a password reset-token is valid for,
+	 / in seconds.
+	 /
+	 */
+	'resetTime' => 3600,
 ];

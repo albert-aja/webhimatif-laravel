@@ -7,21 +7,25 @@ use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
-    public function __construct() {
-		$this->tahun 	  = new M_tahun();
-		$this->m_webInfo  = new M_webInfo();
-		$this->breadcrumb = new Breadcrumb();
+    // public function __construct() {
+	// 	$this->tahun 	  = new M_tahun();
+	// 	$this->m_webInfo  = new M_webInfo();
+	// 	$this->breadcrumb = new Breadcrumb();
 
-		$this->dir_berita = 'assets/img/news/';
-		$this->dir_divisi = 'assets/img/divisi/';
-		$this->dir_toko	  = 'assets/img/shop/';
+	// 	$this->dir_berita = 'assets/img/news/';
+	// 	$this->dir_divisi = 'assets/img/divisi/';
+	// 	$this->dir_toko	  = 'assets/img/shop/';
 		
-		$this->data = [
-			'tahun_kepengurusan' => $this->tahun->first(),
-			'statusWeb' 		 => $this->m_webInfo->first(),
-			'validation'   		 => \Config\Services::validation(),
-			'breadcrumb'		 => $this->breadcrumb->buildAuto(),
-		];
+	// 	$this->data = [
+	// 		'tahun_kepengurusan' => $this->tahun->first(),
+	// 		'statusWeb' 		 => $this->m_webInfo->first(),
+	// 		'validation'   		 => \Config\Services::validation(),
+	// 		'breadcrumb'		 => $this->breadcrumb->buildAuto(),
+	// 	];
+	// }
+
+	public function index(){
+		dd('test');
 	}
 
 	//template datatables

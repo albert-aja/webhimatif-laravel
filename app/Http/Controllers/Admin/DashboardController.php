@@ -28,7 +28,7 @@ class DashboardController extends AdminController
 		$this->data['jumlahBerita'] 	= $this->m_post->countAllResults();
 		$this->data['jumlahProduk'] 	= $this->m_shop->countAllResults();
 		
-		return view('v_server/dashboard/dashboard', $this->data);
+		return view('v_admin/dashboard/dashboard', $this->data);
 	}
 
 	public function newsDateRange(){
@@ -37,7 +37,7 @@ class DashboardController extends AdminController
 		$this->data['startMonth'] = ambilBulanTahun($range_data->selectMin('created_at')->first()['created_at']);
 		$this->data['endMonth'] = ambilBulanTahun(date('Y-m-d'));
 
-		return view('v_server/dashboard/newsStatChart', $this->data);
+		return view('v_admin/dashboard/newsStatChart', $this->data);
 	}
 
 	public function newsStatChart(){
@@ -85,7 +85,7 @@ class DashboardController extends AdminController
 	public function latestNews(){
 		$this->data['beritaTerbaru'] = $this->m_post->sort_byDate()->findAll(5);
 		
-		return view('v_server/dashboard/latestNews', $this->data);
+		return view('v_admin/dashboard/latestNews', $this->data);
 	}
 
 
@@ -93,7 +93,7 @@ class DashboardController extends AdminController
 		$this->data['rankedNews'] = 10;
 		$this->data['newsData']   = $this->m_post->sort_byView()->findAll($this->data['rankedNews']);
 
-		return view('v_server/dashboard/topNews', $this->data);
+		return view('v_admin/dashboard/topNews', $this->data);
 	}
 
 	public function anggotaHimatif(){
@@ -109,6 +109,6 @@ class DashboardController extends AdminController
 	}
 
 	public function anggotaHimatifChart(){
-		return view('v_server/dashboard/anggotaHimatifChart');
+		return view('v_admin/dashboard/anggotaHimatifChart');
 	}
 }

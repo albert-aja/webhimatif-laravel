@@ -129,7 +129,7 @@
             <h1 class="xs-title" data-title="Shop">Himatif Shop</h1>
             <span class="xs-separetor"></span>
           </div>
-          <div class="row content-shop">
+          <div class="row content-shop g-3">
             <div class="col firstpic">
               <a href="{{ route('web-himatifshop') }}">
                 <span>{{ $category1['category'] }}</span>

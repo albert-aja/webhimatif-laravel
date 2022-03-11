@@ -10,7 +10,7 @@ class MissionController extends Controller
 	public function misi(){
 		$this->data['title'] = 'Misi';
 		
-		return view('v_server/config/misi/data', $this->data);
+		return view('v_admin/config/misi/data', $this->data);
 	}
 
 	public function getMisi(){
@@ -40,7 +40,7 @@ class MissionController extends Controller
 	public function view_add_misi(){
 		$this->data['title'] = 'Tambah Misi';
 		
-		return view('v_server/config/misi/add', $this->data);
+		return view('v_admin/config/misi/add', $this->data);
 	}
 
 	public function add_misi(){
@@ -75,7 +75,7 @@ class MissionController extends Controller
 
 		$this->data['misi'] = $this->m_misi->find($id);
 		
-		return view('v_server/config/misi/edit', $this->data);
+		return view('v_admin/config/misi/edit', $this->data);
 	}
 
 	public function edit_misi(){
