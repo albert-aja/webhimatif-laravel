@@ -33,10 +33,12 @@ class WebController extends Controller
 	}
 
 	public function index(){
+		$postLimit = 3;
+
 		$viewModel = new WebHomeViewModel(
             Mission::get(),
 			Product_Category::all(),
-			Post::orderBy('created_at', 'DESC')->take(config('constants.postLimit'))->get(),
+			Post::orderBy('created_at', 'DESC')->take($postLimit)->get(),
 			$this->data['divisions']
         );
 
@@ -93,7 +95,7 @@ class WebController extends Controller
 	public function berita(){	
 		$breadcrumbs 	= new Breadcrumbs;
 		
-		$this->data['title'] ='Himatif News';
+		$this->data['title'] 		='Himatif News';
 		$this->data['breadcrumbs']	= $breadcrumbs->buildAuto();
 
 		return view('v_web.news', $this->data);

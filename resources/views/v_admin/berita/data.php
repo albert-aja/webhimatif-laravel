@@ -1,6 +1,6 @@
-<?= $this->extend('_layout/admin/_template') ?>
+@extends('_layout.admin._template')
 
-<?= $this->section('content') ?>  
+@section('content')  
 
 <section class="section">
     <div class="section-header">

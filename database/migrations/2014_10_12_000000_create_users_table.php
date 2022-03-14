@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('username');
             $table->string('password');
             $table->string('activation_hash')->nullable();
-            $table->boolean('activation_status');
-            $table->timestamp('activation_at')->nullable();
             $table->timestamp('activation_expires')->nullable();
+            $table->boolean('activation_status')->default(0);
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('reset_hash')->nullable();
             $table->timestamp('reset_at')->nullable();
             $table->timestamp('reset_expires')->nullable();

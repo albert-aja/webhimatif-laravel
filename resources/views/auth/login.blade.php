@@ -23,23 +23,15 @@
   <div class="modal-container">
     <div class="modal-left">
       <img class="logo" src="{{ asset('img/logo/black/black_100.png') }}" alt="Himatif USU">
-      <img
-        class="bg"
-        src="{{ asset('img/web/login.jpg') }}"
-        alt=""
-      />
+      <img class="bg" src="{{ asset('img/web/login.jpg') }}" alt="" />
     </div>
     <div class="modal-right">
       <h1 class="modal-title">@lang('auth.login.loginTitle')</h1>
       <p class="modal-desc">
         @lang('auth.login.loginText')
       </p>
-      @if(session()->has('loginError'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          {{ session('loginError') }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      @endif
+
+      @includeWhen(session()->has('errorMsg') || session()->has('successMsg'), 'auth._message_block')
 
       <form class="user" action="{{ route('auth-attempt') }}" method="post">
         @csrf
@@ -91,21 +83,18 @@
         </div>
       </form>
 
-          <p class="sign-up">
-            @if(config('auth.allowRegistration'))
-              <a href="{{ route('auth-register') }} ">@lang('auth.login.needAnAccount')</a>
-            @endif
-                          
-            @if(config('auth.activeResetter'))
-              <a href="{{ route('auth-forgot') }} ">@lang('auth.login.forgotYourPassword')</a>
-            @endif
-          </p>
-        </div>
-        <button class="icon-button close-button">
-            <img src="{{ asset('img/web/close.svg') }}" alt="close-btn">
-        </button>
-      </div>
+      <p class="sign-up">
+        @if(config('auth.allowRegistration'))
+          <a href="{{ route('auth-register') }}" class="d-block">@lang('auth.login.needAnAccount')</a>
+        @endif
+        @if(config('auth.activeResetter'))
+          <a href="{{ route('auth-forgot') }}" class="d-block">@lang('auth.login.forgotYourPassword')</a>
+        @endif
+      </p>
     </div>
+    <button class="icon-button close-button">
+        <img src="{{ asset('img/web/close.svg') }}" alt="close-btn">
+    </button>
   </div>
 </div>
 

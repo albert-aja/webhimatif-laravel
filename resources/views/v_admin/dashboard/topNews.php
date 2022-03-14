@@ -28,7 +28,7 @@
                     </div>
                     <div class="ticket-info">
                         <div class="bullet"></div>
-                        <span class="text-primary"><?= tgl_indonesia($nd['created_at']) ?></span>
+                        <span class="text-primary"><?= indonesia_date($nd['created_at']) ?></span>
                     </div>
                 </div>
             </a>

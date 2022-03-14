@@ -13,8 +13,7 @@ class PostBox extends Component
     public $article;
     public $slug;
 
-    public function __construct($title, $img1, $img2, $date, $article, $slug)
-    {
+    public function __construct($title, $img1, $img2, $date, $article, $slug){
         $this->title = $title;
         $this->img1 = $img1;
         $this->img2 = $img2;

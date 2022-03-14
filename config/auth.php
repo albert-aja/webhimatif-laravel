@@ -131,7 +131,7 @@ return [
 	 / controllers and views know not to offer registration.
 	 /
 	 */
-	'allowRegistration' => false,
+	'allowRegistration' => true,
 
     /*
 	 / --------------------------------------------------------------------
@@ -155,8 +155,8 @@ return [
 	 /
 	 / @var string|null Name of the ResetterInterface class
 	 */
-	'activeResetter' => false,
-	// 'activeResetter' => 'App\Http\Controllers\Auth\ResetPasswordController',
+	// 'activeResetter' => false,
+	'activeResetter' => 'App\Http\Controllers\Auth\ResetPasswordController',
 
     /*
 	 / --------------------------------------------------------------------
@@ -187,14 +187,29 @@ return [
 	 */
 	'minimumPasswordLength' => 8,
     
+
 	/*
 	 / --------------------------------------------------------------------
 	 / Reset Time
 	 / --------------------------------------------------------------------
 	 /
-	 / The amount of time that a password reset-token is valid for,
+	 / The amount of time that an email verification-token, 
+     / and password reset-token is valid for,
 	 / in seconds.
 	 /
+	 / @var int
 	 */
-	'resetTime' => 3600,
+	'expiredTime' => 3600,
+
+	/*
+	 / --------------------------------------------------------------------
+	 / Resend email cooldown time
+	 / --------------------------------------------------------------------
+	 /
+	 / The amount of time to resend email,
+	 / in seconds.
+	 /
+	 / @var int
+	 */
+	'resendCooldown' => 120,
 ];

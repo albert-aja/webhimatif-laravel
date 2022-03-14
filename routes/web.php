@@ -3,11 +3,13 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Web\WebController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Web\WebAjaxController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DivisionController;
 
 //Web
 Route::controller(WebController::class)->group(function () {
@@ -32,15 +34,25 @@ Route::controller(LoginController::class)->group(function () {
     Route::post('/logout', 'logout')->name('auth-logout');
 });
 
-Route::controller(RegisterController::class)->group(function () {
+Route::controller(RegisterController::class)->middleware('allowRegis')->group(function () {
     Route::get('/Register', 'index')->name('auth-register');
+    Route::post('/Register', 'attemptRegister')->name('auth-registration');
 });
 
-Route::controller(ForgotPasswordController::class)->group(function () {
+Route::controller(VerifyEmailController::class)->middleware('guest')->group(function () {
+    Route::get('/VerifyEmail', 'index')->name('auth-verify');
+    Route::get('/activate_account/{token}', 'attemptActivation')->name('auth-activeaccount');
+    Route::get('/resend_email/{email}', 'resendEmail')->name('auth-resendEmail');
+});
+
+Route::controller(ForgotPasswordController::class)->middleware('guest')->group(function () {
     Route::get('/ForgotPassword', 'index')->name('auth-forgot');
 });
 
 //Admin
-Route::controller(AdminController::class)->prefix('Admin')->middleware('auth')->group(function () {
-    Route::get('/Dashboard', 'index')->name('admin-dashboard');
+Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
+    Route::controller(DashboardController::class)->group(function() {
+        Route::get('Dashboard', 'index')->name('admin-dashboard');
+    });
+    Route::resource('Division', DivisionController::class);
 });

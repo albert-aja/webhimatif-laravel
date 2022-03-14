@@ -15,7 +15,7 @@ class PostController extends Controller
 		
 		if($folder_name == ''){
 			//buat slug untuk nama folder
-			$folder_name = url_title(tgl_indonesia($date), '-', true) .'_'. $slug;
+			$folder_name = url_title(indonesia_date($date), '-', true) .'_'. $slug;
 		}
 
 		//membuat folder apabila belum ada
@@ -68,7 +68,7 @@ class PostController extends Controller
 		$image = $this->request->getFile('upload');
 
 		$name   = $image->getRandomName();
-		$folder = url_title(tgl_indonesia($date), '-', true) .'_'. $slug .'/img';
+		$folder = url_title(indonesia_date($date), '-', true) .'_'. $slug .'/img';
 
 		if (!file_exists($this->dir_berita .$folder)) {
 			@mkdir($this->dir_berita .$folder, 0777, true);
@@ -125,8 +125,8 @@ class PostController extends Controller
 
 			// convert menjadi tanggal Indonesia
 			$date = date_create($tmp['created_at']);
-			// function tgl_indonesia ada di helper
-			$row[] = tgl_indonesia(date_format($date, 'Y-m-d'));
+			// function indonesia_date ada di helper
+			$row[] = indonesia_date(date_format($date, 'Y-m-d'));
 
 			$row[] = '<span class="badge rounded-pill bg-primary">' .$this->m_divisi->getAlias($tmp['divisi'])['alias']. '</span>';
 

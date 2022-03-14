@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-
 use App\Providers\RouteServiceProvider;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -47,20 +45,7 @@ class LoginController extends Controller
     }
 
     public function attemptLogin(Request $request){
-		$rules = [
-			'login'	=> 'required',
-			'password' => 'required',
-		];
-
-        if(config('auth.valid_fields') == ['email']){
-			$rules['login'] .= '|email:dns';
-		}
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if($validator->fails()){
-            return back()->withInput()->withErrors(Validator::errors());
-        }
+        self::validator($request->all())->validate();
 
         $login = $request->input('login');
 		$password = $request->input('password');
@@ -68,10 +53,11 @@ class LoginController extends Controller
         $type = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
         if(!Auth::attempt([$type => $login, 'password' => self::prepare_password($password)])){
-            return back()->withInput()->with('loginError', __('auth.login.badAttempt'));
+            return back()->withInput()->with('errorMsg', __('auth.login.badAttempt'));
         };
 
         $request->session()->regenerate();
+
         return redirect()->intended('/Admin/Dashboard');
     }
 
@@ -79,13 +65,25 @@ class LoginController extends Controller
         Auth::logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');
     }
 
-    private function prepare_password($password){
+    protected function validator(array $data){
+        $rules = [
+			'login'	=> 'required',
+			'password' => 'required',
+		];
+
+        if(config('auth.valid_fields') == ['email']){
+			$rules['login'] .= '|email:rfc,dns';
+		}
+
+        return Validator::make($data, $rules);
+    }
+
+    protected function prepare_password($password){
         return base64_encode(hash('sha384', $password, true));
     }
 }

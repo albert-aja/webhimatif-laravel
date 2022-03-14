@@ -5,27 +5,24 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Helpers\Breadcrumbs;
+use App\Models\Management_Year;
+use App\Models\Maintenance_Info;
+
 class AdminController extends Controller
 {
-    // public function __construct() {
-	// 	$this->tahun 	  = new M_tahun();
-	// 	$this->m_webInfo  = new M_webInfo();
-	// 	$this->breadcrumb = new Breadcrumb();
+    public function __construct() {
+		$this->dir_berita = 'assets/img/news/';
+		$this->dir_divisi = 'assets/img/divisi/';
+		$this->dir_toko	  = 'assets/img/shop/';
 
-	// 	$this->dir_berita = 'assets/img/news/';
-	// 	$this->dir_divisi = 'assets/img/divisi/';
-	// 	$this->dir_toko	  = 'assets/img/shop/';
-		
-	// 	$this->data = [
-	// 		'tahun_kepengurusan' => $this->tahun->first(),
-	// 		'statusWeb' 		 => $this->m_webInfo->first(),
-	// 		'validation'   		 => \Config\Services::validation(),
-	// 		'breadcrumb'		 => $this->breadcrumb->buildAuto(),
-	// 	];
-	// }
+		$breadcrumbs 	= new Breadcrumbs;
 
-	public function index(){
-		dd('test');
+		$this->data = [
+			'tahun_kepengurusan' => Management_Year::first(),
+			'statusWeb' 		 => Maintenance_Info::first(),
+			'breadcrumb'		 => $breadcrumbs->buildAuto(),
+		];
 	}
 
 	//template datatables

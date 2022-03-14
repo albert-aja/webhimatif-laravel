@@ -24,7 +24,7 @@
                   <li class="d-flex align-items-center">
                     <i class="bi bi-clock"></i>
                     <a href="blog-single.html"
-                      ><time datetime="<?= $post['created_at'] ;?>"><?= tgl_indonesia($post['created_at']) ;?></time></a
+                      ><time datetime="<?= $post['created_at'] ;?>"><?= indonesia_date($post['created_at']) ;?></time></a
                     >
                   </li>
                 </ul>

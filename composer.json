@@ -12,7 +12,9 @@
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
-        "spatie/laravel-view-models": "^1.5"
+        "spatie/laravel-view-models": "^1.5",
+        "symfony/http-client": "^6.0",
+        "symfony/mailgun-mailer": "^6.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

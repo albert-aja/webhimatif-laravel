@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Admin\AdminController;
+use App\Models\Post;
+use App\Models\Commitee;
+use App\Models\Division;
+use App\Models\Shop_Item;
+
 use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\AdminController;
 
 class DashboardController extends AdminController
 {
@@ -23,12 +28,12 @@ class DashboardController extends AdminController
 	public function index(){
 		$this->data['title'] = 'Dashboard';
 		
-		$this->data['jumlahDivisi'] 	= $this->m_divisi->countAllResults();
-		$this->data['jumlahPengurus'] 	= $this->m_pengurus->countAllResults();
-		$this->data['jumlahBerita'] 	= $this->m_post->countAllResults();
-		$this->data['jumlahProduk'] 	= $this->m_shop->countAllResults();
-		
-		return view('v_admin/dashboard/dashboard', $this->data);
+		$this->data['jumlahDivisi'] 	= Division::count();
+		$this->data['jumlahPengurus'] 	= Commitee::count();
+		$this->data['jumlahBerita'] 	= Post::count();
+		$this->data['jumlahProduk'] 	= Shop_Item::count();
+
+		return view('v_admin.dashboard.dashboard', $this->data);
 	}
 
 	public function newsDateRange(){

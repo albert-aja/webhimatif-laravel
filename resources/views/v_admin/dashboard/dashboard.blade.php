@@ -1,9 +1,19 @@
-<?= $this->extend('_layout/admin/_template') ?>
+@extends('_layout.admin._template')
 
-<?= $this->section('content') ?>
+@section('content')
 
   <section class="section">
     <div class="row">
+
+      <x-admin-card icon="fa-users" title="Total Divisi" :data="$jumlahDivisi" :route="route('Division.index')"/>
+
+      <x-admin-card>
+        <x-slot class="icon">fa-users</x-slot>
+        <x-slot class="title">Total Divisi</x-slot>
+        <x-slot class="data">{{ $jumlahDivisi }}</x-slot>
+        <x-slot class="route">{{ route('Division.index') }}</x-slot>
+      </x-admin-card>
+
       <div class="col-lg-3 col-md-6 col-sm-6 col-12">
         <div class="card card-statistic-1">
           <div class="card-icon bg-primary">
@@ -20,6 +30,7 @@
           </div>
         </div>
       </div>
+
       <div class="col-lg-3 col-md-6 col-sm-6 col-12">
         <div class="card card-statistic-1">
           <div class="card-icon bg-danger">
@@ -35,6 +46,7 @@
           </div>
         </div>
       </div>
+
       <div class="col-lg-3 col-md-6 col-sm-6 col-12">
         <div class="card card-statistic-1">
           <div class="card-icon bg-warning">
@@ -51,6 +63,7 @@
           </div>
         </div>
       </div>
+
       <div class="col-lg-3 col-md-6 col-sm-6 col-12">
         <div class="card card-statistic-1">
           <div class="card-icon bg-success">
@@ -67,7 +80,9 @@
           </div>
         </div>
       </div>
+
     </div>
+
     <div class="data-berita">
       <div class="section-header dt-toggle">
           <a data-bs-toggle="collapse" data-bs-target="#dataBerita">

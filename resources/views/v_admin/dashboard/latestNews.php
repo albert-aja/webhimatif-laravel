@@ -19,7 +19,7 @@
             <div class="media-body">
                 <a href="./Berita/edit_article?id=<?= $bt['id'] ?>" class="btn btn-warning rounded-circle float-right"><i class="fas fa-pen"></i></a>
                 <div class="media-title"><?= $bt['title'] ?></div>
-                <div class="text-medium fw-bold text-muted">Tanggal Terbit : <?= tgl_indonesia($bt['created_at']) ?></div>
+                <div class="text-medium fw-bold text-muted">Tanggal Terbit : <?= indonesia_date($bt['created_at']) ?></div>
                 <div class="text-medium text-muted mt-1">
                     <?= substr($bt['article'], 0, 100) . '...' ;?>
                 </div>

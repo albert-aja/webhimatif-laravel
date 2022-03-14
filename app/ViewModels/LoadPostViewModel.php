@@ -22,7 +22,7 @@ class LoadPostViewModel extends ViewModel
             return collect($post)->merge([
                 'hero_image-l'  => 'img/news/'.$img_loc.'/3x_'.$post['hero_image'],
                 'hero_image-m'  => 'img/news/'.$img_loc.'/2x_'.$post['hero_image'],
-                'created_at'    => General::tgl_indonesia($post['created_at']),
+                'created_at'    => General::indonesia_date($post['created_at']),
                 'article'       => $article,
             ])->except('division_id', 'viewed');
         });

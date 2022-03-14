@@ -24,7 +24,7 @@ class ArticleViewModel extends ViewModel
         return collect($this->article)->merge([
             'hero_image-l'  => 'img/news/' .$this->folder(). '/1x_' .$this->article['hero_image'],
             'hero_image-m'  => 'img/news/' .$this->folder(). '/3x_' .$this->article['hero_image'],
-            'date'          => General::tgl_indonesia($this->article['created_at']),
+            'date'          => General::indonesia_date($this->article['created_at']),
             'readtime'      => General::readingTime($this->article['article'])
         ])->except('division_id', 'viewed');
     }

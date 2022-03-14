@@ -20,4 +20,13 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
+
+    
+	public function generateResetHash()
+	{
+		$this->attributes['reset_hash'] = bin2hex(random_bytes(16));
+		$this->attributes['reset_expires'] = date('Y-m-d H:i:s', time() + config('Auth')->resetTime);
+
+		return $this;
+	}
 }

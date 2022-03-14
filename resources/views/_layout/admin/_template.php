@@ -34,7 +34,7 @@
                     <div class="toast-header">
                         <img src="<?= base_url() ;?>/assets/img/logo/black/black_32.png" class="rounded me-2">
                         <strong class="me-auto">Success!</strong>
-                        <small class="text-muted"><?= tgl_indonesia(date('Y-m-d')) ;?></small>
+                        <small class="text-muted"><?= indonesia_date(date('Y-m-d')) ;?></small>
                         <button type="button" class="btn-close" id="close-toast"></button>
                     </div>
                     <div class="toast-body">

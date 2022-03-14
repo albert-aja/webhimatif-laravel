@@ -4,29 +4,55 @@ namespace App\Helpers;
 
 class General 
 {
-    // fungsi untuk mengubah format tanggal mejadi format tanggal Indonesia
-    public static function tgl_indonesia($tgl){
-        $tanggal = substr($tgl, 8, 2);
+    /**
+     * Convert the given datetime to Indonesia date format.
+     * 
+     * @param string $date
+     * @param bool $useTime
+     * 
+     * @return string
+     */
+    public static function indonesia_date(string $date, bool $useTime = false){
+        $day = substr($date, 8, 2);
 
-        $nama_bulan = array("Januari", "Februari", "Maret", "April", "Mei", 
-                            "Juni", "Juli", "Agustus", "September", 
-                            "Oktober", "November", "Desember");
+        $month_name = [
+            "Januari", "Februari", "Maret", 
+            "April", "Mei", "Juni", "Juli", 
+            "Agustus", "September", "Oktober", 
+            "November", "Desember"
+        ];
 
-        $bulan = $nama_bulan[substr($tgl, 5, 2) - 1];
-        $tahun = substr($tgl, 0, 4);
+        $month = $month_name[substr($date, 5, 2) - 1];
+        $year = substr($date, 0, 4);
 
-        return $tanggal .' '. $bulan .' '. $tahun;       
+        $time = ($useTime) ? ' '. substr($date, 11, 5) : '';
+
+        return $day .' '. $month .' '. $year . $time;       
     }
 
-    public static function ambilBulanTahun($tgl){
-        $date = General::tgl_indonesia($tgl);
+    /**
+     * Convert the given datetime to Indonesia month year format.
+     * 
+     * @param string $date
+     * 
+     * @return string
+     */
+    public static function ambilBulanTahun(string $date){
+        $date = self::indonesia_date($date);
 
         return substr($date, 3);
     }
-
-    //function untuk mendapatkan folder path berita
+    
+    /**
+     * Convert the given datetime to Indonesia month year format.
+     * 
+     * @param string $date
+     * @param string $slug
+     * 
+     * @return string
+     */
     public static function getFolderPath($date, $slug){
-        $first  = str_replace(' ', '-', strtolower(General::tgl_indonesia($date)));
+        $first  = str_replace(' ', '-', strtolower(self::indonesia_date($date)));
         $second = $slug;
 
         return $first .'_'. $second;

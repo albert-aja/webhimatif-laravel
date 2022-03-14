@@ -30,7 +30,7 @@ class SearchPostViewModel extends ViewModel
             return collect($result)->merge([
                 'hero_image'    => 'img/news/' .$img_loc. '/3x_' .$result['hero_image'],
                 'marked_title'  => $marked_title,
-                'date'          => General::tgl_indonesia($result['created_at'])
+                'date'          => General::indonesia_date($result['created_at'])
             ])->except('division_id', 'viewed');
         });
     }
