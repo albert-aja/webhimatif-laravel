@@ -30,7 +30,7 @@ class RegisterController extends Controller
 
         $email = $request->input('email');
 
-        Auth::send_mail($email, __('email.subject', ['name' => __('email.name')]));
+        Auth::send_activation_email($email, __('email.auth.subject', ['name' => __('global.name')]));
 
         return redirect()->route('auth-verify')->with(['email' => $email]);
     }

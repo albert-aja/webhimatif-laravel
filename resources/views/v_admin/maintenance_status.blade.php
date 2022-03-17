@@ -1,15 +1,15 @@
 <a href="#" data-bs-toggle="dropdown" class="nav-link notification-toggle nav-link-lg">
-    <span class="beep" style="background-color: {{ (!$statusWeb->is_maintenance) ? '#20c997' : '#ffa426' }} "></span>
+    <span class="beep" style="background-color: {{ (!$is_maintenance) ? '#20c997' : '#ffa426' }} "></span>
     <i class="fas fa-globe"></i>
 </a>
 <div class="dropdown-menu dropdown-list dropdown-menu-end d-none">
     <div class="dropdown-header">Status Website
         <div class="float-right">
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="maintenance-btn" {{ (!$statusWeb->is_maintenance) ? 'checked' : '' }} data-status="{{ $statusWeb->is_maintenance }}">
+                <input class="form-check-input" type="checkbox" role="switch" id="maintenance-btn" {{ (!$is_maintenance) ? 'checked' : '' }} data-status="{{ $is_maintenance }}">
             </div>
 
-            @if(!$statusWeb->is_maintenance)
+            @if(!$is_maintenance)
             <span class="badge badge-success">Online</span>
             @else
             <span class="badge badge-danger">Offline</span>
@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="dropdown-list-content dropdown-list-icons">
-        @if(!$statusWeb->is_maintenance)
+        @if(!$is_maintenance)
         <a class="dropdown-item">
             <div class="dropdown-item-icon bg-success text-white">
                 <i class="fas fa-check"></i>

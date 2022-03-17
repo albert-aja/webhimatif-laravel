@@ -203,7 +203,9 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
     });
     Route::controller(FeatureController::class)->group(function() {
         Route::get('get_status', 'get_status');
-        Route::post('maintenance_switch/{status}', 'maintenance_switch');
+        // Route::post('maintenance_switch/{status}', 'maintenance_switch');
+        Route::get('a2m', 'maintenance_mode');
+        Route::get('m2a', 'active_mode');
         Route::get('Change_Password', 'change_password')->name('admin-changepassword');
         Route::get('Fresh_Start', 'fresh_start')->name('admin-freshstart');
     });

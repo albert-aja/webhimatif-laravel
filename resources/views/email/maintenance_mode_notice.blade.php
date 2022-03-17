@@ -1,4 +1,4 @@
-@extends('auth.email.layout')
+@extends('email.layout')
 
 @section('email')
 
@@ -18,7 +18,7 @@
             <table cellpadding="0" cellspacing="0" width="100%%">
               <tr>
                 <td class="title-td">
-                  @lang('email.activate', $name)
+                  @lang('email.maintenance.title')
                 </td>
               </tr>
             </table>
@@ -29,30 +29,18 @@
             <table cellpadding="0" cellspacing="0" width="100%%">
               <tr>
                 <td class="pad-0">
-                  @lang('email.confirmationText', $name)
-                </td>
-              </tr>
-              <tr>
-                <td class="link-td">
-                  <a href="{{ route('auth-activeaccount', $token) }}" class="goto-link">
-                    @lang('email.confirmation')
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="pad-0">
-                  @lang('email.expiredTime', ['time' => $expired])
+                  @lang('email.maintenance.text1', ['admin' => Auth::user()->username, 'time' => date('m/d/Y h:i a', time())])
                 </td>
               </tr>
               <tr>
                 <td class="leave-td">
-                  @lang('email.notYou')
+                  @lang('email.maintenance.text2', ['token' => $token])
                 </td>
               </tr>
               <tr>
                 <td class="regards">
-                  @lang('email.thanks'),
-                  <p>@lang('email.name')</p>
+                  @lang('email.auth.thanks'),
+                  <p>@lang('global.name')</p>
                 </td>
               </tr>
             </table>
@@ -64,4 +52,3 @@
 </table>
 
 @endsection
-

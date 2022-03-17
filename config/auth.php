@@ -131,7 +131,7 @@ return [
 	 / controllers and views know not to offer registration.
 	 /
 	 */
-	'allowRegistration' => true,
+	'allowRegistration' => env('ALLOW_REGISTRATION', false),
 
     /*
 	 / --------------------------------------------------------------------
@@ -143,7 +143,7 @@ return [
 	 /
 	 / @var string|null Name of the ActivatorInterface class
 	 */
-	'requireActivation' => 'App\Http\Controllers\Auth\VerificationController',
+	'requireActivation' => env('REQUIRE_ACTIVATION', false),
 
     /*
 	 / --------------------------------------------------------------------
@@ -155,8 +155,7 @@ return [
 	 /
 	 / @var string|null Name of the ResetterInterface class
 	 */
-	// 'activeResetter' => false,
-	'activeResetter' => 'App\Http\Controllers\Auth\ResetPasswordController',
+	'activeResetter' => env('RESET_PASSWORD', false),
 
     /*
 	 / --------------------------------------------------------------------

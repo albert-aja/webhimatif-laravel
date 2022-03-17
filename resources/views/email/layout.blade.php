@@ -87,6 +87,7 @@
         @stack('addon-style')
         </head>
     <body>
+        <span class="preheader">@lang('email.preheader', ['name' => __('global.name')])</span>
         @yield('email')
 
         <div class="footer">

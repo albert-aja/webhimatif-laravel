@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
+use App\Helpers\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
-use App\Http\Controllers\Controller;
 
-use App\Models\Maintenance_Info;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Password;
 
 class FeatureController extends Controller
 {
@@ -25,16 +27,32 @@ class FeatureController extends Controller
 	}
 
 	public function get_status(){
-		$this->data['statusWeb'] = Maintenance_Info::first();
+		$this->data['is_maintenance'] = (file_exists(storage_path().'/framework/down')) ? true : false;
 
 		return view('v_admin.maintenance_status', $this->data);
 	}
 
-	//function toggle maintenance
-	public function maintenance_switch($status){
-		Maintenance_Info::where('id', 1)->update([
-			'is_maintenance' => ($status) ? false : true,
-		]);
+	public function maintenance_mode(){
+		$secret = bin2hex(random_bytes(16));
+		$emails = User::select('email')->get();
+
+		foreach($emails as $email){
+			Auth::send_maintenance_token($email->email, $secret);			
+		}
+
+		Artisan::call('down --refresh=10 --secret="' .$secret. '"');
+
+		return redirect('/' .$secret);
+	}
+
+	public function active_mode(){
+		$emails = User::select('email')->get();
+
+		foreach($emails as $email){
+			Auth::send_status_active($email->email);			
+		}
+
+		Artisan::call('up');
 	}
 
 	public function change_password(){

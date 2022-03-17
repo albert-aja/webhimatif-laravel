@@ -19,8 +19,10 @@
           <i class="fas fa-sync"></i> Ganti Kepengurusan
         </a>
         <div class="dropdown-divider"></div>
-        <a href="{{ route('auth-logout') }}" class="dropdown-item text-danger">
+        <a href="{{ route('auth-logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item text-danger">
+          @csrf
           <i class="fas fa-sign-out-alt"></i> Logout
+          <form action="{{ route('auth-logout') }}" id="logout-form" method="POST" class="d-none">@csrf</form>
         </a>
       </div>
     </li>

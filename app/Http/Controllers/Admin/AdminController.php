@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 
 use App\Helpers\Breadcrumbs;
 use App\Models\Management_Year;
-use App\Models\Maintenance_Info;
 
 class AdminController extends Controller
 {
@@ -22,7 +21,6 @@ class AdminController extends Controller
 
 		$this->data = [
 			'tahun_kepengurusan' => Management_Year::first(),
-			'statusWeb' 		 => Maintenance_Info::first(),
 			'breadcrumb'		 => $breadcrumbs->buildAuto(),
 		];
 	}

@@ -2,13 +2,11 @@
 
 namespace App\Mail;
 
-use App\Models\Social_Media;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class Mailer extends Mailable
+class ActivationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -27,11 +25,11 @@ class Mailer extends Mailable
      * @return $this
      */
     public function build(){
-        $this->data['name']     = ['name' => __('email.name')];
+        $this->data['name']     = ['name' => __('global.name')];
         $this->data['token']    = $this->mailData['token'];
         $this->data['expired']  = $this->mailData['expired'];
 
         return $this->subject($this->mailData['subject'])
-                    ->view('auth.email.activation_email', $this->data);
+                    ->view('email.activation_email', $this->data);
     }
 }

@@ -13,12 +13,12 @@ class VerifyEmailController extends Controller
     }
 
     public function index(){
-        if(!session()->get('email')){
-            return redirect()->route('auth-login');
-        }
+        // if(!session()->get('email')){
+        //     return redirect()->route('auth-login');
+        // }
 
         $this->data['title'] = __('auth.verify.verifyTitle');
-        $this->data['email'] = session()->get('email');
+        $this->data['email'] = 'hazenne7@gmail.com';
 
         return view('auth.verify_email', $this->data);
     }

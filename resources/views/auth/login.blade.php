@@ -99,7 +99,3 @@
 </div>
 
 @endsection
-
-@push('addon-script')
-  <script src="{{ asset('js/form.js') }}"></script>
-@endpush

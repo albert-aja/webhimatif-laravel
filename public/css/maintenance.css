@@ -1,108 +1,110 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&amp;display=swap");
 
 body {
-  overflow: hidden;
-  text-align: center;
-  font: 1.2rem "Poppins", sans-serif;
-  color: #333;
-  margin: 0;
-  background-color: #f2f2f2;
+    overflow: hidden;
+    text-align: center;
+    font: 1.2rem "Poppins", sans-serif;
+    color: #333;
+    margin: 0;
+    background-color: #f2f2f2;
 }
 
 h1 {
-  font-size: 3.2rem;
-  font-weight: 600;
+    font-size: 3.2rem;
+    font-weight: 600;
 }
 
 .mail {
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 4rem;
-  display: block;
-  text-align: left;
-  width: 50rem;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  z-index: 99;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 4rem;
+    display: block;
+    text-align: left;
+    width: 50rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    z-index: 99;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .text {
-  z-index: 999;
-  position: relative;
+    z-index: 999;
+    position: relative;
 }
 
 .text .message {
-  line-height: 1.8;
-  margin: 2.2rem 0;
+    line-height: 1.8;
+    margin: 2.2rem 0;
 }
 
 .from {
-  float: right !important;
+    float: right !important;
 }
 
 img {
-  width: 30%;
-  opacity: 0.2;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    width: 30%;
+    opacity: 0.2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .social-media {
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
-    rgba(0, 0, 0, 0.3) 0px 7px 14px -12px, rgba(0, 0, 0, 0.2) 0px -2px 0px inset;
-  transition: all 0.2s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+        rgba(0, 0, 0, 0.3) 0px 7px 14px -12px,
+        rgba(0, 0, 0, 0.2) 0px -2px 0px inset;
+    transition: all 0.2s ease-in-out;
 }
 
 .social-media:active {
-  box-shadow: none;
-  transform: translateY(2px);
+    box-shadow: none;
+    transform: translateY(2px);
 }
 
 .social-links a {
-  font-size: 18px;
-  display: inline-block;
-  color: #fff;
-  line-height: 1;
-  padding: 8px 0;
-  margin-right: 4px;
-  border-radius: 50%;
-  text-align: center;
-  width: 36px;
-  height: 36px;
-  transition: 0.3s;
+    font-size: 1.1rem;
+    display: inline-block;
+    color: #fff;
+    line-height: 1;
+    padding: 8px 0;
+    margin-right: 4px;
+    border-radius: 50%;
+    text-align: center;
+    width: 2rem;
+    height: 2rem;
+    text-decoration: none;
+    transition: 0.3s;
 }
 
 .social-links a:hover {
-  color: #fff;
-  text-decoration: none;
+    color: #fff;
+    text-decoration: none;
 }
 
 @media (max-width: 575px) {
-  body {
-    font-size: 1rem;
-  }
+    body {
+        font-size: 1rem;
+    }
 
-  .mail {
-    width: 90%;
-    padding: 2.2rem 1.8rem;
-  }
+    .mail {
+        width: 90%;
+        padding: 2.2rem 1.8rem;
+    }
 
-  img {
-    opacity: 0.14;
-    width: 70%;
-  }
+    img {
+        opacity: 0.14;
+        width: 70%;
+    }
 
-  h1 {
-    font-size: 1.8rem;
-  }
+    h1 {
+        font-size: 1.8rem;
+    }
 
-  .social-links {
-    float: left;
-  }
+    .social-links {
+        float: left;
+    }
 }

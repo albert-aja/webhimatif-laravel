@@ -14,10 +14,18 @@
         })
     }
 
+    function show_loader(){
+        $("#item-preloader").show();
+    }
+
+    function hide_loader(){
+        $('#item-preloader').hide(0);
+    }
+
     $(document).on('change', '#maintenance-btn', function(){
 		let status = $(this).attr("data-status");
 
-        if(status){
+        if(!status){
             swal({
                 title: "{{ __('admin/webInfo.config.2maintenance.title') }}",
                 text: "{{ __('admin/webInfo.config.2maintenance.text') }}",
@@ -27,12 +35,16 @@
             }).then((willChange) => {
                 if (willChange) {
                     $.ajax({
-                        type: 'POST',
-                        url: '/Admin/maintenance_switch/' + status,
+                        type: 'GET',
+                        url: '/Admin/a2m',
+                        beforeSend: function(){
+                            show_loader();
+                        },
                         error: function() {
                             swal('Error', 'Terjadi Kesalahan!', 'error');
                         },
                         success: function(data) {
+                            hide_loader();
                             swal("{{ __('admin/webInfo.config.2maintenance.mode') }}", {
                                 icon: 'success',
                             });
@@ -42,6 +54,7 @@
                         }
                     });
                 } else {
+                    hide_loader();
                     swal("{{ __('admin/webInfo.config.2maintenance.still') }}", {
                         icon: 'info',
                     });
@@ -58,12 +71,16 @@
             }).then((willChange) => {
                 if (willChange) {
                     $.ajax({
-                        type: 'POST',
-                        url: '/Admin/maintenance_switch/' + status,
+                        type: 'GET',
+                        url: '/Admin/m2a',
+                        beforeSend: function(){
+                            show_loader();
+                        },
                         error: function() {
                             swal('Error', 'Terjadi Kesalahan!', 'error');
                         },
                         success: function(data) {
+                            hide_loader();
                             swal("{{ __('admin/webInfo.config.2active.mode') }}", {
                                 icon: 'success',
                             });
@@ -73,6 +90,7 @@
                         }
                     });
                 } else {
+                    hide_loader();
                     swal("{{ __('admin/webInfo.config.2active.still') }}", {
                         icon: 'info',
                     });
