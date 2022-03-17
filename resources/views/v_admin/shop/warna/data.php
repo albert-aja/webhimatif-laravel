@@ -42,4 +42,4 @@
     </div>
 </section>
 
-<?= $this->endSection() ;?>
+@endsection

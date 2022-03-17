@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class PostController extends AdminController
 {
     public function uploadProccessing($date, $slug, $image, $folder_name = '', $name = ''){
 		//generate nama random untuk gambar
@@ -93,10 +93,15 @@ class PostController extends Controller
 		echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($functionNumber, '$url', $message)</script>";
 	}
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
 	public function index(){
 		$this->data['title'] = 'Berita';
-		
-		return view('v_admin/berita/data', $this->data);
+
+		return view('v_admin.berita.data', $this->data);
 	}
 
 	public function getArticle(){
@@ -398,15 +403,6 @@ class PostController extends Controller
 		//hapus data dari database
 		$this->m_post->delete($id);
 	}
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.

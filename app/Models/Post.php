@@ -17,19 +17,6 @@ class Post extends Main_Model
         return $this->hasOne(Division::class);
     }
 
-    public function sort_byView(){
-        return $this->orderBy('viewed', 'DESC');
-    }
-
-    public function selectNewest(){
-        return $this->selectMax('created_at')
-                    ->first();
-    }
-    
-    // public function getDataByTags($id){
-    //     return $this->where('FIND_IN_SET('.$id.', tag)');
-    // }
-    
     public function fetchData($limit, $offset = ''){
         return $this->sort_byDate()
                     ->findAll($limit, $offset);
@@ -50,11 +37,17 @@ class Post extends Main_Model
         return $this->where('created_at >', '"' .$from. '" - INTERVAL 11 MONTH');
     }
 
-    public function getCountLast12Months($from){
-        return $this->select('created_at')
-                    ->selectCount('created_at', 'total')
-                    ->getLast12Months($from)
-                    ->groupBy('DATE_FORMAT(created_at, "%Y%m")')
-                    ->findAll();
+    //functions
+    public function get12monthsBack($latest){
+        return $this::where('created_at', '<=', $latest)
+                    ->whereRaw('created_at >= DATE_SUB("' .$latest. '", INTERVAL 1 YEAR)');
+    }
+
+    public function getCount12monthsBack($latest){
+        return $this->get12monthsBack($latest)
+                    ->selectRaw('DATE_FORMAT(created_at, "%Y-%m") as date')
+                    ->selectRaw('count(created_at) as total')
+                    ->groupBy('date')
+                    ->get();
     }
 }

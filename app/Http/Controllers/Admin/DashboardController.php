@@ -3,31 +3,28 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Post;
+use App\Helpers\General;
 use App\Models\Commitee;
 use App\Models\Division;
 use App\Models\Shop_Item;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Admin\AdminController;
+use App\ViewModels\Admin\Dashboard\LatestNewsViewModel;
+use App\ViewModels\Admin\Dashboard\NewsStatChartViewModel;
 
 class DashboardController extends AdminController
 {
-    public function nullData($array){
-		$data = [
-			'created_at' => '',
-			'total' => 'NaN',
-		];
+	public function __construct(){
+		parent::__construct();
 
-		array_unshift($array, $data);
-		array_push($array, $data);
-
-		return $array;
+		$this->m_post = new Post();
 	}
 
-	// dashboard
 	public function index(){
 		$this->data['title'] = 'Dashboard';
-		
+
 		$this->data['jumlahDivisi'] 	= Division::count();
 		$this->data['jumlahPengurus'] 	= Commitee::count();
 		$this->data['jumlahBerita'] 	= Post::count();
@@ -37,72 +34,57 @@ class DashboardController extends AdminController
 	}
 
 	public function newsDateRange(){
-		$range_data = $this->m_post->getLast12Months($this->m_post->selectNewest()['created_at']);
-		
-		$this->data['startMonth'] = ambilBulanTahun($range_data->selectMin('created_at')->first()['created_at']);
-		$this->data['endMonth'] = ambilBulanTahun(date('Y-m-d'));
+		$range_data = $this->m_post->get12monthsBack(date('Y-m-d'));
 
-		return view('v_admin/dashboard/newsStatChart', $this->data);
+		$this->data['startMonth'] = General::ambilBulanTahun($range_data->first()['created_at']);
+		$this->data['endMonth'] = General::ambilBulanTahun(date('Y-m-d'));
+
+		return view('v_admin.dashboard.newsStatChart', $this->data);
 	}
 
 	public function newsStatChart(){
-		$monthly_total = $this->m_post->getCountLast12Months($this->m_post->selectNewest()['created_at']);
+		$viewModel = new NewsStatChartViewModel(
+			$this->m_post->getCount12monthsBack(date('Y-m-d')),
+		);
 
-		$startMonth = date_format(date_create(current($monthly_total)['created_at']), "Y-m"). '-01';
-		$endMonth   = date('Y-m-d');
-		
-		$start    = new \DateTime($startMonth);
-		$end      = new \DateTime($endMonth);
-		$interval = new \DateInterval('P1M');
-
-		$period   = new \DatePeriod($start, $interval, $end);
-
-		$date_arr = [];
-		$i = 0;
-		
-		foreach($period as $dt) {
-			$date_arr[$i]['created_at'] = ambilBulanTahun($dt->format("Y-m-d"));
-			$date_arr[$i]['total'] = 0;
-			$i++;
-		}
-		
-		foreach($monthly_total as &$mt) {
-			$mt['created_at'] = ambilBulanTahun($mt['created_at']);
-			foreach($date_arr as &$date){
-				if($date['created_at'] == $mt['created_at']){
-					$date['total'] = $mt['total'];
-				}
-			}
-		}
-
-		$jumlah_data = count($date_arr);
-		$maks_data = 12;
-		
-		if($jumlah_data < $maks_data){
-			if($jumlah_data < $maks_data - 2){
-				$date_arr = $this->nullData($date_arr);
-			}
-		}
-		
-		return json_encode($date_arr);
+		return json_encode($viewModel->chart());
 	}
 
 	public function latestNews(){
-		$this->data['beritaTerbaru'] = $this->m_post->sort_byDate()->findAll(5);
-		
-		return view('v_admin/dashboard/latestNews', $this->data);
+		$viewModel = new LatestNewsViewModel(
+			$this->m_post::orderBy('created_at', 'desc')->take(5)->get(),
+		);
+
+		$this->data['latestNews'] = $viewModel->latestNews();
+
+		return view('v_admin.dashboard.latestNews', $this->data);
 	}
 
 
 	public function topNews(){
 		$this->data['rankedNews'] = 10;
-		$this->data['newsData']   = $this->m_post->sort_byView()->findAll($this->data['rankedNews']);
+		$this->data['newsData']   = $this->m_post::orderBy('viewed', 'desc')->take($this->data['rankedNews'])->get();
 
-		return view('v_admin/dashboard/topNews', $this->data);
+		return view('v_admin.dashboard.topNews', $this->data);
+	}
+
+	public function postByDivision(){
+		$data = Division::with(['post'])->get();
+
+		return collect($data)->map(function($dt){
+            return collect($dt)->merge([
+                'post' => (!is_null($dt->post)) ? count($dt->post) : 0,
+            ])->only(['alias', 'post']);
+        });
+	}
+
+	public function postByDivisionChart(){
+		return view('v_admin.dashboard.postByDivisionChart');
 	}
 
 	public function anggotaHimatif(){
-		$anggotaHimatif = $this->m_pengurus->getAnggotaHimatif();
+		$this->m_pengurus = new Commitee();
+		$anggotaHimatif = $this->m_pengurus->getAnggotaHimatif()->with(['division'])->get();
 
 		foreach($anggotaHimatif as &$ad){
 			if($ad['alias'] === 'BPH'){
@@ -114,6 +96,16 @@ class DashboardController extends AdminController
 	}
 
 	public function anggotaHimatifChart(){
-		return view('v_admin/dashboard/anggotaHimatifChart');
+		return view('v_admin.dashboard.anggotaHimatifChart');
+	}
+
+	public function shopProduct(){
+		$this->m_shop = new Shop_Item();
+
+		return json_encode($this->m_shop->productPerCategory()->with(['product_category'])->get());
+	}
+
+	public function shopProductChart(){
+		return view('v_admin.dashboard.shopProductChart');
 	}
 }

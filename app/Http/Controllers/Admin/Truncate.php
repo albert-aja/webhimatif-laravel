@@ -49,7 +49,7 @@ class Truncate extends Controller
     public function index(){
 		$this->data['title']  = "Truncate Table";
 		
-		return view('v_admin/truncate/data', $this->data);
+		return view('v_admin.truncate.data', $this->data);
     }
 
 	public function getTable(){

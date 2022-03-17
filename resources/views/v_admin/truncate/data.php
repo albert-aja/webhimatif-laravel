@@ -43,4 +43,4 @@
 
 <div id="modal-div"></div>
 
-<?= $this->endSection() ;?>
+@endsection

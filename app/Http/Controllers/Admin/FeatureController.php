@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\Controller;
+
+use App\Models\Maintenance_Info;
 
 class FeatureController extends Controller
 {
@@ -21,31 +25,22 @@ class FeatureController extends Controller
 	}
 
 	public function get_status(){
-		$this->data['statusWeb'] = $this->m_webInfo->first();
+		$this->data['statusWeb'] = Maintenance_Info::first();
 
-		return view('v_admin/maintenance_status', $this->data);
+		return view('v_admin.maintenance_status', $this->data);
 	}
 
 	//function toggle maintenance
 	public function maintenance_switch($status){
-		//maintenance status
-		//true = maintenance mode
-		//false = active mode
-		if($status == 'false'){
-			$this->m_webInfo->update(1, [
-				'status' => 'true',
-			]);
-		} else if($status == 'true'){
-			$this->m_webInfo->update(1, [
-				'status' => 'false',
-			]);
-		}
+		Maintenance_Info::where('id', 1)->update([
+			'is_maintenance' => ($status) ? false : true,
+		]);
 	}
 
 	public function change_password(){
         $this->data['title'] = 'Ubah Password';
 		
-		return view('v_admin/profile', $this->data);
+		return view('v_admin.profile', $this->data);
 	}
 
 	public function insert_new_password(){

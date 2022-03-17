@@ -33,4 +33,11 @@ class Shop_Item extends Model
     public function product_price(){
         return $this->hasMany(Product_Price::class, 'shop__items_id', 'id');
     }
+
+    //function
+    public function productPerCategory(){
+        return $this->select('product__categories_id')
+                    ->selectRaw('count(product__categories_id) as total')
+                    ->groupBy('product__categories_id');
+    }
 }

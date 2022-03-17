@@ -48,4 +48,4 @@
 
 </section>
 
-<?= $this->endSection() ;?>
+@endsection

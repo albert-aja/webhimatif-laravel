@@ -12,6 +12,8 @@ use App\Models\Maintenance_Info;
 class AdminController extends Controller
 {
     public function __construct() {
+		$this->middleware(['isActive', 'auth']);
+
 		$this->dir_berita = 'assets/img/news/';
 		$this->dir_divisi = 'assets/img/divisi/';
 		$this->dir_toko	  = 'assets/img/shop/';

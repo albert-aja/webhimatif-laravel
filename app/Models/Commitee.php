@@ -22,24 +22,10 @@ class Commitee extends Main_Model
     }
 
     //functions
-    public function joinDivisi(){
-        return $this->join('divisi', 'pengurus.divisi', '=', 'divisi.id');
-    }
-
-    public function getByDivisi($id){
-        return $this->select('pengurus.*, jabatan.jabatan, divisi.divisi')
-                    ->where('pengurus.divisi', $id)
-                    ->join('jabatan', 'pengurus.jabatan', '=', 'jabatan.id')
-                    ->joinDivisi();
-    }
-
     public function getAnggotaHimatif(){
-        return $this->select('divisi.*')
-                    ->selectRaw('(jabatan = 6) as intern')
-                    ->selectRaw('(jabatan != 6) as utama')
-                    ->joinDivisi()
-                    ->groupBy('divisi.divisi') 
-                    ->orderBy('pengurus.divisi')
-                    ->findAll();
+        return $this->select('division_id')
+                    ->selectRaw('sum(position_id = 6) as intern')
+                    ->selectRaw('sum(position_id != 6) as utama')
+                    ->groupBy('division_id');
     }
 }

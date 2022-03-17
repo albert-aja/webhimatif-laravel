@@ -1,0 +1,1 @@
+<x-dashboard.dashboard-chart :title="__('admin/dashboard.chart.productCategory.title')" canvasID="shopProduct"/>

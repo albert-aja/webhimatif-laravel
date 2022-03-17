@@ -39,7 +39,7 @@
   </div>
 </div>
 
-@endSection
+@endsection
 
 @push('addon-script')
   <script>
