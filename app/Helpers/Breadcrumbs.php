@@ -59,7 +59,7 @@ class Breadcrumbs
 
     public function buildAuto($useSlug = false){
         $crumbs = ['Home'];
-        
+
         $crumbs = array_merge($crumbs, request()->segments());
 
         if($useSlug){
@@ -74,23 +74,21 @@ class Breadcrumbs
         return $crumbs;
     }
 
-    public function buildAutoTag($useSlug = false) {
+    public function buildAutoTag() {
         $output  = $this->tags['sectionopen'];
 
-        $crumbs = ['Home'];
-        
-        $crumbs = array_merge($crumbs, request()->segments());
-        
+        $crumbs = array_merge(request()->segments());
+
         $result = array();
         $path = '';
 
         $count = count($crumbs);
-        
+
         // -1 apabila link terakhir bukan merupakan link
         if ($this->nonClickable){
             $count = count($crumbs) -1;
         }
-        
+
         foreach ($crumbs as $k => $crumb) {
             $path .= '/' . $crumb;
 
@@ -99,7 +97,7 @@ class Breadcrumbs
             if(strtolower($path) === '/admin'){
                 $path = '/Admin/Dashboard';
             }
-            
+
             $name = ucwords(str_replace(array(".php", "_"), array("", " "), $crumb));
             $name = ucwords(str_replace('-', ' ', $name));
 

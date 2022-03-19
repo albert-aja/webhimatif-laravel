@@ -1,11 +1,19 @@
 <?php
 
 return [
-    'title'                 => 'Status Website',
-    'online'                => 'Online',
-    'offline'               => 'Offline',
-    'status_maintenance'    => 'Saat ini website tidak dapat diakses oleh user karena sedang maintenance',
-    'status_active'         => 'Website sedang aktif dan dapat diakses oleh user',
+    'title'     => 'Status Website',
+    'online'    => 'Online',
+    'offline'   => 'Offline',
+    'mode' => [
+        'active' => [
+            'title' => 'Active Mode',
+            'text'  => 'Website sedang aktif dan dapat diakses oleh user!',
+        ],
+        'maintenance' => [
+            'title' => 'Maintenance Mode',
+            'text'  => 'Saat ini user tidak dapat mengakses website karena sedang dalam Maintenance Mode!',
+        ],
+    ],
     'config' => [
         '2maintenance' => [
             'title' => 'Yakin ingin mengubah website menjadi Maintenance Mode?',
@@ -15,7 +23,7 @@ return [
         ],
         '2active' => [
             'title' => 'Aktifkan Kembali Website?',
-            'text'  => 'User dapat mengakses kembali website setelah diaktifkan!',
+            'text'  => 'User dapat mengakses website setelah diaktifkan!',
             'mode'  => 'Website sudah aktif sekarang!',
             'still' => 'Website tetap dalam Maintenance Mode',
         ]

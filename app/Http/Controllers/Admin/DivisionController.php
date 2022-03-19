@@ -1,145 +1,121 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Division;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 
-class DivisionController extends Controller
+class DivisionController extends AdminController
 {
+	public function __construct(){
+		parent::__construct();
+		$this->data['page'] = ['page' => 'Divisi'];
+	}
+
 	public function index(){
-		$this->data['title'] = 'Divisi';
+		$this->data['title'] = __('admin/crud.data', $this->data['page']);
 		
-		return view('v_admin/divisi/data', $this->data);
+		if(request()->ajax()){
+            return Datatables::of(Division::query())
+					->addColumn('program', function($item){
+						return '<a href="' .route('workprogram-data', $item->slug). '" class="btn btn-primary icon-left">
+									<i class="fa fa-info"></i> ' .__('admin/crud.btn.check'). ' ' .__('admin/crud.variable.program'). '
+								</a>';
+					})
+					->addColumn('commitee', function($item){
+						return '<a href="' .route('commitee-data', $item->slug). '" class="btn btn-info icon-left">
+									<i class="fa fa-info"></i> ' .__('admin/crud.btn.check'). ' ' .__('admin/crud.variable.commitee'). '
+								</a>';
+					})
+					->addColumn('action', function($item){
+						return '<div class="dropdown d-inline">
+									<button class="btn btn-warning dropdown-toggle me-1 mb-1" type="button" data-bs-toggle="dropdown">' .__('admin/crud.btn.action'). '</button>
+									<div class="dropdown-menu">
+										<a href="#" class="dropdown-item has-icon editDivision" data-id="' .$item->id. '">
+											<i class="fas fa-pen"></i> ' .__('admin/crud.btn.edit'). '
+										</a>
+										<a href="#" class="dropdown-item has-icon deleteDivision" data-title="' .$item->alias. '" data-id="' .$item->id. '">
+											<i class="fas fa-times"></i> ' .__('admin/crud.btn.delete'). '
+										</a>
+									</div>
+								</div>';
+					})
+					->rawColumns(['program', 'commitee', 'action'])
+					->addIndexColumn()
+					->make();
+        }
+
+		return view('v_admin.division.data', $this->data);
 	}
 
-	public function getDivisi(){
-		$table = $this->table_data('divisi');
-		$data  = [];
-		$no    = $table['start'] + 1;
+    public function create(){
+		$this->data['title'] = __('admin/crud.add', $this->data['page']);
 
-		foreach($table['list'] as $tmp){
-			$row   = [];
-			$row[] = $no;
-			$row[] = $tmp['divisi'];
-			$row[] = $tmp['slug'];
-			$row[] = $tmp['alias'];
-			$row[] = '<a href="/Admin/divisi/progja?divisi=' .$tmp['slug']. '" class="btn btn-warning"><i class="fa fa-info"></i></a>';
-			$row[] = '<a href="/Admin/divisi/pengurus?divisi=' .$tmp['slug']. '" class="btn btn-info"><i class="fa fa-search"></i></a>';
-			$row[] = '<a href="/admin/divisi/view_edit_divisi?divisi=' .$tmp['slug']. '" class="btn btn-icon icon-left btn-primary m-1 clicked-button" type="button" style="min-width: 5rem"><i class="fas fa-pen"></i>Edit</a><button class="btn btn-icon icon-left btn-danger hapusDivisi m-1"  data-divisi="' .$tmp['divisi']. '" data-id="' .$tmp['id']. '" type="button" style="min-width: 5rem"><i class="fas fa-times"></i>Hapus</button>';
-			
-			$data[] = $row;
-			$no++;
+		return view('v_admin.division.modal_add', $this->data);
+    }
+
+    public function store(Request $request){
+        $val = self::validator($request->input());
+
+		if(!empty($val->errors()->messages())){
+			$feedback['status'] 	= __('admin/crud.val_failed');
+			$feedback['division'] 	= $val->errors()->first('division') ?? false;
+			$feedback['alias'] 		= $val->errors()->first('alias') ?? false;
+		} else {
+			$request['slug'] = Str::slug($request->division);
+
+			Division::create($request->input());
+
+			$feedback['status'] = __('admin/crud.val_success');
 		}
 
-		$table['output']['data'] = $data;
+		echo json_encode($feedback);
+    }
 
-		echo json_encode($table['output']);
-		exit();
-	}
+    public function edit($id){
+		$this->data['division'] = Division::findOrFail($id);
+        $this->data['title'] 	= __('admin/crud.edit', array_merge($this->data['page'], ['name' => $this->data['division']->division]));
 
-	public function view_add_divisi(){
-		$this->data['title'] = 'Tambah Divisi';
-		
-		return view('v_admin/divisi/add', $this->data);
-	}
+        return view('v_admin.division.modal_edit', $this->data);
+    }
 
-	public function add_divisi(){
-		$nama = $this->request->getVar('nama');
+    public function update(Request $request){
+		$val = self::validator($request->input(), $request->id);
 
-		//validation 
-		if(!$this->validate([
-			'nama' => [
-				'rules'  => 'required|is_unique[divisi.divisi]',
-				'errors' => [
-					'required'  => 'Nama divisi masih kosong',
-					'is_unique' => 'Divisi <b>'.$nama.'</b> sudah ada',				
-				]
-			],
-			'alias' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => 'Alias divisi masih kosong',		
-				]
-			],
-		])) {
-			return redirect()->to('/Admin/divisi/view_add_divisi')->withInput();
+		if(!empty($val->errors()->messages())){
+			$feedback['status'] 	= __('admin/crud.val_failed');
+			$feedback['division'] 	= $val->errors()->first('division') ?? false;
+			$feedback['alias'] 		= $val->errors()->first('alias') ?? false;
+		} else {
+			$item = Division::findOrFail($request->id);
+
+			$request['slug'] = Str::slug($request->division);
+
+			$item->fill($request->input())->save();
+			$feedback['status'] = __('admin/crud.val_success');
 		}
 
-		//membuat slug dari title
-		$slug = url_title($nama, '-', true);
-		
-		$alias = $this->request->getVar('alias');
-		
-		//process input data
-		$this->m_divisi->save([
-			'divisi' => $nama,
-			'slug'   => $slug,
-			'alias'  => $alias,
+		echo json_encode($feedback);
+    }
+
+    public function destroy(Request $request){
+        Division::findOrFail($request->id)->delete();
+    }
+
+    private function validator(array $data, string $id = ''){
+        return Validator::make($data, [
+			'division'		=> 'required|unique:divisions' .(($id) ? ',division,'.$id : ''),
+            'alias'     	=> 'required|unique:divisions' .(($id) ? ',division,'.$id : ''),
+		], [
+			'division.required' 	=> __('admin/validation.division.division.required'),
+			'division.unique' 		=> __('admin/validation.division.division.unique'),
+			'alias.required' 		=> __('admin/validation.division.alias.required'),
+			'alias.unique' 			=> __('admin/validation.division.alias.unique'),
 		]);
-		
-		//pesan yang ditampilkan apabila input success
-		session()->setFlashdata('pesan', 'Divisi <b>'.$nama.'</b> telah ditambahkan.');
-		
-		return redirect()->to('/Admin/divisi');
-	}
-
-	public function view_edit_divisi(){
-		$slug = $this->request->getVar('divisi');
-		
-		$this->data['title'] = 'Edit Divisi';
-		
-		$this->data['divisi'] = $this->m_divisi->getDataBySlug($slug);
-		
-		return view('v_admin/divisi/edit', $this->data);
-	}
-
-	public function edit_divisi(){
-		$id   = $this->request->getVar('id');
-		$nama = $this->request->getVar('nama');
-		$slug = $this->request->getVar('slug');
-
-		//validation 
-		if(!$this->validate([
-			'nama' => [
-				'rules'  => 'required|is_unique[divisi.divisi,divisi.id,'.$id.']',
-				'errors' => [
-					'required'  => 'Nama divisi masih kosong',
-					'is_unique' => 'Divisi <b>'.$nama.'</b> sudah ada',				
-				]
-			],
-			'alias' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => 'Alias divisi masih kosong',		
-				]
-			],
-		])) {
-			return redirect()->to('/Admin/divisi/view_edit_divisi?divisi='.$slug)->withInput();
-		}
-		
-		//membuat slug dari nama
-		$slug = url_title($nama, '-', true);
-
-		$alias = $this->request->getVar('alias');	//masukkan data dalam array
-		$this->data = [
-			'divisi' => $nama,
-			'slug'   => $slug,
-			'alias'  => $alias,
-		];
-		
-		//process update data 
-		$this->m_divisi->update($id, $this->data);
-
-		//pesan yang ditampilkan apabila input success
-		session()->setFlashdata('pesan', 'Divisi <b>'.$nama.'</b> berhasil di update.');
-		
-		return redirect()->to('/Admin/divisi');
-	}
-
-	public function delete_divisi($id){
-		$this->m_divisi->delete($id);
-	}
+    }
 
 	public function pengurus(){
 		$slug = $this->request->getVar('divisi');
@@ -160,79 +136,4 @@ class DivisionController extends Controller
 		
 		return view('v_admin/progja/data', $this->data);
 	}
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Division  $division
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Division $division)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Division  $division
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Division $division)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Division  $division
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Division $division)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Division  $division
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Division $division)
-    {
-        //
-    }
 }

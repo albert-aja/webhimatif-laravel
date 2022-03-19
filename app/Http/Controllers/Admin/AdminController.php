@@ -21,44 +21,10 @@ class AdminController extends Controller
 
 		$this->data = [
 			'tahun_kepengurusan' => Management_Year::first(),
-			'breadcrumb'		 => $breadcrumbs->buildAuto(),
+			'breadcrumb'		 => $breadcrumbs->buildAutoTag(),
 		];
 	}
 
-	//template datatables
-	public function table_data($table){
-		$draw 	= $_REQUEST['draw'];
-		$length = $_REQUEST['length'];
-		$start 	= $_REQUEST['start'];
-		$search = $_REQUEST['search']['value'];
-		
-		$total = $this->$table->getTotal();
-		$output = [
-			'length'		 => $length,
-			'draw'			 => $draw,
-			'recordsTotal'	 => $total,
-			'recordsFiltered'=> $total
-		] ;
-
-		if($search !== ""){
-			$list = $this->$table->getDataSearch($search, $length, $start);
-
-			$total_search = $this->$table->getSearchTotal($search);
-			$output = [
-				'recordsTotal'		=> $total_search,
-				'recordsFiltered'	=> $total_search
-			];
-		} else {
-			$list = $this->$table->getData($length, $start);
-		}
-
-		return [
-			'output' 	=> $output,
-			'list' 		=> $list,
-			'start' 	=> $start,
-		];
-	}
-	
 	//function untuk hapus sebuah direktori dan seluruh isinya
 	public static function truncateDir($target){
 		if(is_dir($target)){

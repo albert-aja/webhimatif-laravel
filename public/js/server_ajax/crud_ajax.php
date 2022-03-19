@@ -1,66 +1,6 @@
 <script>
 	//FIXME fix onclick function
 
-	/**
-	 * Easy selector helper function
-	 */
-	const select = (el, all = false) => {
-		el = el.trim();
-		if (all) {
-		return [...document.querySelectorAll(el)];
-		} else {
-		return document.querySelector(el);
-		}
-	};
-
-	let LOADER = "#item-preloader";
-
-	/* 1. anti-DRY function */
-	function show_loader(){
-		$(LOADER).show();
-	}
-
-	function hide_loader(){
-		$(LOADER).hide(0);
-	}
-
-	function call_modal(modal,data){
-		$('#modal-div').html(data);
-		$(modal).modal('show');
-	}
-
-	//reload tabel setelah aksi (UX)
-	function reload_table(table){
-		table.ajax.reload(null, false);
-	}
-
-	var article_table = $('#tableBlog').DataTable({
-		"serverSide": true,
-		"pageLength": 5,
-		"autoWidth": false,
-		"responsive": true,
-		"stateSave": true,
-		"ajax": {
-			"url": '<?= base_url();?>/admin/berita/getArticle',
-			"type": "GET"
-		},
-		"lengthMenu": [
-			[5, 10, 25, 50, 100, -1],
-			[5, 10, 25, 50, 100, "All"]
-		],
-		"aoColumns": [
-			{"sClass": "text-center" },
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			{"sClass": "text-center" },
-			{"sClass": "text-center" },
-		],
-	});
-
 	var tag_table = $('#tableTag').DataTable({
 		"serverSide": true,
 		"pageLength": 10,
@@ -361,35 +301,7 @@
 		],
 	});
 	
-	$(document).on("click", ".hapusArtikel", function() {
-		let title = $(this).attr("data-title");
-		let id = $(this).attr("data-id");
-
-		swal({
-				title: 'Yakin ingin menghapus berita berjudul "' +title+ '"?',
-				text: 'Berita akan hilang setelah dihapus!',
-				icon: 'warning',
-				buttons: true,
-				dangerMode: true,
-			})
-		.then((willDelete) => {
-			if (willDelete) {
-				$.ajax({
-					url: '/Admin/berita/delete_article/'+id,
-					type: 'DELETE',
-					error: function() {
-						swal('Error', 'Terjadi Kesalahan!', 'error');
-					},
-					success: function(data) {
-						swal('Poof! Berita Berhasil Di Hapus!', {
-							icon: 'success',
-						});
-						reload_table(article_table);
-					}
-				});
-			}
-		});
-	});
+	
 
 	
 	
@@ -780,17 +692,6 @@
 		})
 	})
 	
-	//loading button
-	$(document).on("click", ".clicked-button", function() {
-		//change button text
-		$(this).innerText = 'Loading...';
-		// disable button
-		$(this).prop("disabled", true);
-		// add spinner to button
-		$(this).html(
-			`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
-		);
-    });
 	
 	//modal nyusun gambar produk
 	$(document).on("click", "#openModal", function() {

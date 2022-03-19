@@ -81,78 +81,83 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
         Route::get('dashboard_ajax/shopProduct', 'shopProduct');
         Route::get('dashboard_ajax/shopProductChart', 'shopProductChart');
     });
-    Route::resource('Commitee', CommiteeController::class, [
-                        'names' => [
-                            'index'  => 'commitee-data',
-                            'create' => 'commitee-create',
-                            'edit'   => 'commitee-edit',
-                            'delete' => 'commitee-delete',
-                        ]
-                    ]);
-    Route::resource('Division', DivisionController::class, [
-                        'names' => [
-                            'index'  => 'division-data',
-                            'create' => 'division-create',
-                            'edit'   => 'division-edit',
-                            'delete' => 'division-delete',
-                        ]
-                    ]);
+    Route::controller(DivisionController::class)->group(function() {
+        Route::get('Division', 'index')->name('division-data');
+        Route::get('Division/create', 'create');
+        Route::post('Division/store', 'store');
+        Route::get('Division/edit/{id}', 'edit');
+        Route::post('Division/update', 'update');
+    });
+    Route::controller(CommiteeController::class)->group(function() {
+        Route::get('Commitee/{division:slug}', 'index')->name('commitee-data');
+        Route::get('Commitee/create', 'create');
+        Route::post('Commitee/store', 'store');
+        Route::get('Commitee/edit/{id}', 'edit');
+        Route::post('Commitee/update', 'update');
+    });
+    // Route::controller(DashboardController::class)->group(function() {
+    //     Route::get('Dashboard', 'index')->name('admin-dashboard');
+    //     Route::get('dashboard_ajax/newsDateRange', 'newsDateRange');
+    // });
     Route::resource('Position', PositionController::class, [
                         'names' => [
-                            'index'  => 'position-data',
-                            'create' => 'position-create',
-                            'edit'   => 'position-edit',
-                            'delete' => 'position-delete',
+                            'index'     => 'position-data',
+                            'create'    => 'position-create',
+                            'edit'      => 'position-edit',
+                            'destroy'   => 'position-delete',
                         ]
                     ]);
     Route::resource('Post', PostController::class, [
                         'names' => [
-                            'index'  => 'post-data',
-                            'create' => 'post-create',
-                            'edit'   => 'post-edit',
-                            'delete' => 'post-delete',
+                            'index'     =>  'post-data',
+                            'create'    =>  'post-create',
+                            'store'     =>  'post-store',
+                            'edit'      =>  'post-edit',
+                            'update'    =>  'post-update',
+                            'destroy'   =>  'post-delete',
                         ]
                     ]);
+    Route::get('postDetail', [PostController::class, 'postDetail']);
     Route::resource('ShopItem', ShopItemController::class, [
                         'names' => [
-                            'index'  => 'shop-data',
-                            'create' => 'shop-create',
-                            'edit'   => 'shop-edit',
-                            'delete' => 'shop-delete',
+                            'index'     => 'shop-data',
+                            'create'    => 'shop-create',
+                            'edit'      => 'shop-edit',
+                            'destroy'   => 'shop-delete',
                         ]
                     ]);
     Route::resource('ProductCategory', ProductCategoryController::class, [
                         'names' => [
-                            'index'  => 'category-data',
-                            'create' => 'category-create',
-                            'edit'   => 'category-edit',
-                            'delete' => 'category-delete',
+                            'index'     => 'category-data',
+                            'create'    => 'category-create',
+                            'edit'      => 'category-edit',
+                            'destroy'   => 'category-delete',
                         ]
                     ]);
     Route::resource('ProductColor', ProductColorController::class, [
                         'names' => [
-                            'index'  => 'color-data',
-                            'create' => 'color-create',
-                            'edit'   => 'color-edit',
-                            'delete' => 'color-delete',
+                            'index'     => 'color-data',
+                            'create'    => 'color-create',
+                            'edit'      => 'color-edit',
+                            'destroy'   => 'color-delete',
                         ]
                     ]);
     Route::resource('UMContact', UMContactController::class, [
                         'names' => [
-                            'index'  => 'umcontact-data',
-                            'create' => 'umcontact-create',
-                            'edit'   => 'umcontact-edit',
-                            'delete' => 'umcontact-delete',
+                            'index'     => 'umcontact-data',
+                            'create'    => 'umcontact-create',
+                            'edit'      => 'umcontact-edit',
+                            'destroy'   => 'umcontact-delete',
                         ]
                     ]);
     Route::resource('WorkProgram', WorkProgramController::class, [
                         'names' => [
-                            'index'  => 'progja-data',
-                            'create' => 'progja-create',
-                            'edit'   => 'progja-edit',
-                            'delete' => 'progja-delete',
+                            'create'    => 'progja-create',
+                            'edit'      => 'progja-edit',
+                            'destroy'   => 'progja-delete',
                         ]
-                    ]);
+                    ])->except(['index']);
+    Route::get('/WorkProgram/{division:slug}', [WorkProgramController::class, 'index'])->name('workprogram-data');
     Route::prefix('Config')->group(function () {
         Route::resource('History', HistoryController::class, [
                             'names' => [
@@ -169,7 +174,7 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
                                 'index'  => 'mission-data',
                                 'create' => 'mission-create',
                                 'edit'   => 'mission-edit',
-                                'delete' => 'mission-delete',
+                                'destroy' => 'mission-delete',
                             ]
                         ]);
         Route::resource('Service', ServiceController::class, [
@@ -177,7 +182,7 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
                                 'index'  => 'service-data',
                                 'create' => 'service-create',
                                 'edit'   => 'service-edit',
-                                'delete' => 'service-delete',
+                                'destroy' => 'service-delete',
                             ]
                         ]);
         Route::resource('SocialMedia', SocialMediaController::class, [
@@ -185,7 +190,7 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
                                 'index'  => 'socialmedia-data',
                                 'create' => 'socialmedia-create',
                                 'edit'   => 'socialmedia-edit',
-                                'delete' => 'socialmedia-delete',
+                                'destroy' => 'socialmedia-delete',
                             ]
                         ]);
         Route::resource('Vision', VisionController::class, [

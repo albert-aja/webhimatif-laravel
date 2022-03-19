@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Main_Model extends Model
 {
-
     /**
      * Determines the alias name based on the table
      */
@@ -22,7 +21,7 @@ class Main_Model extends Model
     }
 
     public function getData($length, $start){
-        return $this->findAll($length, $start);
+        return $this->skip($start)->take($length)->get();
     }
 
     public function getDataSearch($search, $length, $start){
@@ -30,17 +29,10 @@ class Main_Model extends Model
     }
 
     public function getTotal(){
-        // $result = $this->countAll();
-
-        // if(isset($result)){
-        //     return $result;
-        // }
-
-        // return 0;
-        return $this->countAll() ?? 0;
+        return $this->count() ?? 0;
     }
 
     public function getSearchTotal($search){
-        return $this->like('divisi', $search)->countAllResults();
+        return $this->like('divisi', $search)->count();
     }
 }

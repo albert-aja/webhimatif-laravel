@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Admin\AdminController;
+use App\Helpers\General;
 use App\Models\Commitee;
+use App\Models\Division;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class CommiteeController extends AdminController
 {
+	public function __construct(){
+		parent::__construct();
+		$this->data['page'] = ['page' => 'Pengurus'];
+	}
+
     public function image_process($img, $slug){
 		$image_array_1 = explode(";", $img);
 		$image_array_2 = explode(",", $image_array_1[1]);
@@ -58,59 +67,38 @@ class CommiteeController extends AdminController
 		return $nama_img;
 	}
 
-	public function getPengurus(){
-		$url_components = parse_url(previous_url());
+	public function index($slug){
+        $this->data['title'] = __('admin/crud.data', $this->data['page']);
 
-		parse_str($url_components['query'], $params);
+		$division = Division::where('slug', '=', $slug)->first();
 
-		$id = $this->m_divisi->getIdBySlug($params['divisi']);
-		
-		$draw 	= $_REQUEST['draw'];
-		$length = $_REQUEST['length'];
-		$start 	= $_REQUEST['start'];
-		$search = $_REQUEST['search']['value'];
-		
-		$total 	= $this->m_pengurus->getByDivisi($id)->getTotal();
-		$output = [
-			'length'			=> $length,
-			'draw'				=> $draw,
-			'recordsTotal'		=> $total,
-			'recordsFiltered'	=> $total
-		];
+		$query = Commitee::with(['division', 'position'])->whereDivisionId($division->id);
 
-		if($search !== ""){
-			$list = $this->m_pengurus->getByDivisi($id)->getDataSearch($search, $length, $start);
+		if(request()->ajax()){
+            return Datatables::of($query)
+					->addColumn('action', function($item){
+						return '<div class="dropdown d-inline">
+									<button class="btn btn-warning dropdown-toggle me-1 mb-1" type="button" data-bs-toggle="dropdown">' .__('admin/crud.btn.action'). '</button>
+									<div class="dropdown-menu">
+										<a href="#" class="dropdown-item has-icon editDivision" data-id="' .$item->id. '">
+											<i class="fas fa-pen"></i> ' .__('admin/crud.btn.edit'). '
+										</a>
+										<a href="#" class="dropdown-item has-icon deleteDivision" data-title="' .$item->alias. '" data-id="' .$item->id. '">
+											<i class="fas fa-times"></i> ' .__('admin/crud.btn.delete'). '
+										</a>
+									</div>
+								</div>';
+					})
+					->editColumn('photo', function($item){
+						return '<img src="' .asset('img/divisi/' .$item->division->slug. '/' .$item->photo. '/3x_' .$item->photo). '" style="min-height: 6rem"/>';
+					})
+					->rawColumns(['photo', 'action'])
+					->addIndexColumn()
+					->make();
+        }
 
-			$total_search = $this->m_pengurus->getByDivisi($id)->getSearchTotal($search);
-			$output = [
-				'recordsTotal'		=> $total_search,
-				'recordsFiltered'	=> $total_search
-			];
-		} else {
-			$list = $this->m_pengurus->getByDivisi($id)->getData($length, $start);
-		}
-		
-		$data 	= [];
-		$no 	= $start + 1;
-
-		foreach($list as $tmp){
-			$row   = [];
-			$row[] = $no;
-			$row[] = $tmp['nama'];
-			$row[] = '<img src="' .base_url(). '/assets/img/divisi/' .$params['divisi']. '/' .$tmp['foto']. '/3x_' .$tmp['foto'].'" style="max-width: 4rem;">';
-			$row[] = $tmp['divisi'];
-			$row[] = $tmp['jabatan'];
-			$row[] = '<a href="/admin/pengurus/view_edit_pengurus?divisi=' .$params['divisi']. '&id=' .$tmp['id']. '" class="btn btn-icon icon-left btn-primary m-1 clicked-button" type="button" style="min-width: 5rem"><i class="fas fa-pen"></i>Edit</a><button class="btn btn-icon icon-left btn-danger hapusPengurus m-1" data-id='.$tmp['id'].' data-pengurus='.$tmp['nama'].' type="button" style="min-width: 5rem"><i class="fas fa-times"></i>Hapus</button>';
-			
-			$data[] = $row;
-			$no++;
-		}
-
-		$output['data'] = $data;
-
-		echo json_encode($output);
-		exit();
-	}
+		return view('v_admin.commitee.data', $this->data);
+    }
 
 	public function view_add_pengurus(){
 		$this->data['title'] = 'Tambah Pengurus';
@@ -265,21 +253,7 @@ class CommiteeController extends AdminController
 
 		$this->m_pengurus->delete($id);
 	}
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //

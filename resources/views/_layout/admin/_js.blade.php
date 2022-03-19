@@ -9,17 +9,15 @@
 <script src="{{ asset('vendor/image-uploader-master/dist/image-uploader.min.js') }}"></script>
 
 <!-- Forms components -->
-<script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
+<script src="{{ asset('vendor/sweetalert/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('vendor/cropperjs/cropper.js') }}"></script>
 <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
-<script src="{{ asset('vendor/bootstrap-daterangepicker/moment.min.js') }}"></script>
-<script src="{{ asset('vendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
 <!-- DataTables Script -->
 <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('vendor/datatables/responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('vendor/datatables/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables/responsive/js/dataTables.responsive.min.js') }}"></script>
 
 <!-- Local JS -->
 <script src="{{ asset('js/scripts.js') }}"></script>

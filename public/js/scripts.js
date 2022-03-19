@@ -372,31 +372,25 @@ $(function () {
     }
 
     $(document).ready(function () {
-        if ($("#image-preview").css("background-image") !== "none") {
-            var maxWidth =
-                document.querySelector("#img-div").clientWidth - 2 * (24 * 0.5);
+        if ($("#image-preview").length > 0) {
+            if ($("#image-preview").css("background-image") !== "none") {
+                var maxWidth =
+                    document.querySelector("#img-div").clientWidth -
+                    2 * (24 * 0.5);
 
-            var image = new Image();
-            image.src = $("#image-preview")
-                .css("background-image")
-                .replace(/url\((['"])?(.*?)\1\)/gi, "$2")
-                .split(",")[0];
-            var r = gcd(image.width, image.height);
-            $("#image-preview").css({
-                width: maxWidth,
-                height: (maxWidth / (image.width / r)) * (image.height / r),
-            });
+                var image = new Image();
+                image.src = $("#image-preview")
+                    .css("background-image")
+                    .replace(/url\((['"])?(.*?)\1\)/gi, "$2")
+                    .split(",")[0];
+                var r = gcd(image.width, image.height);
+                $("#image-preview").css({
+                    width: maxWidth,
+                    height: (maxWidth / (image.width / r)) * (image.height / r),
+                });
+            }
         }
     });
-
-    if (jQuery().daterangepicker) {
-        if ($(".datepicker").length) {
-            $(".datepicker").daterangepicker({
-                locale: { format: "YYYY-MM-DD" },
-                singleDatePicker: true,
-            });
-        }
-    }
 
     $(document).ready(function () {
         if ($(".input-images").attr("data-folder")) {
@@ -457,27 +451,29 @@ $(function () {
         }
     });
 
-    function socialMediaLink() {
-        if ($("#linkMediaSosial").val().match("https://.*")) {
-            var el = $("#linkTo");
-            el.attr("href", $("#linkMediaSosial").val());
-            el.css("pointer-events", "visible");
-            el.addClass("btn-primary");
-            el.removeClass("btn-secondary");
+    if ($("#linkMediaSosial").length > 0) {
+        function socialMediaLink() {
+            if ($("#linkMediaSosial").val().match("https://.*")) {
+                var el = $("#linkTo");
+                el.attr("href", $("#linkMediaSosial").val());
+                el.css("pointer-events", "visible");
+                el.addClass("btn-primary");
+                el.removeClass("btn-secondary");
+            }
         }
+
+        if (document.querySelector("#linkMediaSosial").value.length != 0) {
+            socialMediaLink();
+        }
+
+        $("#linkMediaSosial").keyup(function () {
+            socialMediaLink();
+            $("#preview-btn").attr("href", $("#linkMediaSosial").val());
+        });
+
+        $("input[name='icon']").click(function () {
+            $("#preview-icon").removeClass();
+            $("#preview-icon").addClass($("input[name='icon']:checked").val());
+        });
     }
-
-    if (document.querySelector("#linkMediaSosial").value.length != 0) {
-        socialMediaLink();
-    }
-
-    $("#linkMediaSosial").keyup(function () {
-        socialMediaLink();
-        $("#preview-btn").attr("href", $("#linkMediaSosial").val());
-    });
-
-    $("input[name='icon']").click(function () {
-        $("#preview-icon").removeClass();
-        $("#preview-icon").addClass($("input[name='icon']:checked").val());
-    });
 });

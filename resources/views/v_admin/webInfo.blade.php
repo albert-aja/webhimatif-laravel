@@ -3,16 +3,16 @@
     <i class="fas fa-globe"></i>
 </a>
 <div class="dropdown-menu dropdown-list dropdown-menu-end d-none">
-    <div class="dropdown-header">Status Website
+    <div class="dropdown-header">@lang('admin/webInfo.title')
         <div class="float-right">
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" id="maintenance-btn" {{ (!$is_maintenance) ? 'checked' : '' }} data-status="{{ $is_maintenance }}">
             </div>
 
             @if(!$is_maintenance)
-            <span class="badge badge-success">Online</span>
+            <span class="badge badge-success">@lang('admin/webInfo.online')</span>
             @else
-            <span class="badge badge-danger">Offline</span>
+            <span class="badge badge-danger">@lang('admin/webInfo.offline')</span>
             @endif
 
         </div>
@@ -24,8 +24,8 @@
                 <i class="fas fa-check"></i>
             </div>
             <div class="dropdown-item-desc">
-                <h6>Active Mode</h6>
-                Website sedang aktif dan dapat diakses oleh user!
+                <h6>@lang('admin/webInfo.mode.active.title')</h6>
+                @lang('admin/webInfo.mode.active.text')
             </div>
         </a>
         @else
@@ -34,8 +34,8 @@
                 <i class="fas fa-times"></i>
             </div>
             <div class="dropdown-item-desc">
-                <h6>Maintenance Mode</h6>
-                Saat ini user tidak dapat mengakses website karena sedang dalam Maintenance Mode!
+                <h6>@lang('admin/webInfo.mode.maintenance.title')</h6>
+                @lang('admin/webInfo.mode.maintenance.text')
             </div>
         </a>
         @endif

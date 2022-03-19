@@ -3,10 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Post;
+use App\Helpers\General;
+use App\Models\Division;
+
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends AdminController
 {
+	public function __construct(){
+		parent::__construct();
+		$this->data['page'] = ['page' => 'Berita'];
+	}
+
     public function uploadProccessing($date, $slug, $image, $folder_name = '', $name = ''){
 		//generate nama random untuk gambar
 		if($name == ''){
@@ -99,63 +110,142 @@ class PostController extends AdminController
      * @return \Illuminate\Http\Response
      */
 	public function index(){
-		$this->data['title'] = 'Berita';
+		$this->data['title'] = __('admin/crud.data', $this->data['page']);
+		
+		if(request()->ajax()){
+            return Datatables::of(Post::with(['division']))
+					->addColumn('action', function($item){
+						return '<div class="dropdown d-inline">
+									<button class="btn btn-warning dropdown-toggle me-1 mb-1" type="button" data-bs-toggle="dropdown">' .__('admin/crud.btn.action'). '</button>
+									<div class="dropdown-menu">
+										<a href="' .route('web-article', $item->slug). '" class="dropdown-item has-icon" target="_blank" rel="noopener noreferrer">
+											<i class="fas fa-info"></i> ' .__('admin/crud.btn.2post'). '
+										</a>
+										<a href="' .route('post-edit', $item->id). '" class="dropdown-item has-icon">
+											<i class="fas fa-pen"></i> ' .__('admin/crud.btn.edit'). '
+										</a>
+										<a href="#" class="dropdown-item has-icon deletePost" data-title="' .$item->title. '" data-id="' .$item->id. '">
+											<i class="fas fa-times"></i> ' .__('admin/crud.btn.delete'). '
+										</a>
+									</div>
+								</div>';
+					})
+					->editColumn('article', function($item){
+						$max = 100;
+						return (strlen($item->article) <= $max) ? $item->article : substr($item->article, 0, $max) . '...';
+					})
+					->editColumn('hero_image', function($item){
+						$img_loc = General::getFolderPath($item->created_at, $item['slug']);
 
-		return view('v_admin.berita.data', $this->data);
+						return '<img src="' .asset('img/news/' .$img_loc. '/3x_' .$item->hero_image). '" style="min-height: 6rem"/>';
+					})
+					->editColumn('division_id', function($item){
+						return '<span class="badge rounded-pill bg-primary">' .$item->division->alias. '</span>';
+					})
+					->editColumn('created_at', function($item){
+						return General::indonesia_date($item->created_at);
+					})
+					->rawColumns(['hero_image', 'article', 'division_id', 'action'])
+					->addIndexColumn()
+					->make();
+        }
+
+		return view('v_admin.post.data', $this->data);
 	}
 
-	public function getArticle(){
-		$table = $this->table_data('post');
-		
-		$data = [];
-		$no   = $table['start'] + 1;
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(){
+		$this->data['title'] 		= __('admin/crud.add', $this->data['page']);
+		$this->data['divisions'] 	= Division::select('id', 'division')->get();
 
-		foreach($table['list'] as $tmp){
-			$img_loc = getFolderPath($tmp['created_at'], $tmp['slug']);
+		return view('v_admin.post.write', $this->data);
+    }
 
-			$row   = [];
-			$row[] = $no;
-			$row[] = $tmp['title'];
-			$row[] = $tmp['slug'];
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request){
+        $data = self::validator($request->all())->validate();
 
-			// potong artikel > 150 dengan '...'
-			if(strlen($tmp['article']) <= 150){
-				$row[] = $tmp['article'];
-			} else{
-				$row[] = substr($tmp['article'], 0, 150) . '...'; 
-			}
+        $data['slug'] = Str::slug($request->product_name);
 
-			// set route image
-			$row[] = '<img src="' .base_url(). '/assets/img/news/' .$img_loc. '/3x_' .$tmp['hero_img']. '" style="max-width: 4rem;">';
+        $this->product::create($data);
 
-			// convert menjadi tanggal Indonesia
-			$date = date_create($tmp['created_at']);
-			// function indonesia_date ada di helper
-			$row[] = indonesia_date(date_format($date, 'Y-m-d'));
+        return redirect()->route($this->index_route);
+    }
 
-			$row[] = '<span class="badge rounded-pill bg-primary">' .$this->m_divisi->getAlias($tmp['divisi'])['alias']. '</span>';
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Post $post)
+    {
+        //
+    }
 
-			$row[] = $tmp['viewed'];
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Post $post)
+    {
+        //
+    }
 
-			//kolom untuk button
-			$row[] = '<a href="/Admin/Berita/edit_article?id='.$tmp['id'].'" class="btn btn-icon icon-left btn-primary m-1" style="min-width: 5rem"><i class="fas fa-pen"></i>Edit</a><button class="btn btn-icon icon-left btn-danger hapusArtikel m-1"  data-title="' .$tmp['title']. '" data-id="' .$tmp['id']. '" type="button" style="min-width: 5rem"><i class="fas fa-times"></i>Hapus</button>';
-			
-			$data[] = $row;
-			$no++;
-		}
-		
-		$table['output']['data'] = $data;
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Post $post)
+    {
+        //
+    }
 
-		echo json_encode($table['output']);
-		exit();
-	}
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Post $post)
+    {
+        //
+    }
 
-	public function write(){
-		$this->data['title'] 	= 'Write';
-		$this->data['divisi'] 	= $this->m_divisi->findAll();
-		
-		return view('v_admin/berita/write', $this->data);
-	}
+    private function validator(array $data){
+        return Validator::make($data, [
+			'publish_date'	=> 'required|date',
+            'title'     	=> 'required|unique:posts',
+            'hero_image'  	=> 'required|image|file|max:4096',
+            'article'  		=> 'required',
+			'division'		=> 'required',
+		], [
+			'publish_date.required' => __('admin/validation.post.publish_date.required'),
+			'publish_date.date' 	=> __('admin/validation.post.publish_date.date'),
+			'title.required' 		=> __('admin/validation.post.title.required'),
+			'title.unique' 			=> __('admin/validation.post.title.unique'),
+			'hero_image.required' 	=> __('admin/validation.post.hero_image.required'),
+			'hero_image.image' 		=> __('admin/validation.post.hero_image.image'),
+			'hero_image.file' 		=> __('admin/validation.post.hero_image.file'),
+			'hero_image.max' 		=> __('admin/validation.post.hero_image.max'),
+			'article.required' 		=> __('admin/validation.post.publish_date.required'),
+			'division.required' 	=> __('admin/validation.post.division.required'),
+		]);
+    }
 
 	public function write_article(){
 		$title = $this->request->getVar('title');
@@ -403,70 +493,4 @@ class PostController extends AdminController
 		//hapus data dari database
 		$this->m_post->delete($id);
 	}
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Post $post)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Post $post)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Post $post)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Post $post)
-    {
-        //
-    }
 }

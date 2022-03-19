@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
-use App\Helpers\Auth;
-use Illuminate\Http\Request;
-
 use App\Http\Controllers\Controller;
+use App\Helpers\Auth;
+use App\Models\Maintenance_Info;
+use App\Models\User;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Password;
 
@@ -27,9 +28,15 @@ class FeatureController extends Controller
 	}
 
 	public function get_status(){
-		$this->data['is_maintenance'] = (file_exists(storage_path().'/framework/down')) ? true : false;
+		$this->data['is_maintenance'] = (Maintenance_Info::first()->is_maintenance) ? true : false;
 
-		return view('v_admin.maintenance_status', $this->data);
+		return view('v_admin.webInfo', $this->data);
+	}
+
+	private function toggle_mode(){
+		Maintenance_Info::where('id', 1)->update([
+			'is_maintenance' => (Maintenance_Info::first()->is_maintenance) ? false : true,
+		]);
 	}
 
 	public function maintenance_mode(){
@@ -41,6 +48,7 @@ class FeatureController extends Controller
 		}
 
 		Artisan::call('down --refresh=10 --secret="' .$secret. '"');
+		self::toggle_mode();
 
 		return redirect('/' .$secret);
 	}
@@ -51,6 +59,8 @@ class FeatureController extends Controller
 		foreach($emails as $email){
 			Auth::send_status_active($email->email);			
 		}
+
+		self::toggle_mode();
 
 		Artisan::call('up');
 	}
