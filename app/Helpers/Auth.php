@@ -12,46 +12,6 @@ use App\Mail\MaintenanceTokenMail;
 
 class Auth
 {
-    /**
-     * Generates a secure hash to use for password reset purposes,
-     * saves it to the instance.
-     *
-     * @return $this
-     * @throws \Exception
-     */
-	public function generateResetHash(){
-		$this->attributes['reset_hash']     = bin2hex(random_bytes(16));
-		$this->attributes['reset_expires']  = date('Y-m-d H:i:s', time() + config('auth.expiredTime'));
-
-		return $this;
-	}
-
-    /**
-     * Generates a secure random hash to use for account activation.
-     *
-     * @return $this
-     * @throws \Exception
-     */
-    public function generateActivationHash(){
-        $this->attributes['activation_hash']    = bin2hex(random_bytes(16));
-		$this->attributes['activation_expires'] = date('Y-m-d H:i:s', time() + config('auth.expiredTime'));
-
-		return $this;
-    }
-
-    /**
-     * Activate user.
-     *
-     * @return $this
-     */
-    protected function activate(){
-        $this->attributes['activation_status']  = 1;
-        $this->attributes['activation_hash']    = null;
-        $this->attributes['activation_expires'] = null;
-
-        return $this;
-    }
-
 	public static function send_activation_email(string $email){
 		$mailData['subject'] = __('email.auth.subject', ['name' => __('global.name')]);
 

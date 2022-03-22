@@ -15,7 +15,7 @@
                             <label class="mb-2">
                                 @lang('admin/crud.variable.division')<sup class="text-danger">@lang('admin/crud.form.required')</sup>
                             </label>
-                            <input type="text" name="division" class="form-control" placeholder="@lang('admin/crud.variable.division')" id="division" value="{{ $division->division }}">
+                            <input type="text" name="division" class="form-control" placeholder="@lang('admin/crud.variable.division')" id="division" value="{{ $division->division }}" autofocus>
                             <div class="invalid-feedback" id="division-feedback"></div>
                         </div>
                         <div class="form-group">

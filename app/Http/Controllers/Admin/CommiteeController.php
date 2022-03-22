@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Ramsey\Uuid\Uuid;
 use App\Helpers\General;
 use App\Models\Commitee;
 use App\Models\Division;
+use App\Models\Position;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Admin\AdminController;
 
 class CommiteeController extends AdminController
 {
@@ -17,16 +22,16 @@ class CommiteeController extends AdminController
 		$this->data['page'] = ['page' => 'Pengurus'];
 	}
 
-    public function image_process($img, $slug){
+	private function prepare_image(string $img, string $extension, string $slug){
 		$image_array_1 = explode(";", $img);
 		$image_array_2 = explode(",", $image_array_1[1]);
-		
+
 		//decode blob image
 		$data = base64_decode($image_array_2[1]);
 		$img_binary = imagecreatefromstring($data);
 
 		$background = imagecolorallocate($img_binary , 0, 0, 0);
-		
+
         // removing the black from the placeholder
         imagecolortransparent($img_binary, $background);
 
@@ -39,40 +44,41 @@ class CommiteeController extends AdminController
         // of transparency is preserved)
         imagesavealpha($img_binary, true);
 
-		$nama_img = bin2hex(random_bytes(25)). '.png';
-		
-		$path = './assets/img/divisi/' .$slug. '/' .$nama_img. '/';
+		$filename = Uuid::uuid4().'.'.$extension;
+        $filePath = public_path($this->dir_divisi.$slug. '/' .$filename);
 
-		if (!file_exists($path)) {
-			@mkdir($path, 0777, true);
+		if (!file_exists($filePath)) {
+			@mkdir($filePath, 0775, true);
 		}
-		
-		imagepng($img_binary, $path.$nama_img, 9);
-		
-		\Config\Services::image()
-			->withFile($path.$nama_img)
-			->resize(700, 600, true, 'height')
-			->save($path.$nama_img);
-			
-		\Config\Services::image()
-			->withFile($path.$nama_img)
-			->resize(400, 200, true, 'height')
-			->save($path. '2x_' .$nama_img);
-			
-		\Config\Services::image()
-			->withFile($path.$nama_img)
-			->resize(100, 80, true, 'height')
-			->save($path. '3x_' .$nama_img);
-		
-		return $nama_img;
+
+		imagepng($img_binary, $filePath. '/' .$filename, 9);
+
+        $img = Image::make($filePath. '/' .$filename);
+
+		$resize = [600, 200, 80];
+
+		for($i=0;$i<count($resize);$i++){
+			$front_name = ($i != 0) ? ($i+1). 'x_' : '';
+			$img->resize(null, $resize[$i], function ($const) {
+				$const->aspectRatio();
+			})->save($filePath. '/' .$front_name. $filename);
+		}
+
+		return $filename;
+	}
+
+	private function prepare_data($slug){
+		$this->division = Division::where('slug', '=', $slug)->first();
+
+		$this->data['page']['page'] .= ' ' .$this->division->alias;
+		$this->data['slug'] = $slug;
 	}
 
 	public function index($slug){
-        $this->data['title'] = __('admin/crud.data', $this->data['page']);
+		self::prepare_data($slug);
+		$this->data['title'] = __('admin/crud.data', $this->data['page']);
 
-		$division = Division::where('slug', '=', $slug)->first();
-
-		$query = Commitee::with(['division', 'position'])->whereDivisionId($division->id);
+		$query = Commitee::with(['division', 'position'])->whereDivisionId($this->division->id);
 
 		if(request()->ajax()){
             return Datatables::of($query)
@@ -80,17 +86,17 @@ class CommiteeController extends AdminController
 						return '<div class="dropdown d-inline">
 									<button class="btn btn-warning dropdown-toggle me-1 mb-1" type="button" data-bs-toggle="dropdown">' .__('admin/crud.btn.action'). '</button>
 									<div class="dropdown-menu">
-										<a href="#" class="dropdown-item has-icon editDivision" data-id="' .$item->id. '">
+										<a href="' .route('commitee-edit', ['division' => $item->division->slug, 'commitee'=> $item->id]). '" class="dropdown-item has-icon">
 											<i class="fas fa-pen"></i> ' .__('admin/crud.btn.edit'). '
 										</a>
-										<a href="#" class="dropdown-item has-icon deleteDivision" data-title="' .$item->alias. '" data-id="' .$item->id. '">
+										<a href="#" class="dropdown-item has-icon deleteCommitee" data-url="' .asset(General::getCommiteePhoto($item->division->slug, $item->photo, '2x_')). '" data-id="' .$item->id. '" data-name="' .$item->name. '">
 											<i class="fas fa-times"></i> ' .__('admin/crud.btn.delete'). '
 										</a>
 									</div>
 								</div>';
 					})
 					->editColumn('photo', function($item){
-						return '<img src="' .asset('img/divisi/' .$item->division->slug. '/' .$item->photo. '/3x_' .$item->photo). '" style="min-height: 6rem"/>';
+						return '<img src="' .asset(General::getCommiteePhoto($item->division->slug, $item->photo, '3x_')). '" style="min-height: 6rem"/>';
 					})
 					->rawColumns(['photo', 'action'])
 					->addIndexColumn()
@@ -100,218 +106,105 @@ class CommiteeController extends AdminController
 		return view('v_admin.commitee.data', $this->data);
     }
 
-	public function view_add_pengurus(){
-		$this->data['title'] = 'Tambah Pengurus';
-		
-		$slug = $this->request->getVar('divisi');
-		
-		$this->data['divisi'] = $this->m_divisi->getDataBySlug($slug);
+    public function create($slug){
+		self::prepare_data($slug);
 
-		if($this->data['divisi']['id'] == 1){
-			$this->data['jabatan'] = $this->m_jabatan->findAll(3, 2);
+		$this->data['title'] 		= __('admin/crud.add', $this->data['page']);
+		$this->data['positions'] 	= Position::all();
+
+        return view('v_admin.commitee.add', $this->data);
+    }
+
+    public function store(Request $request, $slug){
+		$val = self::validator($request->all());
+
+		if(!empty($val->errors()->messages())){
+			$feedback = self::error_feedback($val);
 		} else {
-			$this->data['jabatan'] = $this->m_jabatan->find([1, 2, 6]);
-		}
-		
-		return view('v_admin/pengurus/add', $this->data);
-	}
-	
-	public function add_pengurus(){
-		$slug_divisi = $this->request->getVar('divisi');
-		
-		//validation 
-		if(!$this->validate([
-			'nama' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => 'Nama pengurus masih kosong',				
-				]
-			],
-			'foto' => [
-				'rules'  => 'uploaded[foto]|mime_in[foto, image/jpg,image/jpeg,image/png]|is_image[foto]|max_size[foto, 5120]',
-				'errors' => [
-					'uploaded' 	=> 'Foto pengurus belum di upload.',
-					'mime_in' 	=> 'Format foto yang diizinkan adalah .jpg, .jpeg dan .png.',
-					'is_image' 	=> 'File yang diupload bukan gambar.',
-					'max_size' 	=> 'Ukuran maksimum foto adalah 5mb.',
-				]
-			],
-			'jabatan' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => 'Jabatan pengurus belum diisi.'
-				]
-			],
-		])) {
-			return redirect()->to('/Admin/pengurus/view_add_pengurus?divisi=' .$slug_divisi)->withInput();
+			$request['photo'] = self::prepare_image(
+									$request->input('cropped'),
+									$request->file('photo')->extension(),
+									$slug
+								);
+
+			$request['division_id'] = Division::where('slug', '=', $slug)->first()['id'];
+
+			Commitee::create($request->input());
+
+			$feedback['status'] 	= __('admin/crud.val_success');
+			$feedback['redirect']	= route('commitee-data', $slug);
 		}
 
-		$nama 		= $this->request->getVar('nama');
-		$jabatan 	= $this->request->getVar('jabatan');
-		$hero_img 	= $this->request->getVar('preview');
-		
-		$foto = $this->image_process($hero_img, $slug_divisi);
-		
-		$divisi = $this->m_divisi->getIdBySlug($slug_divisi);
+		echo json_encode($feedback);
+    }
 
-		//process input data
-		$this->m_pengurus->save([
-			'nama' 		=> $nama,
-			'foto' 		=> $foto,
-			'jabatan' 	=> $jabatan,
-			'divisi' 	=> $divisi['id'],
-		]);
-		
-		//pesan yang ditampilkan apabila input success
-		session()->setFlashdata('pesan', 'Data <b>'.$nama.'</b> telah ditambahkan.');
-		
-		return redirect()->to('/Admin/divisi/pengurus?divisi='. $slug_divisi);
-	}
+    public function edit($slug, $id){
+		self::prepare_data($slug);
 
-	public function view_edit_pengurus(){
-		$this->data['title'] = 'Edit Pengurus';
+		$this->data['title'] 	 = __('admin/crud.edit', array_merge($this->data['page'], ['name' => '']));
+		$this->data['commitee']  = Commitee::find($id);
+		$this->data['positions'] = Position::all();
 
-		$this->data['divisi'] 	= $this->m_divisi->getDataBySlug($this->request->getVar('divisi'));
-		$this->data['pengurus'] = $this->m_pengurus->find($this->request->getVar('id'));
+        return view('v_admin.commitee.edit', $this->data);
+    }
 
-		if($this->data['divisi']['id'] == 1){
-			$this->data['jabatan'] = $this->m_jabatan->findAll(3, 2);
+    public function update(Request $request, $slug, $id){
+        $val = self::validator($request->all(), $id);
+
+		if(!empty($val->errors()->messages())){
+			$feedback = self::error_feedback($val);
 		} else {
-			$this->data['jabatan'] = $this->m_jabatan->find([1, 2, 6]);
-		}
-		
-		return view('v_admin/pengurus/edit', $this->data);
-	}
-	
-	public function edit_pengurus(){
-		$id = $this->request->getVar('id');
-		$slug_divisi = $this->request->getVar('divisi');
-		
-		//validation 
-		if(!$this->validate([
-			'nama' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => 'Nama pengurus masih kosong',				
-				]
-			],
-			'foto' => [
-				'rules'  => 'mime_in[foto, image/jpg,image/jpeg,image/png]|is_image[foto]|max_size[foto, 5120]',
-				'errors' => [
-					'mime_in'  => 'Format foto yang diizinkan adalah .jpg, .jpeg dan .png.',
-					'is_image' => 'File yang diupload bukan gambar.',
-					'max_size' => 'Ukuran maksimum foto adalah 5mb.',
-				]
-			],
-			'jabatan' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => 'Jabatan pengurus belum diisi.'
-				]
-			],
-		])) {
-			return redirect()->to('/Admin/Pengurus/view_edit_pengurus?divisi=' .$slug_divisi. '&id=' .$id)->withInput();
+			if(!$request->file('photo')){
+				$request['photo'] = $request->input('old_img');
+			} else {
+				$request['photo'] = self::prepare_image(
+										$request->input('cropped'),
+										$request->file('photo')->extension(),
+										$slug
+									);
+
+				General::clearStorage($this->dir_divisi.$slug. '/' .$request->input('old_img'));
+			}
+
+			$item = Commitee::findOrFail($id);
+
+			$item->fill($request->input())->save();
+
+			$feedback['status'] 	= __('admin/crud.val_success');
+			$feedback['redirect']	= route('commitee-data', $slug);
 		}
 
-		$id 		= $this->request->getVar('id');
-		$nama 		= $this->request->getVar('nama');
-		$jabatan 	= $this->request->getVar('jabatan');
-		$hero_img 	= $this->request->getVar('preview');
-		$old_img 	= $this->request->getVar('old_img');
+		echo json_encode($feedback);
+    }
 
-		if($hero_img == ''){
-			$foto = $old_img;
-		} else{
-			$foto = $this->image_process($hero_img, $slug_divisi);
-			
-			//hapus gambar lama dari server 
-			$this->truncateDir($this->dir_divisi .$slug_divisi. '/' .$old_img);
-		}
+    public function destroy(Request $request){
+		$data = Commitee::findOrFail($request->id);
+		General::clearStorage($this->dir_divisi.$request->slug. '/' .$data['photo']);
+		$data->delete();
+    }
 
-		$divisi = $this->m_divisi->getIdBySlug($slug_divisi);
-
-		$this->m_pengurus->update($id, [
-			'nama' => $nama,
-			'foto' => $foto,
-			'jabatan' => $jabatan,
-			'divisi' => $divisi['id'],
+    private function validator(array $data, string $id = ''){
+        return Validator::make($data, [
+			'name'			=> 'required',
+            'photo'  		=> ($id) ? '' : 'required'.'|image|mimes:jpeg,jpg,png|file|max:5120',
+            'position_id'  	=> 'required',
+		], [
+			'name.required' 		=> __('admin/validation.required.input', ['field' => __('admin/crud.variable.name')]),
+			'photo.required' 		=> __('admin/validation.required.upload', ['field' => __('admin/crud.variable.photo')]),
+			'photo.image' 			=> __('admin/validation.image.image', ['field' => __('admin/crud.variable.photo')]),
+			'photo.mime' 			=> __('admin/validation.image.mime', ['mime' => '.jpg, .jpeg, .png']),
+			'photo.file' 			=> __('admin/validation.image.file'),
+			'photo.max' 			=> __('admin/validation.image.max'),
+			'position_id.required' 	=> __('admin/validation.required.select', ['field' => __('admin/crud.variable.position')]),
 		]);
-		
-		//pesan yang ditampilkan apabila input success
-		session()->setFlashdata('pesan', 'Data <b>'.$nama.'</b> telah diedit.');
-		
-		return redirect()->to('/Admin/divisi/pengurus?divisi='. $slug_divisi);
+    }
+
+	private function error_feedback($val){
+		$feedback['status'] 		= __('admin/crud.val_failed');
+		$feedback['name'] 			= $val->errors()->first('name') ?? false;
+		$feedback['photo'] 			= $val->errors()->first('photo') ?? false;
+		$feedback['position_id'] 	= $val->errors()->first('position_id') ?? false;
+
+		return $feedback;
 	}
-
-	public function delete_pengurus($id){
-		$this->data['pengurus'] = $this->m_pengurus->find($id);
-		$old_img = $this->data['pengurus']['foto'];
-		
-		$slug_divisi = $this->m_divisi->find($this->data['pengurus']['divisi'])['slug'];
-
-		unlink($this->dir_divisi .$slug_divisi. '/pengurus/' .$old_img);
-
-		$this->m_pengurus->delete($id);
-	}
-
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Commitee  $commitee
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Commitee $commitee)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Commitee  $commitee
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Commitee $commitee)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Commitee  $commitee
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Commitee $commitee)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Commitee  $commitee
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Commitee $commitee)
-    {
-        //
-    }
 }

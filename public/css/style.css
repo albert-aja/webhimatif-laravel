@@ -191,15 +191,18 @@ section {
     bottom: -55px;
     z-index: 9;
     background: #213b52;
-    width: 0.5rem;
-    height: 0.5rem;
+    width: 0.7rem;
+    height: 0.7rem;
     border-radius: 50px;
     transition: all 0.5s;
     transition-timing-function: ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+        rgba(0, 0, 0, 0.3) 0px 7px 14px -12px,
+        rgba(0, 0, 0, 0.2) 0px -2px 0px inset;
 }
 
 .back-to-top i {
-    font-size: 24px;
+    font-size: 1.5rem;
     color: #fff;
     line-height: 0;
 }
@@ -212,10 +215,10 @@ section {
 
 .back-to-top.active {
     visibility: visible;
-    bottom: 15px;
-    right: 15px;
-    width: 40px;
-    height: 40px;
+    bottom: 1.4rem;
+    right: 1.4rem;
+    width: 2.8rem;
+    height: 2.8rem;
     opacity: 1;
 }
 
@@ -248,7 +251,7 @@ section {
     text-transform: uppercase;
     color: #fff;
     text-decoration: none;
-    transition: all 0.2s;
+    transition: all ease-in-out 0.2s;
 }
 
 #header .logo img:hover {
@@ -1243,7 +1246,6 @@ figcaption {
     position: relative;
     transform: translateY(20px) scale(1.15);
     transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
-    width: 25rem;
     top: 1.2rem;
 }
 

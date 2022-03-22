@@ -1,6 +1,21 @@
 <?php
 
 return [
+    'required' => [
+        'input'     => ':field belum diisi.',
+        'select'    => ':field belum dipilih.',
+        'upload'    => ':field belum diupload.'
+    ],
+    'image' => [
+        'image'     => 'Berkas yang diupload tidak berformat gambar.',
+        'file'      => ':field harus berupa berkas',
+        'max'       => 'Ukuran file melewati batas maksimal (:max Kb).',
+        'mime'      => 'Ekstensi gambar yang diizinkan adalah :mime.',
+    ],
+    'unique' => [
+        'existed'   => ':field sudah ada.',
+        'used'      => ':field sudah digunakan.'
+    ],
     'post' => [
         'publish_date' => [
             'required'  => 'Tanggal terbit belum diisi.',
@@ -12,9 +27,6 @@ return [
         ],
         'hero_image' => [
             'required'  => 'Foto belum diupload.',
-            'image'     => 'Berkas yang diupload tidak berformat gambar.',
-            'file'      => 'Foto harus berupa berkas',
-            'max'       => 'Ukuran file melewati batas maksimal (:max Kb).',
         ],
         'article' => [
             'required'  => 'Artikel belum ditulis.'
@@ -32,6 +44,16 @@ return [
             'required'  => 'Alias divisi belum diisi.',
             'unique'    => 'Alias divisi sudah digunakan.',
         ],
+    ],
+    'commitee' => [
+        'name'  => 'Nama pengurus belum diisi.',
+        'photo' => [
+            'required'  => 'Foto pengurus belum diupload.',
+        ],
+    ],
+    'position' => [
+        'required'  => 'Jabatan belum diisi.',
+        'unique'    => 'Jabatan sudah ada.'
     ]
 ]
 

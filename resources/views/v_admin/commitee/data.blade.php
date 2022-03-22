@@ -19,10 +19,10 @@
                 <div class="card-header">
                     <h4>@lang('admin/crud.table.header', $page)</h4>
                     <div class="card-header-action">
-                        <button type="button" class="form-control btn btn-icon icon-left btn-primary" id="modal_add">
-							<i class="fas fa-plus"></i>
+                        <a class="form-control btn btn-icon icon-left btn-primary" href="{{ route('commitee-create', $slug) }}">
+                            <i class="fas fa-plus"></i>
                             @lang('admin/crud.add', $page)
-						</button>
+                        </a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -32,7 +32,7 @@
                             <tr class="text-center">
                                 <th>@lang('admin/crud.table.index')</th>
                                 <th>@lang('admin/crud.variable.name')</th>
-                                <th>@lang('admin/crud.variable.image')</th>
+                                <th>@lang('admin/crud.variable.photo')</th>
                                 <th>@lang('admin/crud.variable.division')</th>
                                 <th>@lang('admin/crud.variable.position')</th>
                                 <th>@lang('admin/crud.table.action')</th>
@@ -88,6 +88,38 @@
 				orderable: false, searchable: false,
 			},
 		]
+	});
+
+    $(document).on("click", ".deleteCommitee", function() {
+		let url = $(this).attr("data-url");
+		let id = $(this).attr("data-id");
+		let name = $(this).attr("data-name");
+        let slug = "{{ $slug }}";
+
+		Swal.fire({
+			title: 'Yakin ingin data pengurus ini?',
+			html: 'Data <strong>' + name + '</strong> akan hilang!',
+            imageUrl: url,
+			showCancelButton: true,
+		}).then((action) => {
+			if (action.isConfirmed) {
+				$.ajax({
+					url: '/Admin/Commitee/destroy',
+					method: 'DELETE',
+                    data: {id,slug},
+					error: function() {
+						errorSwal()
+					},
+					success: function(data) {
+						Swal.fire({
+							title: "{{ __('admin/swal.successDel', $page) }}",
+							icon: 'success',
+						})
+						reload_table(commitee_table);
+					}
+				});
+			}
+		});
 	});
 </script>
 @endpush

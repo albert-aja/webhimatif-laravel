@@ -17,7 +17,7 @@ class ArticleViewModel extends ViewModel
     }
 
     public function folder(){
-        return General::getFolderPath($this->article['created_at'], $this->article['slug']);
+        return General::getNewsPhoto($this->article['created_at'], $this->article['slug']);
     }
 
     public function article(){

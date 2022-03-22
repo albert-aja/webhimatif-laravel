@@ -1,17 +1,56 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Models\Division;
 use App\Models\Position;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Admin\AdminController;
 
-class PositionController extends Controller
+class PositionController extends AdminController
 {
+	public function __construct(){
+		parent::__construct();
+		$this->data['page'] = ['page' => 'Jabatan'];
+	}
+
+	public function getNewPosition(){
+		$this->data['position'] = Position::latest()->first();
+
+		return view('v_admin.position.new_data', $this->data);
+	}
+
 	public function index(){
 		$this->data['title'] = 'Jabatan';
 
-		return view('v_admin/jabatan/data', $this->data);
+		return view('v_admin.position.data', $this->data);
 	}
+
+    public function store(Request $request){
+        $val = self::validator($request->all());
+
+		if(!empty($val->errors()->messages())){
+			$feedback['status'] 	= __('admin/crud.val_failed');
+			$feedback['position'] 	= $val->errors()->first('position') ?? false;
+		} else {
+			Position::create($request->all());
+
+			$feedback['status'] = __('admin/crud.val_success');
+		}
+
+		echo json_encode($feedback);
+    }
+
+    private function validator(array $data, string $id = ''){
+        return Validator::make($data, [
+			'position'		=> 'required|unique:positions' .(($id) ? ',position,'.$id : ''),
+		], [
+			'position.required' 	=> __('admin/validation.position.required'),
+			'position.unique' 		=> __('admin/validation.position.unique'),
+		]);
+    }
 
 	public function getJabatan(){
 		$table = $this->table_data('jabatan');
@@ -108,79 +147,10 @@ class PositionController extends Controller
 	public function delete_jabatan($id){
 		$this->m_jabatan->delete($id);
 	}
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    public function create(){
+		$this->data['title'] = __('admin/crud.add', $this->data['page']);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Position  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Position $position)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Position  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Position $position)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Position  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Position $position)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Position  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Position $position)
-    {
-        //
+		return view('v_admin.position.modal_add', $this->data);
     }
 }

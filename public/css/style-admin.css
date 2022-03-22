@@ -4451,3 +4451,51 @@ table .btn-col {
 #confirm_pass.is-invalid ~ #toggleConfirmPassword {
     border-color: #dc3545 !important;
 }
+
+#card .card-box {
+    border-radius: 50%;
+    height: 19rem;
+    -webkit-tap-highlight-color: transparent;
+    transform: scale(0.55);
+    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    width: 25rem;
+}
+
+#card .card-box:hover {
+    transform: scale(0.57);
+}
+
+#card .container-inner {
+    clip-path: path(
+        "M 390,400 C 390,504.9341 304.9341,590 200,590 95.065898,590 10,504.9341 10,400 V 10 H 200 390 Z"
+    );
+    position: relative;
+    transform-origin: 50%;
+    top: -12.5rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+#card .circle {
+    background-color: var(--himatif_yellow);
+    border-radius: 50%;
+    height: 380px;
+    left: 10px;
+    pointer-events: none;
+    position: absolute;
+    top: 13rem;
+    width: 380px;
+}
+
+#card .img-preview {
+    pointer-events: none;
+    position: relative;
+    transform: translateY(20px) scale(1.15);
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    top: 1.2rem;
+}
+
+#card .card-box:hover .img-preview {
+    transform: translateY(0) scale(1.1);
+}

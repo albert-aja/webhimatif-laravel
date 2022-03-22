@@ -6,11 +6,11 @@ return [
     'edit'      =>  'Edit :page :name',
     'detail'    =>  'Detail :page :name',
     'variable' => [
-        'name'      => 'nama',
+        'name'      =>  'Nama',
         'title'     =>  'Judul',
         'slug'      =>  'Slug',
         'article'   =>  'Artikel',
-        'image'     =>  'Foto',
+        'photo'     =>  'Foto',
         'date'      =>  'Tanggal Terbit',
         'division'  =>  'Divisi',
         'view'      =>  'Pembaca',

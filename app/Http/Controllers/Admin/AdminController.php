@@ -13,9 +13,9 @@ class AdminController extends Controller
     public function __construct() {
 		$this->middleware(['isActive', 'auth']);
 
-		$this->dir_berita = 'assets/img/news/';
-		$this->dir_divisi = 'assets/img/divisi/';
-		$this->dir_toko	  = 'assets/img/shop/';
+		$this->dir_berita = 'img/news/';
+		$this->dir_divisi = 'img/divisi/';
+		$this->dir_toko	  = 'img/shop/';
 
 		$breadcrumbs 	= new Breadcrumbs;
 
@@ -23,20 +23,5 @@ class AdminController extends Controller
 			'tahun_kepengurusan' => Management_Year::first(),
 			'breadcrumb'		 => $breadcrumbs->buildAutoTag(),
 		];
-	}
-
-	//function untuk hapus sebuah direktori dan seluruh isinya
-	public static function truncateDir($target){
-		if(is_dir($target)){
-			$files = glob($target. '/*', GLOB_MARK); //GLOB_MARK adds a slash to directories returned
-			
-			foreach($files as $file){
-				self::truncateDir($file);      
-			}
-
-			rmdir($target);
-		} elseif(is_file($target)) {
-			unlink($target);  
-		}
 	}
 }

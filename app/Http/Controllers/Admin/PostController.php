@@ -135,7 +135,7 @@ class PostController extends AdminController
 						return (strlen($item->article) <= $max) ? $item->article : substr($item->article, 0, $max) . '...';
 					})
 					->editColumn('hero_image', function($item){
-						$img_loc = General::getFolderPath($item->created_at, $item['slug']);
+						$img_loc = General::getNewsPhoto($item->created_at, $item['slug']);
 
 						return '<img src="' .asset('img/news/' .$img_loc. '/3x_' .$item->hero_image). '" style="min-height: 6rem"/>';
 					})
@@ -389,7 +389,7 @@ class PostController extends AdminController
 		$this->data['post'] 	= $this->m_post->find($id);
 		$this->data['divisi'] 	= $this->m_divisi->findAll();
 
-		$this->data['folder'] = getFolderPath($this->data['post']['created_at'], $this->data['post']['slug']);
+		$this->data['folder'] = getNewsPhoto($this->data['post']['created_at'], $this->data['post']['slug']);
 
 		return view('v_admin/berita/edit', $this->data);
 	}
@@ -483,7 +483,7 @@ class PostController extends AdminController
 		$data = $this->m_post->find($id);
 
 		//ambil nama folder
-		$img_loc = getFolderPath($data['created_at'], $data['slug']);
+		$img_loc = getNewsPhoto($data['created_at'], $data['slug']);
 		
 		//path ke folder gambar
 		$folder_path = $this->dir_berita .$img_loc;

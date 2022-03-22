@@ -47,7 +47,7 @@
                         </div>
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                @lang('admin/crud.variable.image')<sup class="text-danger">@lang('admin/crud.form.required')</sup>
+                                @lang('admin/crud.variable.photo')<sup class="text-danger">@lang('admin/crud.form.required')</sup>
                             </label>
                             <div class="col-sm-12 col-md-7" id="img-div">
                                 <div id="image-preview" class="image-preview @error('hero_image') is-invalid @enderror">
@@ -112,8 +112,8 @@
 @endsection
 
 @push('addon-script')
-    <script src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
-    <script>
+<script src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
+<script>
         title = document.querySelector('#title').value;
         date = document.querySelector('#publish_date').value;
         
@@ -129,5 +129,13 @@
         editor.config.allowedContent = true;
         editor.config.autoGrow_minHeight = 300;
         editor.config.autoGrow_maxHeight = 800;
-    </script>
+
+        
+    $.uploadPreview({
+        input_field: "#image-upload", // Default: .image-upload
+        preview_box: "#image-preview", // Default: .image-preview
+        label_field: "#image-label", // Default: .image-label
+        no_label: false, // Default: false
+    });
+</script>
 @endpush

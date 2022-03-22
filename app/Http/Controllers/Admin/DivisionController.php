@@ -22,12 +22,12 @@ class DivisionController extends AdminController
             return Datatables::of(Division::query())
 					->addColumn('program', function($item){
 						return '<a href="' .route('workprogram-data', $item->slug). '" class="btn btn-primary icon-left">
-									<i class="fa fa-info"></i> ' .__('admin/crud.btn.check'). ' ' .__('admin/crud.variable.program'). '
+									<i class="fa fa-info"></i>
 								</a>';
 					})
 					->addColumn('commitee', function($item){
 						return '<a href="' .route('commitee-data', $item->slug). '" class="btn btn-info icon-left">
-									<i class="fa fa-info"></i> ' .__('admin/crud.btn.check'). ' ' .__('admin/crud.variable.commitee'). '
+									<i class="fa fa-search"></i>
 								</a>';
 					})
 					->addColumn('action', function($item){
@@ -58,16 +58,14 @@ class DivisionController extends AdminController
     }
 
     public function store(Request $request){
-        $val = self::validator($request->input());
+        $val = self::validator($request->all());
 
 		if(!empty($val->errors()->messages())){
-			$feedback['status'] 	= __('admin/crud.val_failed');
-			$feedback['division'] 	= $val->errors()->first('division') ?? false;
-			$feedback['alias'] 		= $val->errors()->first('alias') ?? false;
+			$feedback = self::error_feedback($val);
 		} else {
 			$request['slug'] = Str::slug($request->division);
 
-			Division::create($request->input());
+			Division::create($request->all());
 
 			$feedback['status'] = __('admin/crud.val_success');
 		}
@@ -83,18 +81,16 @@ class DivisionController extends AdminController
     }
 
     public function update(Request $request){
-		$val = self::validator($request->input(), $request->id);
+		$val = self::validator($request->all(), $request->id);
 
 		if(!empty($val->errors()->messages())){
-			$feedback['status'] 	= __('admin/crud.val_failed');
-			$feedback['division'] 	= $val->errors()->first('division') ?? false;
-			$feedback['alias'] 		= $val->errors()->first('alias') ?? false;
+			$feedback = self::error_feedback($val);
 		} else {
 			$item = Division::findOrFail($request->id);
 
 			$request['slug'] = Str::slug($request->division);
 
-			$item->fill($request->input())->save();
+			$item->fill($request->all())->save();
 			$feedback['status'] = __('admin/crud.val_success');
 		}
 
@@ -107,33 +103,21 @@ class DivisionController extends AdminController
 
     private function validator(array $data, string $id = ''){
         return Validator::make($data, [
-			'division'		=> 'required|unique:divisions' .(($id) ? ',division,'.$id : ''),
-            'alias'     	=> 'required|unique:divisions' .(($id) ? ',division,'.$id : ''),
+			'division'	=> 'required|unique:divisions' .(($id) ? ',division,'.$id : ''),
+            'alias'		=> 'required|unique:divisions' .(($id) ? ',division,'.$id : ''),
 		], [
-			'division.required' 	=> __('admin/validation.division.division.required'),
-			'division.unique' 		=> __('admin/validation.division.division.unique'),
-			'alias.required' 		=> __('admin/validation.division.alias.required'),
-			'alias.unique' 			=> __('admin/validation.division.alias.unique'),
+			'division.required' 	=> __('admin/validation.required.input', ['field' => __('admin/crud.variable.division')]),
+			'division.unique' 		=> __('admin/validation.unique.existed', ['field' => __('admin/crud.variable.division')]),
+			'alias.required' 		=> __('admin/validation.required.input', ['field' => __('admin/crud.variable.alias')]),
+			'alias.unique' 			=> __('admin/validation.unique.used', ['field' => __('admin/crud.variable.alias')]),
 		]);
     }
 
-	public function pengurus(){
-		$slug = $this->request->getVar('divisi');
+	private function error_feedback($val){
+		$feedback['status'] 	= __('admin/crud.val_failed');
+		$feedback['division'] 	= $val->errors()->first('division') ?? false;
+		$feedback['alias'] 		= $val->errors()->first('alias') ?? false;
 
-		$this->data['divisi'] = $this->m_divisi->getDataBySlug($slug);
-
-		$this->data['title'] = 'Pengurus ' .$this->data['divisi']['alias'];
-		
-		return view('v_admin/pengurus/data', $this->data);
-	}
-
-	public function progja(){
-		$slug = $this->request->getVar('divisi');
-		
-		$this->data['divisi'] = $this->m_divisi->getDataBySlug($slug);
-		
-		$this->data['title'] = 'Program Kerja ' .$this->data['divisi']['alias'];
-		
-		return view('v_admin/progja/data', $this->data);
+		return $feedback;
 	}
 }

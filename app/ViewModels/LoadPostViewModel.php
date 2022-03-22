@@ -16,7 +16,7 @@ class LoadPostViewModel extends ViewModel
     public function post_config($posts){
         $this->article_max = config('web.ARTICLE_MAX'); //panjang maksimal artikel
         return collect($posts)->map(function($post){
-            $img_loc = General::getFolderPath($post['created_at'], $post['slug']);
+            $img_loc = General::getNewsPhoto($post['created_at'], $post['slug']);
             $article = (strlen($post['article']) <= $this->article_max) ? $post['article'] : substr($post['article'], 0, $this->article_max) . '...';
 
             return collect($post)->merge([

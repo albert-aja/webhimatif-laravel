@@ -16,7 +16,7 @@
           <div class="card-box">
             <div class="container-inner">
               <div class="circle"></div>
-              <img class="img" src="{{ asset($commitee['photo']) }}" style="width: {{ $commitee['photo_width'] }}rem" alt="{{ $division['alias'] }}"/>
+              <img class="img" src="{{ asset($commitee['photo']) }}" style="width: {{ $commitee['photo_width'] }}" alt="{{ $division['alias'] }}"/>
             </div>
           </div>
           <div class="divider"></div>

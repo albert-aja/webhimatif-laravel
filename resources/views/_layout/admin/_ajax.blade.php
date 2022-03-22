@@ -35,6 +35,10 @@
 	function call_modal(modal,data){
 		$('#modal-div').html(data);
 		$(modal).modal('show');
+
+        $(modal).on('shown.bs.modal', function () {
+			$(modal).find('input[type!=hidden]:first').focus();
+		});
 	}
 
 	//reload tabel setelah aksi (UX)

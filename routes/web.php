@@ -87,26 +87,25 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
         Route::post('Division/store', 'store');
         Route::get('Division/edit/{id}', 'edit');
         Route::post('Division/update', 'update');
+        Route::delete('Division/destroy', 'destroy');
     });
     Route::controller(CommiteeController::class)->group(function() {
         Route::get('Commitee/{division:slug}', 'index')->name('commitee-data');
-        Route::get('Commitee/create', 'create');
-        Route::post('Commitee/store', 'store');
-        Route::get('Commitee/edit/{id}', 'edit');
-        Route::post('Commitee/update', 'update');
+        Route::get('Commitee/create/{division:slug}', 'create')->name('commitee-create');
+        Route::post('Commitee/store/{division:slug}', 'store')->name('commitee-store');
+        Route::get('Commitee/{division:slug}/edit/{commitee:id}', 'edit')->name('commitee-edit');
+        Route::post('Commitee/{division:slug}/update/{commitee:id}', 'update')->name('commitee-update');
+        Route::delete('Commitee/destroy', 'destroy');
     });
-    // Route::controller(DashboardController::class)->group(function() {
-    //     Route::get('Dashboard', 'index')->name('admin-dashboard');
-    //     Route::get('dashboard_ajax/newsDateRange', 'newsDateRange');
-    // });
-    Route::resource('Position', PositionController::class, [
-                        'names' => [
-                            'index'     => 'position-data',
-                            'create'    => 'position-create',
-                            'edit'      => 'position-edit',
-                            'destroy'   => 'position-delete',
-                        ]
-                    ]);
+    Route::controller(PositionController::class)->group(function() {
+        Route::get('Position', 'index')->name('position-data');
+        Route::get('Position/create', 'create');
+        Route::post('Position/store', 'store');
+        Route::get('Position/edit/{id}', 'edit');
+        Route::post('Position/update', 'update');
+        Route::post('Position/destroy', 'destroy');
+        Route::get('Position/fetch_new', 'getNewPosition');
+    });
     Route::resource('Post', PostController::class, [
                         'names' => [
                             'index'     =>  'post-data',

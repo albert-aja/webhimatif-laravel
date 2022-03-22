@@ -103,10 +103,10 @@
 			call_modal('#modal_add_division',data);
 		})
 	})
-	
+
 	$(document).on('submit', '#form_add_division', function(e) {
 		let data = $(this).serialize();
-		
+
 		$.ajax({
 			method: "POST",
 			url: '/Admin/Division/store',
@@ -192,7 +192,6 @@
 			text: 'Program Kerja beserta Pengurus divisi ini akan ikut dihapus!',
 			icon: 'warning',
 			showCancelButton: true,
-			reverseButtons: true
 		}).then((action) => {
 			if (action.isConfirmed) {
 				$.ajax({

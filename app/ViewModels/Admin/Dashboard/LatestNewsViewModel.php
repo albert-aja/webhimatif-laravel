@@ -16,7 +16,7 @@ class LatestNewsViewModel extends ViewModel
     public function latestNews(){
         $this->article_max = 100; //panjang maksimal artikel
         return collect($this->data)->map(function($dt){
-            $img_loc = General::getFolderPath($dt['created_at'], $dt['slug']);
+            $img_loc = General::getNewsPhoto($dt['created_at'], $dt['slug']);
             $article = (strlen($dt['article']) <= $this->article_max) ? $dt['article'] : substr($dt['article'], 0, $this->article_max) . '...';
 
             return collect($dt)->merge([

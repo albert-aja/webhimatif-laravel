@@ -8,7 +8,8 @@ class General
      * Convert the given datetime to Indonesia date format.
      * 
      * @param string $date
-     * @param bool $useTime
+     * @param bool $useTime whether you want to return the time too 
+     * (only works if the provided date actually have a time).
      * 
      * @return string
      */
@@ -42,40 +43,93 @@ class General
 
         return substr($date, 3);
     }
-    
+
     /**
-     * Convert the given datetime to Indonesia month year format.
+     * Gets the NEWS folder path of an image.
      * 
      * @param string $date
      * @param string $slug
      * 
-     * @return string
+     * @return string image folder path
      */
-    public static function getFolderPath($date, $slug){
+    public static function getNewsPhoto($date, $slug){
         $first  = str_replace(' ', '-', strtolower(self::indonesia_date($date)));
         $second = $slug;
 
         return $first .'_'. $second;
     }
 
-    //function untuk mendapatkan waktu membaca
-    public static function readingTime($article){
-        $word = str_word_count(strip_tags($article));
-        $m    = floor($word / 200);
-        $s    = floor($word % 200 / (200 / 60));
+    /**
+     * Gets the COMMITEE folder path of an image.
+     * 
+     * @param string $slug
+     * @param string $photo
+     * 
+     * @return string image folder path
+     */
+    public static function getCommiteePhoto($slug, $photo, $size = ''){
+        return 'img/divisi/' .$slug. '/' .$photo. '/' .$size.$photo;
+    }
 
-        if($s >= 20){
-            $m += 1;
+    /**
+     * Outsmart the difference in photo size by providing a width,
+     * that matches the dimensions (w x h) of the photo.
+     * Purpose: to ensure that all photos of the commitees are neatly arranged.
+     * 
+     *  ===========================
+     *  |   formula : W/H * 34   |
+     *  =========================
+     * 
+     * W   : photo's width
+     * H   : photo's height
+     * 34  : constant value set (change this value if you feel it doesn't fit)
+     * 
+     * @return string adjusted width.
+     */
+    public static function adjust_commitee_image($photo){
+        $size = getimagesize("./" .$photo);
+
+        return $size[0] / $size[1] * 34 .'rem';
+    }
+
+    /**
+     * Calculate the estimated reading time (in minute) of the given text.
+     * 
+     * @param int $article The text to calculate the reading time for.
+     * @param int $wpm The rate of words per minute to use.
+     * 
+     * @return string estimated reading time
+     */
+    public static function readingTime($article, $wpm = 200){
+        $total_words = str_word_count(strip_tags($article));
+
+        $minute = floor($total_words / $wpm);
+        $second = floor($total_words % $wpm / ($wpm / 60));
+
+        if($second >= 20){
+            $minute += 1;
         }
 
-        return '&plusmn; '  .$m . ' menit';
+        return '&plusmn; '  .$minute . ' menit';
     }
 
-    public static function convert_money($harga){
-        return 'Rp. ' .substr(strrev(chunk_split(strrev($harga),3, '.')), 1);
+    /**
+     * Convert the given params to Indonesian currency format.
+     * e.g Rp. 100.000
+     * 
+     * @param int $money the value to be converted.
+     * 
+     * @return string converted currency format.
+     */
+    public static function convert_money(int $money){
+        return 'Rp. ' .substr(strrev(chunk_split(strrev($money),3, '.')), 1);
     }
 
-    // fungsi untuk random warna bootstrap
+    /**
+     * Randomize bootstrap color class.
+     * 
+     * @return string bootstrap class.
+     */
     public static function random_color(){
         $color = array("primary", "success", "danger", "warning", "info");
 
@@ -83,5 +137,25 @@ class General
 
         return $color[$number];       
     }
+
+    /**
+     * Function to remove file or directory.
+     * 
+     * @param string $target file/directory link.
+     * 
+     */
+	public static function clearStorage($target){
+		if(is_dir($target)){
+			$files = glob($target. '/*', GLOB_MARK);
+
+			foreach($files as $file){
+				self::clearStorage($file);      
+			}
+
+			rmdir($target);
+		} elseif(is_file($target)) {
+			unlink($target);  
+		}
+	}
 }
 ?>

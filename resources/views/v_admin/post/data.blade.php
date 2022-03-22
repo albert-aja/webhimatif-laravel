@@ -28,7 +28,7 @@
                                     <th>@lang('admin/crud.table.index')</th>
                                     <th>@lang('admin/crud.variable.title')</th>
                                     <th>@lang('admin/crud.variable.article')</th>
-                                    <th>@lang('admin/crud.variable.image')</th>
+                                    <th>@lang('admin/crud.variable.photo')</th>
                                     <th>@lang('admin/crud.variable.date')</th>
                                     <th>@lang('admin/crud.variable.division')</th>
                                     <th>@lang('admin/crud.variable.view')</th>

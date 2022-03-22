@@ -19,7 +19,7 @@ class SearchPostViewModel extends ViewModel
     public function results(){
         return collect($this->results)->map(function($result){
             $title = $result['title'];
-            $img_loc = General::getFolderPath($result['created_at'], $result['slug']);
+            $img_loc = General::getNewsPhoto($result['created_at'], $result['slug']);
 
             //potong judul apabila kepanjangan
             $show_title = (strlen($title) <= $this->max) ? $title : substr($title, 0, $this->max) . '...';

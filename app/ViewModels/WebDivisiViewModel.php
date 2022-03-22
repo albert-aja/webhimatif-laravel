@@ -2,6 +2,7 @@
 
 namespace App\ViewModels;
 
+use App\Helpers\General;
 use Spatie\ViewModels\ViewModel;
 
 class WebDivisiViewModel extends ViewModel
@@ -38,24 +39,9 @@ class WebDivisiViewModel extends ViewModel
         }
 
         return collect($this->commitees)->map(function($commitee){
-            $photo = "img/divisi/" .$this->division['slug']. "/". $commitee['photo']. "/" .$commitee['photo'];
+            $photo = General::getCommiteePhoto($this->division['slug'], $commitee['photo']);
 
-            //mengambil ukuran dari tiap" gambar pengurus
-            $size = getimagesize("./" .$photo);
-
-            /**
-             * Mengakali perbedaan ukuran foto dengan memberikan width yang sesuai dengan ukuran dimensi (w x h)
-             * Tujuan : untuk memastikan seluruh foto pengurus tertata dengan rapi
-             * 
-             * =================================
-             * |   rumus : width/height * 34   |
-             * ================================
-             * 
-             * width    : luas foto
-             * height   : tinggi foto
-             * 34       : nilai konstanta yang ditetapkan
-             */
-            $width = $size[0] / $size[1] * 34;
+            $width = General::adjust_commitee_image($photo);
 
             $div = ($this->division['alias'] != 'BPH') ? ' ' . $this->division['alias'] : '';
 

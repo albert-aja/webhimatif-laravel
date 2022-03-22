@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">@lang('admin/crud.form.add', $page)</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form id="form_add_division" method="POST">
@@ -13,7 +13,7 @@
                             <label class="mb-2">
                                 @lang('admin/crud.variable.division')<sup class="text-danger">@lang('admin/crud.form.required')</sup>
                             </label>
-                            <input type="text" name="division" class="form-control" placeholder="@lang('admin/crud.variable.division')" id="division" autofocus>
+                            <input type="text" name="division" class="form-control" placeholder="@lang('admin/crud.variable.division')" id="division">
                             <div class="invalid-feedback" id="division-feedback"></div>
                         </div>
                         <div class="form-group">
