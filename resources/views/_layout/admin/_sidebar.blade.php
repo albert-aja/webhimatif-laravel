@@ -28,10 +28,10 @@
                 </li>
 
             <li class="menu-header">Divisi</li>
-                <li class="nav-item dropdown {{ (request()->routeIs('division-*') || request()->routeIs('commitee-*') || request()->routeIs('position-*')) ? 'active' : '' }}">
+                <li class="nav-item dropdown {{ (request()->routeIs('division-*') || request()->routeIs('commitee-*') || request()->routeIs('position-*') || request()->routeIs('program-*')) ? 'active' : '' }}">
                     <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i> <span>Divisi</span></a>
                     <ul class="dropdown-menu">
-                        <li {{ (request()->routeIs('division-*') || request()->routeIs('commitee-*')) ? 'class=active' : '' }}>
+                        <li {{ (request()->routeIs('division-*') || request()->routeIs('commitee-*') || request()->routeIs('program-*')) ? 'class=active' : '' }}>
                             <a class="nav-link " href="{{ route('division-data') }}">Divisi</a>
                         </li>
                         <li {{ (request()->routeIs('position-*')) ? 'class=active' : '' }}>

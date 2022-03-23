@@ -130,7 +130,7 @@
                     timer: 2000,
                     timerProgressBar: true,
 				}).then((result) => {
-                    if (result.dismiss === Swal.DismissReason.timer) {
+                    if (result.dismiss === Swal.DismissReason.timer || result.isConfirmed) {
                         window.location.href = feedback.redirect;
                     }
                 })

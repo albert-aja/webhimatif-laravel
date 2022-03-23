@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Division;
-use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Admin\AdminController;
+use App\Helpers\General;
 
 class DivisionController extends AdminController
 {
@@ -17,7 +19,7 @@ class DivisionController extends AdminController
 
 	public function index(){
 		$this->data['title'] = __('admin/crud.data', $this->data['page']);
-		
+
 		if(request()->ajax()){
             return Datatables::of(Division::query())
 					->addColumn('program', function($item){
@@ -98,7 +100,9 @@ class DivisionController extends AdminController
     }
 
     public function destroy(Request $request){
-        Division::findOrFail($request->id)->delete();
+		$data = Division::findOrFail($request->id);
+		General::clearStorage($this->dir_divisi.$data->slug);
+        $data->delete();
     }
 
     private function validator(array $data, string $id = ''){

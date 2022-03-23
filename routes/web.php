@@ -114,6 +114,14 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
         Route::put('Program/{division:slug}/update', 'update');
         Route::delete('Program/{division:slug}/destroy', 'destroy');
     });
+    Route::controller(PositionController::class)->group(function() {
+        Route::get('Position', 'index')->name('position-data');
+        Route::get('Position/create', 'create');
+        Route::post('Position/store', 'store');
+        Route::post('Position/edit', 'edit');
+        Route::put('Position/update', 'update');
+        Route::delete('Position/destroy', 'destroy');
+    });
     Route::resource('Post', PostController::class, [
                         'names' => [
                             'index'     =>  'post-data',
@@ -164,7 +172,6 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
                             'destroy'   => 'progja-delete',
                         ]
                     ])->except(['index']);
-    Route::get('/WorkProgram/{division:slug}', [WorkProgramController::class, 'index'])->name('workprogram-data');
     Route::prefix('Config')->group(function () {
         Route::resource('History', HistoryController::class, [
                             'names' => [

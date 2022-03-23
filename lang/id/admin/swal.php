@@ -9,9 +9,14 @@ return [
         'title' => 'Error!',
         'msg'   => 'Terjadi Kesalahan',
     ],
+    'delWarning' => [
+        'title' => 'Yakin ingin menghapus :page',
+        'text'  => ':page akan hilang!',
+    ],
     'success' => 'Berhasil!',
-    'successDel' => ':page berhasil dihapus!',
-    'successAdd' => ':page :value telah ditambahkan!'
+    'successAdd'    => ':page :value telah ditambahkan!',
+    'successDel'    => ':page berhasil dihapus!',
+    'successEdit'   => ':page berhasil diperbarui!'
 ]
 
 ?>

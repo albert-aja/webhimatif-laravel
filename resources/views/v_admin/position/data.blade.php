@@ -22,20 +22,17 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover" id="tableDivision">
-							<thead>
-								<tr class="text-center">
-									<th>@lang('admin/crud.table.index')</th>
-									<th>@lang('admin/crud.variable.division')</th>
-									<th>@lang('admin/crud.variable.alias')</th>
-									<th>@lang('admin/crud.variable.program')</th>
-									<th>@lang('admin/crud.variable.commitee')</th>
-									<th>@lang('admin/crud.table.action')</th>
-								</tr>
-							</thead>
-							<tbody class="align-middle">
-								
-							</tbody>
+                        <table class="table table-striped table-hover" id="tablePosition">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>@lang('admin/crud.table.index')</th>
+                                    <th>@lang('admin/crud.variable.position')</th>
+                                    <th>@lang('admin/crud.table.action')</th>
+                                </tr>
+                            </thead>
+                            <tbody class="align-middle">
+                                
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -50,7 +47,7 @@
 
 @push('addon-script')
 <script>
-    let division_table = $('#tableDivision').DataTable({
+    let position_table = $('#tablePosition').DataTable({
 		processing: true,
 		serverSide: true,
 		ordering: true,
@@ -71,18 +68,7 @@
 				sClass: 'text-center',
 				orderable: false, searchable: false
 			},
-			{data: 'division', name: 'division'},
-			{data: 'alias', name: 'alias'},
-			{
-                data: 'program', name: 'program',
-                sClass: 'text-center',
-				orderable: false, searchable: false,
-            },
-			{
-                data: 'commitee', name: 'commitee', 
-                sClass: 'text-center',
-				orderable: false, searchable: false,
-            },
+			{data: 'position', name: 'position'},
 			{
 				data: 'action', name: 'action',
 				sClass: 'text-center',
@@ -91,25 +77,25 @@
 		]
 	});
 
-	$(document).on("click", "#modal_add", function() {
+    $(document).on("click", "#modal_add", function() {
 		$.ajax({
 			method: "GET",
-			url: '/Admin/Division/create', 
+			url: '/Admin/Position/create', 
             beforeSend: function(){
 				show_loader();
 			},
 		}).done(function(data) {
 			hide_loader();
-			call_modal('#modal_add_division',data);
+			call_modal('#modal_add_position',data);
 		})
 	})
-
-	$(document).on('submit', '#form_add_division', function(e) {
+	
+	$(document).on('submit', '#form_add_position', function(e) {
 		let data = $(this).serialize();
 
 		$.ajax({
 			method: "POST",
-			url: '/Admin/Division/store',
+			url: '/Admin/Position/store',
 			data: data,
             beforeSend: function(){
                 show_loader();
@@ -119,45 +105,44 @@
             hide_loader();
 			
 			if (feedback.status.toLowerCase() == "{{ __('admin/crud.val_failed') }}") {
-				validation(feedback.division, '#division', '#division-feedback');
-				validation(feedback.alias, '#alias', '#alias-feedback');
+				validation(feedback.position, '#position', '#position-feedback');
 			} else {
 				param = parse_query_string(data);
 
-				$('#modal_add_division').modal('hide');
+				$('#modal_add_position').modal('hide');
 				Swal.fire(
 					'{{ __("admin/swal.success") }}',
-					'Divisi ' + capitalize(param.division) + ' telah ditambahkan',
+					'Jabatan ' + capitalize(param.position) + ' telah ditambahkan',
 					'success',
 				);
-				reload_table(division_table);
+				reload_table(position_table);
 			}
 		})
 		e.preventDefault();
 	})
 
-	$(document).on("click", ".editDivision", function() {
+	$(document).on("click", ".editPosition", function() {
 		let id = $(this).attr("data-id");
 
 		$.ajax({
 			method: "POST",
-			url: '/Admin/Division/edit',
+			url: '/Admin/Position/edit',
 			data: {id},
             beforeSend: function(){
 				show_loader();
 			},
 		}).done(function(data) {
 			hide_loader();
-			call_modal('#modal_edit_division', data);
+			call_modal('#modal_edit_position', data);
 		})
 	})
 	
-	$(document).on('submit', '#form_edit_division', function(e) {
+	$(document).on('submit', '#form_edit_position', function(e) {
 		let data = $(this).serialize();
 
 		$.ajax({
 			method: "POST",
-			url: '/Admin/Division/update',
+			url: '/Admin/Position/update',
 			data: data,
             beforeSend: function(){
                 show_loader();
@@ -167,36 +152,36 @@
             hide_loader();
 			
 			if (feedback.status.toLowerCase() == "{{ __('admin/crud.val_failed') }}") {
-				validation(feedback.division, '#division', '#division-feedback');
-				validation(feedback.alias, '#alias', '#alias-feedback');
+				validation(feedback.position, '#position', '#position-feedback');
 			} else {
 				param = parse_query_string(data);
 
-				$('#modal_edit_division').modal('hide');
+				$('#modal_edit_position').modal('hide');
 				Swal.fire(
 					'{{ __("admin/swal.success") }}',
 					'{{ __("admin/swal.successEdit", ["page" => $title]) }}',
 					'success',
 				);
-				reload_table(division_table);
+				reload_table(position_table);
 			}
 		})
 		e.preventDefault();
 	})
 
-    $(document).on("click", ".deleteDivision", function() {
+    
+    $(document).on("click", ".deletePosition", function() {
 		let title = $(this).attr("data-title");
 		let id = $(this).attr("data-id");
 
 		Swal.fire({
 			title: '{{ __("admin/swal.delWarning.title", $page) }} ' + title + '?',
-			html: 'Data <strong>program kerja</strong> dan <strong>pengurus</strong> divisi akan hilang!',
+			text: '{{ __("admin/swal.delWarning.text", ["page" => $title]) }}',
 			icon: 'warning',
 			showCancelButton: true,
 		}).then((action) => {
 			if (action.isConfirmed) {
 				$.ajax({
-					url: '/Admin/Division/destroy',
+					url: '/Admin/Position/destroy',
 					method: 'DELETE',
 					data: {id},
 					error: function() {
@@ -207,7 +192,7 @@
 							title: "{{ __('admin/swal.successDel', $page) }}",
 							icon: 'success',
 						})
-						reload_table(division_table);
+						reload_table(position_table);
 					}
 				});
 			}

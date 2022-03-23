@@ -6,12 +6,9 @@ use App\Models\Post;
 use App\Models\Commitee;
 use App\Models\Main_Model;
 use App\Models\Work_Program;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Division extends Main_Model
 {
-    use SoftDeletes;
-
     protected $fillable = [
         'division', 'slug', 'alias'
     ];

@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal_edit_division">
+<div class="modal fade" id="modal_edit_position">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,24 +6,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form id="form_edit_division" method="POST">
+                <form id="form_edit_position" method="POST">
                     @method('put')
                     @csrf
-                    <input type="hidden" name="id" value="{{ $division->id }}">
+                    <input type="hidden" name="id" value="{{ $position->id }}">
                     <div class="box-body">
                         <div class="form-group">
                             <label class="mb-2">
-                                @lang('admin/crud.variable.division')<sup class="text-danger">@lang('admin/crud.form.required')</sup>
+                                @lang('admin/crud.variable.position')<sup class="text-danger">@lang('admin/crud.form.required')</sup>
                             </label>
-                            <input type="text" name="division" class="form-control" placeholder="@lang('admin/crud.variable.division')" id="division" value="{{ $division->division }}" autofocus>
-                            <div class="invalid-feedback" id="division-feedback"></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="mb-2">
-                                @lang('admin/crud.variable.alias')<sup class="text-danger">@lang('admin/crud.form.required')</sup>
-                            </label>
-                            <input type="text" name="alias" class="form-control" placeholder="@lang('admin/crud.variable.alias')" id="alias" value="{{ $division->alias }}">
-                            <div class="invalid-feedback" id="alias-feedback"></div>
+                            <input type="text" name="position" class="form-control" placeholder="@lang('admin/crud.variable.position')" id="position" value="{{ $position->position }}" autofocus>
+                            <div class="invalid-feedback" id="position-feedback"></div>
                         </div>
                     </div>
                     <div class="modal-footer">
