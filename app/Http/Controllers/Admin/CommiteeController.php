@@ -26,22 +26,12 @@ class CommiteeController extends AdminController
 		$image_array_1 = explode(";", $img);
 		$image_array_2 = explode(",", $image_array_1[1]);
 
-		//decode blob image
 		$data = base64_decode($image_array_2[1]);
 		$img_binary = imagecreatefromstring($data);
-
 		$background = imagecolorallocate($img_binary , 0, 0, 0);
 
-        // removing the black from the placeholder
         imagecolortransparent($img_binary, $background);
-
-        // turning off alpha blending (to ensure alpha channel information
-        // is preserved, rather than removed (blending with the rest of the
-        // image in the form of black))
         imagealphablending($img_binary, false);
-
-        // turning on alpha channel information saving (to ensure the full range
-        // of transparency is preserved)
         imagesavealpha($img_binary, true);
 
 		$filename = Uuid::uuid4().'.'.$extension;

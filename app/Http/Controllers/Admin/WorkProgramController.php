@@ -1,240 +1,123 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Models\Division;
 use App\Models\Work_Program;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 
-class WorkProgramController extends Controller
+class WorkProgramController extends AdminController
 {
-	public function getProgja(){
-		$url_components = parse_url(previous_url());
+	public function __construct(){
+		parent::__construct();
+		$this->data['page'] = ['page' => 'Progja'];
+	}
 
-		parse_str($url_components['query'], $params);
-
-		$id = $this->m_divisi->getIdBySlug($params['divisi']);
+	private function prepare_data($slug){
+		$this->division = Division::where('slug', '=', $slug)->first();
 		
-		$draw 	= $_REQUEST['draw'];
-		$length = $_REQUEST['length'];
-		$start 	= $_REQUEST['start'];
-		$search = $_REQUEST['search']['value'];
-		
-		$total = $this->m_progja->getByDivisi($id)->getTotal();
-		$output = [
-			'length'		 => $length,
-			'draw'			 => $draw,
-			'recordsTotal'	 => $total,
-			'recordsFiltered'=> $total
-		];
+		$this->data['page']['page'] .= ' ' .$this->division->alias;
+		$this->data['slug'] = $slug;
+	}
 
-		if($search !== ""){
-			$list = $this->m_progja->getByDivisi($id)->getDataSearch($search, $length, $start);
+	public function index($slug){
+		self::prepare_data($slug);
 
-			$total_search = $this->m_progja->getByDivisi($id)->getSearchTotal($search);
-			$output = [
-				'recordsTotal'		=> $total_search,
-				'recordsFiltered'	=> $total_search
-			];
+		$this->data['title'] = __('admin/crud.data', $this->data['page']);
+		$query = Work_Program::with(['division'])->whereDivisionId($this->division->id);
+
+		if(request()->ajax()){
+            return Datatables::of($query)
+					->addColumn('action', function($item){
+						return '<div class="dropdown d-inline">
+									<button class="btn btn-warning dropdown-toggle me-1 mb-1" type="button" data-bs-toggle="dropdown">' .__('admin/crud.btn.action'). '</button>
+									<div class="dropdown-menu">
+										<a href="#" class="dropdown-item has-icon editProgram" data-id="' .$item->id. '">
+											<i class="fas fa-pen"></i> ' .__('admin/crud.btn.edit'). '
+										</a>
+										<a href="#" class="dropdown-item has-icon deleteProgram" data-id="' .$item->id. '" data-program="' .$item->program. '">
+											<i class="fas fa-times"></i> ' .__('admin/crud.btn.delete'). '
+										</a>
+									</div>
+								</div>';
+					})
+					->rawColumns(['action'])
+					->addIndexColumn()
+					->make();
+        }
+
+		return view('v_admin.program.data', $this->data);
+	}
+
+    public function create($slug){
+		self::prepare_data($slug);
+		return view('v_admin.program.modal_add', $this->data);
+    }
+
+    public function store(Request $request, $slug){
+        $val = self::validator($request->all());
+
+		if(!empty($val->errors()->messages())){
+			$feedback = self::error_feedback($val);
 		} else {
-			$list = $this->m_progja->getByDivisi($id)->getData($length, $start);
-		}
-		
-		$data = [];
-		$no = $start + 1;
+			$request['division_id'] = Division::where('slug', '=', $slug)->first()['id'];
 
-		foreach($list as $tmp){
-			$row   = [];
-			$row[] = $no;
-			$row[] = $tmp['progja'];
-            $row[] = $tmp['deskripsi'];
-			$row[] = $tmp['alias'];
-			$row[] = '<a href="/admin/progja/view_edit_progja?divisi=' .$params['divisi']. '&id=' .$tmp['id']. '" class="btn btn-icon icon-left btn-primary m-1 clicked-button" type="button" style="min-width: 5rem"><i class="fas fa-pen"></i>Edit</a><button class="btn btn-icon icon-left btn-danger hapusProgja m-1" data-id='.$tmp['id'].' data-progja='.$tmp['progja'].' type="button" style="min-width: 5rem"><i class="fas fa-times"></i>Hapus</button>';
-			
-			$data[] = $row;
-			$no++;
+			Work_Program::create($request->input());
+
+			$feedback['status'] 	= __('admin/crud.val_success');
+			$feedback['redirect']	= route('program-data', $slug);
 		}
 
-		$output['data'] = $data;
+		echo json_encode($feedback);
+    }
 
-		echo json_encode($output);
-		exit();
-	}
+    public function edit(Request $request, $slug){
+		self::prepare_data($slug);
 
-	public function view_add_progja(){
-		$this->data['title'] = 'Tambah Program Kerja';
-		
-		$slug = $this->request->getVar('divisi');
-		
-		$this->data['divisi'] = $this->m_divisi->getDataBySlug($slug);
-		
-		return view('v_admin/progja/add', $this->data);
-	}
-	
-	public function add_progja(){
-		$slug_divisi = $this->request->getVar('divisi');
-		
-		//validation 
-		if(!$this->validate([
-			'progja' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => 'Program kerja masih kosong',				
-				]
-			],
-			'deskripsi' => [
-				'rules'  => 'required|max_length[500]',
-				'errors' => [
-					'required'   => 'Deskripsi progja belum diisi.',
-					'max_length' => 'Deskripsi progja hanya 500 karakter.'
-				]
-			],
-		])) {
-			return redirect()->to('/Admin/progja/view_add_progja?divisi=' .$slug_divisi)->withInput();
+		$this->data['program'] = Work_Program::findOrFail($request->id);
+
+		return view('v_admin.program.modal_edit', $this->data);
+    }
+
+    public function update(Request $request, $slug){
+        $val = self::validator($request->all(), $request->id);
+
+		if(!empty($val->errors()->messages())){
+			$feedback = self::error_feedback($val);
+		} else {
+			$item = Work_Program::findOrFail($request->id);
+
+			$item->fill($request->input())->save();
+
+			$feedback['status'] 	= __('admin/crud.val_success');
+			$feedback['redirect']	= route('program-data', $slug);
 		}
 
-		$progja  	= $this->request->getVar('progja');
-		$deskripsi  = $this->request->getVar('deskripsi');
-		
-		$divisi = $this->m_divisi->getIdBySlug($slug_divisi);
+		echo json_encode($feedback);
+    }
 
-		//process input data
-		$this->m_progja->save([
-			'progja' 	=> $progja,
-			'deskripsi' => $deskripsi,
-			'divisi' 	=> $divisi['id'],
+    public function destroy(Request $request){
+		Work_Program::findOrFail($request->id)->delete();
+    }
+
+    private function validator(array $data, string $id = ''){
+        return Validator::make($data, [
+			'program'		=> 'required|unique:work__programs' .(($id) ? ',program,'.$id : ''),
+            'description'	=> 'required',
+		], [
+			'program.required' 		=> __('admin/validation.required.input', ['field' => __('admin/crud.variable.program')]),
+			'program.unique' 		=> __('admin/validation.unique.existed', ['field' => __('admin/crud.variable.program')]),
+			'description.required' 	=> __('admin/validation.required.input', ['field' => __('admin/crud.variable.description')]),
 		]);
-		
-		//pesan yang ditampilkan apabila input success
-		session()->setFlashdata('pesan', 'Progja <b>'.$progja.'</b> telah ditambahkan.');
-		
-		return redirect()->to('/Admin/divisi/progja?divisi='. $slug_divisi);
+    }
+
+	private function error_feedback($val){
+		$feedback['status'] 		= __('admin/crud.val_failed');
+		$feedback['program'] 		= $val->errors()->first('program') ?? false;
+		$feedback['description'] 	= $val->errors()->first('description') ?? false;
+
+		return $feedback;
 	}
-
-	public function view_edit_progja(){
-		$slug 	= $this->request->getVar('divisi');
-		$id 	= $this->request->getVar('id');
-		
-		$this->data['divisi'] = $this->m_divisi->getDataBySlug($slug);
-		$this->data['progja'] = $this->m_progja->find($id);
-
-		$this->data['title'] = 'Edit Progja';
-		
-		return view('v_admin/progja/edit', $this->data);
-	}
-	
-	public function edit_progja(){
-		$id = $this->request->getVar('id');
-		$slug_divisi = $this->request->getVar('divisi');
-		
-		//validation 
-		if(!$this->validate([
-			'progja' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => 'Program kerja masih kosong',				
-				]
-			],
-			'deskripsi' => [
-				'rules'  => 'required|max_length[500]',
-				'errors' => [
-					'required'   => 'Deskripsi progja belum diisi.',
-					'max_length' => 'Deskripsi progja hanya 500 karakter.'
-				]
-			],
-		])) {
-			return redirect()->to('/Admin/progja/view_add_progja?divisi=' .$slug_divisi)->withInput();
-		}
-
-		$progja 	= $this->request->getVar('progja');
-		$deskripsi  = $this->request->getVar('deskripsi');
-
-		$this->m_progja->update($id, [
-			'progja' 	=> $progja,
-			'deskripsi' => $deskripsi,
-		]);
-		
-		//pesan yang ditampilkan apabila input success
-		session()->setFlashdata('pesan', 'Progja <b>'.$progja.'</b> telah diedit.');
-		
-		return redirect()->to('/Admin/divisi/progja?divisi='. $slug_divisi);
-	}
-
-	public function delete_progja($id){
-		$this->m_progja->delete($id);
-	}
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Work_Program  $work_Program
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Work_Program $work_Program)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Work_Program  $work_Program
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Work_Program $work_Program)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Work_Program  $work_Program
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Work_Program $work_Program)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Work_Program  $work_Program
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Work_Program $work_Program)
-    {
-        //
-    }
 }

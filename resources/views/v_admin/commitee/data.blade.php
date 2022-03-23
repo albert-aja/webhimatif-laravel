@@ -104,9 +104,9 @@
 		}).then((action) => {
 			if (action.isConfirmed) {
 				$.ajax({
-					url: '/Admin/Commitee/destroy',
+					url: '/Admin/Commitee/{{ $slug }}/destroy',
 					method: 'DELETE',
-                    data: {id,slug},
+                    data: {id},
 					error: function() {
 						errorSwal()
 					},

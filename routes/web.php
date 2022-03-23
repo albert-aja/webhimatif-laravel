@@ -85,17 +85,17 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
         Route::get('Division', 'index')->name('division-data');
         Route::get('Division/create', 'create');
         Route::post('Division/store', 'store');
-        Route::get('Division/edit/{id}', 'edit');
-        Route::post('Division/update', 'update');
+        Route::post('Division/edit', 'edit');
+        Route::put('Division/update', 'update');
         Route::delete('Division/destroy', 'destroy');
     });
     Route::controller(CommiteeController::class)->group(function() {
         Route::get('Commitee/{division:slug}', 'index')->name('commitee-data');
-        Route::get('Commitee/create/{division:slug}', 'create')->name('commitee-create');
-        Route::post('Commitee/store/{division:slug}', 'store')->name('commitee-store');
+        Route::get('Commitee/{division:slug}/create', 'create')->name('commitee-create');
+        Route::post('Commitee/{division:slug}/store', 'store')->name('commitee-store');
         Route::get('Commitee/{division:slug}/edit/{commitee:id}', 'edit')->name('commitee-edit');
         Route::post('Commitee/{division:slug}/update/{commitee:id}', 'update')->name('commitee-update');
-        Route::delete('Commitee/destroy', 'destroy');
+        Route::delete('Commitee/{division:slug}/destroy', 'destroy');
     });
     Route::controller(PositionController::class)->group(function() {
         Route::get('Position', 'index')->name('position-data');
@@ -105,6 +105,14 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
         Route::post('Position/update', 'update');
         Route::post('Position/destroy', 'destroy');
         Route::get('Position/fetch_new', 'getNewPosition');
+    });
+    Route::controller(WorkProgramController::class)->group(function() {
+        Route::get('Program/{division:slug}', 'index')->name('program-data');
+        Route::get('Program/{division:slug}/create', 'create');
+        Route::post('Program/{division:slug}/store', 'store');
+        Route::post('Program/{division:slug}/edit', 'edit');
+        Route::put('Program/{division:slug}/update', 'update');
+        Route::delete('Program/{division:slug}/destroy', 'destroy');
     });
     Route::resource('Post', PostController::class, [
                         'names' => [

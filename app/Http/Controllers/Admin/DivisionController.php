@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Division;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
 class DivisionController extends AdminController
@@ -21,7 +21,7 @@ class DivisionController extends AdminController
 		if(request()->ajax()){
             return Datatables::of(Division::query())
 					->addColumn('program', function($item){
-						return '<a href="' .route('workprogram-data', $item->slug). '" class="btn btn-primary icon-left">
+						return '<a href="' .route('program-data', $item->slug). '" class="btn btn-primary icon-left">
 									<i class="fa fa-info"></i>
 								</a>';
 					})
@@ -73,9 +73,9 @@ class DivisionController extends AdminController
 		echo json_encode($feedback);
     }
 
-    public function edit($id){
-		$this->data['division'] = Division::findOrFail($id);
-        $this->data['title'] 	= __('admin/crud.edit', array_merge($this->data['page'], ['name' => $this->data['division']->division]));
+    public function edit(Request $request){
+		$this->data['division'] = Division::findOrFail($request->id);
+		$this->data['page']['page'] .= ' ' .$this->data['division']['alias'];
 
         return view('v_admin.division.modal_edit', $this->data);
     }

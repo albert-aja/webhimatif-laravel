@@ -4,10 +4,15 @@
 
 <section class="section">
     <div class="section-header">
+		<div class="section-header-back">
+            <a href="{{ route('division-data') }}" class="btn btn-icon">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+        </div>
         <h1>{{ $title }}</h1>
         {!! $breadcrumb !!}
     </div>
-
+    
     <div class="row">
         <div class="col-12">
             <div class="card shadow-sm">
@@ -22,14 +27,12 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover" id="tableDivisions">
+                        <table class="table table-striped table-hover" id="tablePrograms">
                         <thead>
                             <tr class="text-center">
                                 <th>@lang('admin/crud.table.index')</th>
-                                <th>@lang('admin/crud.variable.division')</th>
-                                <th>@lang('admin/crud.variable.alias')</th>
                                 <th>@lang('admin/crud.variable.program')</th>
-                                <th>@lang('admin/crud.variable.commitee')</th>
+                                <th>@lang('admin/crud.variable.description')</th>
                                 <th>@lang('admin/crud.table.action')</th>
                             </tr>
                         </thead>
@@ -50,7 +53,7 @@
 
 @push('addon-script')
 <script>
-    let division_table = $('#tableDivisions').DataTable({
+    let program_table = $('#tablePrograms').DataTable({
 		processing: true,
 		serverSide: true,
 		ordering: true,
@@ -71,18 +74,8 @@
 				sClass: 'text-center',
 				orderable: false, searchable: false
 			},
-			{data: 'division', name: 'division'},
-			{data: 'alias', name: 'alias'},
-			{
-                data: 'program', name: 'program',
-                sClass: 'text-center',
-				orderable: false, searchable: false,
-            },
-			{
-                data: 'commitee', name: 'commitee', 
-                sClass: 'text-center',
-				orderable: false, searchable: false,
-            },
+			{data: 'program', name: 'program'},
+			{data: 'description', name: 'description'},
 			{
 				data: 'action', name: 'action',
 				sClass: 'text-center',
@@ -94,22 +87,22 @@
 	$(document).on("click", "#modal_add", function() {
 		$.ajax({
 			method: "GET",
-			url: '/Admin/Division/create', 
+			url: '/Admin/Program/{{ $slug }}/create',
             beforeSend: function(){
 				show_loader();
 			},
 		}).done(function(data) {
 			hide_loader();
-			call_modal('#modal_add_division',data);
+			call_modal('#modal_add_program', data);
 		})
 	})
 
-	$(document).on('submit', '#form_add_division', function(e) {
+	$(document).on('submit', '#form_add_program', function(e) {
 		let data = $(this).serialize();
 
 		$.ajax({
 			method: "POST",
-			url: '/Admin/Division/store',
+			url: '/Admin/Program/{{ $slug }}/store',
 			data: data,
             beforeSend: function(){
                 show_loader();
@@ -119,45 +112,45 @@
             hide_loader();
 			
 			if (feedback.status.toLowerCase() == "{{ __('admin/crud.val_failed') }}") {
-				validation(feedback.division, '#division', '#division-feedback');
-				validation(feedback.alias, '#alias', '#alias-feedback');
+				validation(feedback.program, '#program', '#program-feedback');
+				validation(feedback.description, '#description', '#description-feedback');
 			} else {
 				param = parse_query_string(data);
 
-				$('#modal_add_division').modal('hide');
+				$('#modal_add_program').modal('hide');
 				Swal.fire(
 					'{{ __("admin/swal.success") }}',
-					'Divisi ' + capitalize(param.division) + ' telah ditambahkan',
+					'Progja ' + capitalize(param.program) + ' telah ditambahkan',
 					'success',
 				);
-				reload_table(division_table);
+				reload_table(program_table);
 			}
 		})
 		e.preventDefault();
 	})
 
-	$(document).on("click", ".editDivision", function() {
+	$(document).on("click", ".editProgram", function() {
 		let id = $(this).attr("data-id");
 
 		$.ajax({
 			method: "POST",
-			url: '/Admin/Division/edit',
-			data: {id},
+			url: '/Admin/Program/{{ $slug }}/edit/',
+            data: {id},
             beforeSend: function(){
 				show_loader();
 			},
 		}).done(function(data) {
 			hide_loader();
-			call_modal('#modal_edit_division', data);
+			call_modal('#modal_edit_program', data);
 		})
 	})
 	
-	$(document).on('submit', '#form_edit_division', function(e) {
+	$(document).on('submit', '#form_edit_program', function(e) {
 		let data = $(this).serialize();
 
 		$.ajax({
 			method: "POST",
-			url: '/Admin/Division/update',
+			url: '/Admin/Program/{{ $slug }}/update',
 			data: data,
             beforeSend: function(){
                 show_loader();
@@ -167,47 +160,46 @@
             hide_loader();
 			
 			if (feedback.status.toLowerCase() == "{{ __('admin/crud.val_failed') }}") {
-				validation(feedback.division, '#division', '#division-feedback');
-				validation(feedback.alias, '#alias', '#alias-feedback');
+				validation(feedback.program, '#program', '#program-feedback');
+				validation(feedback.description, '#description', '#description-feedback');
 			} else {
 				param = parse_query_string(data);
 
-				$('#modal_edit_division').modal('hide');
+				$('#modal_edit_program').modal('hide');
 				Swal.fire(
 					'{{ __("admin/swal.success") }}',
-					'Data divisi telah diperbarui',
+					'Progja telah diperbarui',
 					'success',
 				);
-				reload_table(division_table);
+				reload_table(program_table);
 			}
 		})
 		e.preventDefault();
 	})
 
-    $(document).on("click", ".deleteDivision", function() {
-		let title = $(this).attr("data-title");
+    $(document).on("click", ".deleteProgram", function() {
 		let id = $(this).attr("data-id");
+		let program = $(this).attr("data-program");
 
 		Swal.fire({
-			title: 'Yakin ingin menghapus divisi ' + title + '?',
-			html: 'Data <strong>program kerja</strong> dan <strong>pengurus</strong> divisi akan hilang!',
-			icon: 'warning',
+			title: 'Yakin ingin data pengurus ini?',
+			html: 'Progja <strong>' + program + '</strong> akan hilang!',
 			showCancelButton: true,
 		}).then((action) => {
 			if (action.isConfirmed) {
 				$.ajax({
-					url: '/Admin/Division/destroy',
+					url: '/Admin/Program/{{ $slug }}/destroy',
 					method: 'DELETE',
-					data: {id},
+                    data: {id},
 					error: function() {
 						errorSwal()
 					},
 					success: function(data) {
 						Swal.fire({
-							title: "{{ __('admin/swal.successDel', $page) }}",
+							html: 'Progja <strong>' + program + '</strong> berhasil dihapus!',
 							icon: 'success',
 						})
-						reload_table(division_table);
+						reload_table(program_table);
 					}
 				});
 			}
