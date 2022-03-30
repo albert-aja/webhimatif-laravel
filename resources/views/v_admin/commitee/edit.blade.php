@@ -31,7 +31,7 @@
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">@lang('admin/crud.variable.name')<sup class="text-danger">@lang('admin/crud.form.required')</sup></label>
                             <div class="col-sm-12 col-md-7">
-                                <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" 
+                                <input type="text" name="name" id="name" class="form-control" 
                                 placeholder="@lang('admin/crud.variable.name')" value="{{ $commitee->name }}" autofocus>
                                 <div class="invalid-feedback" id="name-feedback"></div>
                             </div>
@@ -49,7 +49,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-4 col-sm-12">
-                                <input type="file" name="photo" id="hero_img" class="form-control @error('photo') is-invalid @enderror">
+                                <input type="file" name="photo" id="hero_img" class="form-control">
                                 <input type="hidden" name="cropped" class="crop_img">
                                 <input type="hidden" name="old_img" value="{{ $commitee->photo }}">
                                 <div class="invalid-feedback" id="photo-feedback"></div>
@@ -63,7 +63,7 @@
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">@lang('admin/crud.variable.position')<sup class="text-danger">@lang('admin/crud.form.required')</sup></label>
                             <div class="col-sm-12 col-md-7 row">
                                 <div class="col-sm-11 col-md-11">
-                                    <select class="form-control select2 @error('position_id') is-invalid @enderror" name="position_id" id="position_id">
+                                    <select class="form-control select2" name="position_id" id="position_id">
                                         <option value="" disabled>--- @lang('admin/crud.variable.position') ---</option>
                                         @foreach($positions as $position)
                                         <option value="{{ $position->id }}" @if($position->id == $commitee->position_id) selected @endif>

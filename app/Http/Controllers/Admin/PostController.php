@@ -30,8 +30,8 @@ class PostController extends AdminController
 		}
 
 		//membuat folder apabila belum ada
-		if (!file_exists($this->dir_berita .$folder_name)) {
-			@mkdir($this->dir_berita .$folder_name, 0777, true);
+		if (!file_exists($this->post_dir .$folder_name)) {
+			@mkdir($this->post_dir .$folder_name, 0777, true);
 		}
 
 		//melakukan resize gambar sebanyak 3 ukuran
@@ -39,19 +39,19 @@ class PostController extends AdminController
 		\Config\Services::image()
 			->withFile($image)
 			->resize(1000, 800, true, 'height')
-			->save($this->dir_berita .$folder_name .'/1x_' .$name);
+			->save($this->post_dir .$folder_name .'/1x_' .$name);
 
 		//medium
 		\Config\Services::image()
 			->withFile($image)
 			->resize(600, 300, true, 'height')
-			->save($this->dir_berita .$folder_name .'/2x_' .$name);
+			->save($this->post_dir .$folder_name .'/2x_' .$name);
 		
 		//kecil
 		\Config\Services::image()
 			->withFile($image)
 			->resize(200, 100, true, 'height')
-			->save($this->dir_berita .$folder_name .'/3x_' .$name);
+			->save($this->post_dir .$folder_name .'/3x_' .$name);
 			
 		//mengakali bug adanya file html kosong saat gambar disimpan
 		$empty_file = $folder_name. '/index.html';
@@ -81,16 +81,16 @@ class PostController extends AdminController
 		$name   = $image->getRandomName();
 		$folder = url_title(indonesia_date($date), '-', true) .'_'. $slug .'/img';
 
-		if (!file_exists($this->dir_berita .$folder)) {
-			@mkdir($this->dir_berita .$folder, 0777, true);
+		if (!file_exists($this->post_dir .$folder)) {
+			@mkdir($this->post_dir .$folder, 0777, true);
 		}
 
-		$path = $this->dir_berita .$folder .'/2x_' .$name;
+		$path = $this->post_dir .$folder .'/2x_' .$name;
 		
 		\Config\Services::image()
 			->withFile($image)
 			->resize(1000, 800, true, 'height')
-			->save($this->dir_berita .$folder .'/1x_' .$name);
+			->save($this->post_dir .$folder .'/1x_' .$name);
 
 		\Config\Services::image()
 			->withFile($image)
@@ -447,7 +447,7 @@ class PostController extends AdminController
 
 			$new_loc = implode('_', $name_arr);
 
-			rename($this->dir_berita .$old_loc, $this->dir_berita .$new_loc);
+			rename($this->post_dir .$old_loc, $this->post_dir .$new_loc);
 
 			$old_loc = $new_loc;
 		}
@@ -486,7 +486,7 @@ class PostController extends AdminController
 		$img_loc = getNewsPhoto($data['created_at'], $data['slug']);
 		
 		//path ke folder gambar
-		$folder_path = $this->dir_berita .$img_loc;
+		$folder_path = $this->post_dir .$img_loc;
 
 		$this->truncateDir($folder_path);
 

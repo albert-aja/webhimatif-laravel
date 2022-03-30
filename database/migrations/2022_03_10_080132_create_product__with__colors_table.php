@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('product__with__colors', function (Blueprint $table) {
             $table->id();
             $table->foreignId('shop__items_id')->nullable()->comment('ID Item')
-                    ->constrained()->nullOnDelete()->onUpdate('cascade');
+                    ->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('product__colors_id')->nullable()->comment('ID Warna')
                     ->constrained()->nullOnDelete()->onUpdate('cascade');
             $table->timestamps();

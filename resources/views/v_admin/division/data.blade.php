@@ -15,8 +15,7 @@
                     <h4>@lang('admin/crud.table.header', $page)</h4>
                     <div class="card-header-action">
 						<button type="button" class="form-control btn btn-icon icon-left btn-primary" id="modal_add">
-							<i class="fas fa-plus"></i>
-                            @lang('admin/crud.add', $page)
+							<i class="fas fa-plus"></i> @lang('admin/crud.add', $page)
 						</button>
                     </div>
                 </div>
@@ -49,6 +48,7 @@
 @endsection
 
 @push('addon-script')
+
 <script>
     let division_table = $('#tableDivision').DataTable({
 		processing: true,
@@ -127,7 +127,7 @@
 				$('#modal_add_division').modal('hide');
 				Swal.fire(
 					'{{ __("admin/swal.success") }}',
-					'Divisi ' + capitalize(param.division) + ' telah ditambahkan',
+					'{{ __("admin/crud.variable.division") }} ' + capitalize(param.division) + ' {{ __("admin/swal.successItem") }}',
 					'success',
 				);
 				reload_table(division_table);
@@ -214,4 +214,5 @@
 		});
 	});
 </script>
+
 @endpush

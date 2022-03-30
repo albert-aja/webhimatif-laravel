@@ -27,7 +27,7 @@
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">@lang('admin/crud.variable.name')<sup class="text-danger">@lang('admin/crud.form.required')</sup></label>
                             <div class="col-sm-12 col-md-7">
-                                <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" 
+                                <input type="text" name="name" id="name" class="form-control" 
                                 placeholder="@lang('admin/crud.variable.name')" autofocus>
                                 <div class="invalid-feedback" id="name-feedback"></div>
                             </div>
@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-4 col-sm-12">
-                                <input type="file" name="photo" id="hero_img" class="form-control @error('photo') is-invalid @enderror">
+                                <input type="file" name="photo" id="hero_img" class="form-control">
                                 <input type="hidden" name="cropped" class="crop_img">
                                 <div class="invalid-feedback" id="photo-feedback"></div>
                                 <p class="rules"> 
@@ -56,20 +56,20 @@
                         </div>
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">@lang('admin/crud.variable.position')<sup class="text-danger">@lang('admin/crud.form.required')</sup></label>
-                            <div class="col-sm-12 col-md-7 row">
-                                <div class="col-sm-11 col-md-11">
-                                    <select class="form-control select2 @error('position_id') is-invalid @enderror" name="position_id" id="position_id">
+                            <div class="form-group col-sm-12 col-md-7">
+                                <div class="input-group">
+                                    <select class="form-control select2" name="position_id" id="position_id">
                                         <option value="" disabled selected>--- @lang('admin/crud.variable.position') ---</option>
                                         @foreach($positions as $position)
                                         <option value="{{ $position->id }}">{{ $position->position }}</option>
                                         @endforeach
                                     </select>
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-primary" id="modal_add">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
                                     <div class="invalid-feedback" id="position_id-feedback"></div>
-                                </div>
-                                <div class="col-sm-1 col-md px-0">
-                                    <button type="button" class="btn btn-primary icon-left" id="modal_add">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +117,7 @@
 			} else {
 				Swal.fire({
 					title: '{{ __("admin/swal.success") }}',
-					text: 'Data pengurus telah ditambahkan',
+					text: 'Data ' + data.get('name') + ' {{ __("admin/swal.successItem") }}',
 					icon: 'success',
                     timer: 2000,
                     timerProgressBar: true,

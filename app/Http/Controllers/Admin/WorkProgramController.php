@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Division;
 use App\Models\Work_Program;
-use Illuminate\Http\Request;
+
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class WorkProgramController extends AdminController
@@ -34,10 +35,10 @@ class WorkProgramController extends AdminController
 						return '<div class="dropdown d-inline">
 									<button class="btn btn-warning dropdown-toggle me-1 mb-1" type="button" data-bs-toggle="dropdown">' .__('admin/crud.btn.action'). '</button>
 									<div class="dropdown-menu">
-										<a href="#" class="dropdown-item has-icon editProgram" data-id="' .$item->id. '">
+										<a type="button" class="dropdown-item has-icon editProgram" data-id="' .$item->id. '">
 											<i class="fas fa-pen"></i> ' .__('admin/crud.btn.edit'). '
 										</a>
-										<a href="#" class="dropdown-item has-icon deleteProgram" data-id="' .$item->id. '" data-program="' .$item->program. '">
+										<a type="button" class="dropdown-item has-icon deleteProgram" data-id="' .$item->id. '" data-program="' .$item->program. '">
 											<i class="fas fa-times"></i> ' .__('admin/crud.btn.delete'). '
 										</a>
 									</div>
@@ -114,9 +115,11 @@ class WorkProgramController extends AdminController
     }
 
 	private function error_feedback($val){
-		$feedback['status'] 		= __('admin/crud.val_failed');
-		$feedback['program'] 		= $val->errors()->first('program') ?? false;
-		$feedback['description'] 	= $val->errors()->first('description') ?? false;
+		$feedback = [
+			'status' 		=> __('admin/crud.val_failed'),
+			'program' 		=> $val->errors()->first('program') ?? false,
+			'description' 	=> $val->errors()->first('description') ?? false,
+		];
 
 		return $feedback;
 	}

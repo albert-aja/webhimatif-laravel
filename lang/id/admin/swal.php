@@ -15,6 +15,7 @@ return [
     ],
     'success' => 'Berhasil!',
     'successAdd'    => ':page :value telah ditambahkan!',
+    'successItem'   => 'telah ditambahkan!',
     'successDel'    => ':page berhasil dihapus!',
     'successEdit'   => ':page berhasil diperbarui!'
 ]

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Division;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Admin\AdminController;
 use App\Helpers\General;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
 class DivisionController extends AdminController
 {
@@ -36,10 +36,10 @@ class DivisionController extends AdminController
 						return '<div class="dropdown d-inline">
 									<button class="btn btn-warning dropdown-toggle me-1 mb-1" type="button" data-bs-toggle="dropdown">' .__('admin/crud.btn.action'). '</button>
 									<div class="dropdown-menu">
-										<a href="#" class="dropdown-item has-icon editDivision" data-id="' .$item->id. '">
+										<a type="button" class="dropdown-item has-icon editDivision" data-id="' .$item->id. '">
 											<i class="fas fa-pen"></i> ' .__('admin/crud.btn.edit'). '
 										</a>
-										<a href="#" class="dropdown-item has-icon deleteDivision" data-title="' .$item->alias. '" data-id="' .$item->id. '">
+										<a type="button" class="dropdown-item has-icon deleteDivision" data-title="' .$item->alias. '" data-id="' .$item->id. '">
 											<i class="fas fa-times"></i> ' .__('admin/crud.btn.delete'). '
 										</a>
 									</div>
@@ -101,7 +101,7 @@ class DivisionController extends AdminController
 
     public function destroy(Request $request){
 		$data = Division::findOrFail($request->id);
-		General::clearStorage($this->dir_divisi.$data->slug);
+		General::clearStorage($this->division_dir.$data->slug);
         $data->delete();
     }
 
@@ -118,9 +118,11 @@ class DivisionController extends AdminController
     }
 
 	private function error_feedback($val){
-		$feedback['status'] 	= __('admin/crud.val_failed');
-		$feedback['division'] 	= $val->errors()->first('division') ?? false;
-		$feedback['alias'] 		= $val->errors()->first('alias') ?? false;
+		$feedback = [
+			'status' 	=> __('admin/crud.val_failed'),
+			'division' 	=> $val->errors()->first('division') ?? false,
+			'alias' 	=> $val->errors()->first('alias') ?? false,
+		];
 
 		return $feedback;
 	}

@@ -16,6 +16,9 @@ return [
         'existed'   => ':field sudah ada.',
         'used'      => ':field sudah digunakan.'
     ],
+    'exists'    => 'Data yang dipilih tidak valid',
+    'integer'   => ':field harus berupa angka bulat.',
+    'gt'        => 'Range harga tidak seimbang.',
     'post' => [
         'publish_date' => [
             'required'  => 'Tanggal terbit belum diisi.',

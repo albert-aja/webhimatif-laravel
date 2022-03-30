@@ -33,7 +33,6 @@
                                 <th>@lang('admin/crud.table.index')</th>
                                 <th>@lang('admin/crud.variable.name')</th>
                                 <th>@lang('admin/crud.variable.photo')</th>
-                                <th>@lang('admin/crud.variable.division')</th>
                                 <th>@lang('admin/crud.variable.position')</th>
                                 <th>@lang('admin/crud.table.action')</th>
                             </tr>
@@ -52,6 +51,7 @@
 @endsection
 
 @push('addon-script')
+
 <script>
     let commitee_table = $('#tableCommitees').DataTable({
 		processing: true,
@@ -80,8 +80,10 @@
 				sClass: 'text-center',
 				orderable: false, searchable: false
             },
-			{data: 'division.alias', name: 'division.alias'},
-			{data: 'position.position', name: 'position.position'},
+			{
+				data: 'position', name: 'position',
+				sClass: 'text-center'
+			},
 			{
 				data: 'action', name: 'action',
 				sClass: 'text-center',
@@ -94,7 +96,6 @@
 		let url = $(this).attr("data-url");
 		let id = $(this).attr("data-id");
 		let name = $(this).attr("data-name");
-        let slug = "{{ $slug }}";
 
 		Swal.fire({
 			title: 'Yakin ingin data pengurus ini?',
@@ -122,4 +123,5 @@
 		});
 	});
 </script>
+
 @endpush

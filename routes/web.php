@@ -3,30 +3,31 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Web\WebController;
-use App\Http\Controllers\Web\WebAjaxController;
+use App\Http\Controllers\Admin\PostController;
 
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-
-use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Web\WebAjaxController;
 use App\Http\Controllers\Admin\VisionController;
+use App\Http\Controllers\Admin\FeatureController;
+
 use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\Admin\MissionController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Admin\CommiteeController;
 use App\Http\Controllers\Admin\DivisionController;
 use App\Http\Controllers\Admin\PositionController;
 use App\Http\Controllers\Admin\ShopItemController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UMContactController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\SocialMediaController;
 use App\Http\Controllers\Admin\WorkProgramController;
 use App\Http\Controllers\Admin\ProductColorController;
-use App\Http\Controllers\Admin\CommiteeController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\ManagementYearController;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductGalleryController;
 use App\Http\Controllers\Admin\ProductCategoryController;
-use App\Http\Controllers\Admin\FeatureController;
 
 //Web
 Route::controller(WebController::class)->group(function () {
@@ -122,6 +123,18 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
         Route::put('Position/update', 'update');
         Route::delete('Position/destroy', 'destroy');
     });
+    Route::controller(ShopItemController::class)->group(function() {
+        Route::get('Shop', 'index')->name('shop-data');
+        Route::get('Shop/create', 'create');
+        Route::post('Shop/store', 'store');
+        Route::post('Shop/edit', 'edit');
+        Route::put('Shop/update', 'update');
+        Route::delete('Shop/destroy', 'destroy');
+    });
+    Route::controller(ProductGalleryController::class)->group(function() {
+        Route::get('ProductGallery', 'rearrangeModal');
+        Route::put('ProductGallery/update', 'updateOrder');
+    });
     Route::resource('Post', PostController::class, [
                         'names' => [
                             'index'     =>  'post-data',
@@ -133,14 +146,6 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
                         ]
                     ]);
     Route::get('postDetail', [PostController::class, 'postDetail']);
-    Route::resource('ShopItem', ShopItemController::class, [
-                        'names' => [
-                            'index'     => 'shop-data',
-                            'create'    => 'shop-create',
-                            'edit'      => 'shop-edit',
-                            'destroy'   => 'shop-delete',
-                        ]
-                    ]);
     Route::resource('ProductCategory', ProductCategoryController::class, [
                         'names' => [
                             'index'     => 'category-data',

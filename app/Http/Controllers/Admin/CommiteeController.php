@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Ramsey\Uuid\Uuid;
-use App\Helpers\General;
 use App\Models\Commitee;
 use App\Models\Division;
 use App\Models\Position;
-use Illuminate\Support\Str;
+use App\Helpers\General;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Intervention\Image\Facades\Image;
-use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Admin\AdminController;
+use Yajra\DataTables\Facades\DataTables;
+use Ramsey\Uuid\Uuid;
 
 class CommiteeController extends AdminController
 {
@@ -35,24 +32,15 @@ class CommiteeController extends AdminController
         imagesavealpha($img_binary, true);
 
 		$filename = Uuid::uuid4().'.'.$extension;
-        $filePath = public_path($this->dir_divisi.$slug. '/' .$filename);
+        $folderPath = public_path($this->division_dir.$slug. '/' .$filename);
 
-		if (!file_exists($filePath)) {
-			@mkdir($filePath, 0775, true);
-		}
+		self::makedir($folderPath);
 
-		imagepng($img_binary, $filePath. '/' .$filename, 9);
-
-        $img = Image::make($filePath. '/' .$filename);
+		imagepng($img_binary, $folderPath. '/' .$filename, 9);
 
 		$resize = [600, 200, 80];
 
-		for($i=0;$i<count($resize);$i++){
-			$front_name = ($i != 0) ? ($i+1). 'x_' : '';
-			$img->resize(null, $resize[$i], function ($const) {
-				$const->aspectRatio();
-			})->save($filePath. '/' .$front_name. $filename);
-		}
+		self::saveResized($resize, $folderPath. '/' .$filename, $folderPath, $filename);
 
 		return $filename;
 	}
@@ -79,16 +67,19 @@ class CommiteeController extends AdminController
 										<a href="' .route('commitee-edit', ['division' => $item->division->slug, 'commitee'=> $item->id]). '" class="dropdown-item has-icon">
 											<i class="fas fa-pen"></i> ' .__('admin/crud.btn.edit'). '
 										</a>
-										<a href="#" class="dropdown-item has-icon deleteCommitee" data-url="' .asset(General::getCommiteePhoto($item->division->slug, $item->photo, '2x_')). '" data-id="' .$item->id. '" data-name="' .$item->name. '">
+										<a type="button" class="dropdown-item has-icon deleteCommitee" data-url="' .asset(General::getCommiteePhoto($item->division->slug, $item->photo, '2x_')). '" data-id="' .$item->id. '" data-name="' .$item->name. '">
 											<i class="fas fa-times"></i> ' .__('admin/crud.btn.delete'). '
 										</a>
 									</div>
 								</div>';
 					})
+					->editColumn('position', function($item){
+						return '<span class="badge rounded-pill bg-primary">' .$item->position->position. '</span>';
+					})
 					->editColumn('photo', function($item){
 						return '<img src="' .asset(General::getCommiteePhoto($item->division->slug, $item->photo, '3x_')). '" style="min-height: 6rem"/>';
 					})
-					->rawColumns(['photo', 'action'])
+					->rawColumns(['photo', 'position', 'action'])
 					->addIndexColumn()
 					->make();
         }
@@ -144,16 +135,14 @@ class CommiteeController extends AdminController
 		if(!empty($val->errors()->messages())){
 			$feedback = self::error_feedback($val);
 		} else {
-			if(!$request->file('photo')){
-				$request['photo'] = $request->input('old_img');
-			} else {
+			if($request->file('photo')){
 				$request['photo'] = self::prepare_image(
 										$request->input('cropped'),
 										$request->file('photo')->extension(),
 										$slug
 									);
 
-				General::clearStorage($this->dir_divisi.$slug. '/' .$request->input('old_img'));
+				General::clearStorage($this->division_dir.$slug. '/' .$request->input('old_img'));
 			}
 
 			$item = Commitee::findOrFail($id);
@@ -169,7 +158,7 @@ class CommiteeController extends AdminController
 
     public function destroy(Request $request){
 		$data = Commitee::findOrFail($request->id);
-		General::clearStorage($this->dir_divisi.$request->slug. '/' .$data['photo']);
+		General::clearStorage($this->division_dir.$request->slug. '/' .$data['photo']);
 		$data->delete();
     }
 
@@ -177,7 +166,7 @@ class CommiteeController extends AdminController
         return Validator::make($data, [
 			'name'			=> 'required',
             'photo'  		=> ($id) ? '' : 'required'.'|image|mimes:jpeg,jpg,png|file|max:5120',
-            'position_id'  	=> 'required',
+            'position_id'  	=> 'required|exists:positions,id',
 		], [
 			'name.required' 		=> __('admin/validation.required.input', ['field' => __('admin/crud.variable.name')]),
 			'photo.required' 		=> __('admin/validation.required.upload', ['field' => __('admin/crud.variable.photo')]),
@@ -186,14 +175,17 @@ class CommiteeController extends AdminController
 			'photo.file' 			=> __('admin/validation.image.file'),
 			'photo.max' 			=> __('admin/validation.image.max'),
 			'position_id.required' 	=> __('admin/validation.required.select', ['field' => __('admin/crud.variable.position')]),
+			'position_id.exists' 	=> __('admin/validation.exists'),
 		]);
     }
 
 	private function error_feedback($val){
-		$feedback['status'] 		= __('admin/crud.val_failed');
-		$feedback['name'] 			= $val->errors()->first('name') ?? false;
-		$feedback['photo'] 			= $val->errors()->first('photo') ?? false;
-		$feedback['position_id'] 	= $val->errors()->first('position_id') ?? false;
+		$feedback = [
+			'status' 		=> __('admin/crud.val_failed'),
+			'name' 			=> $val->errors()->first('name') ?? false,
+			'photo' 		=> $val->errors()->first('photo') ?? false,
+			'position_id' 	=> $val->errors()->first('position_id') ?? false,
+		];
 
 		return $feedback;
 	}

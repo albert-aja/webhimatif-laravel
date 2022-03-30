@@ -20,6 +20,10 @@ return [
         'description'   =>  'Deskripsi',
         'commitee'      =>  'Pengurus',
         'position'      =>  'Jabatan',
+        'price'         =>  'Harga',
+        'category'      =>  'Kategori',
+        'item'          =>  'Produk',
+        'color'         =>  'Warna',
     ],
     'table' => [
         'index'     =>  '#',
@@ -38,6 +42,8 @@ return [
         'check'     =>  'Lihat',
         'close'     =>  'Tutup',
         'crop'      =>  'Crop',
+        'v_image'   =>  'Lihat Foto',
+        'rearrange' =>  'Susun Foto',
     ],
     'form' => [
         'add'       =>  'Form Tambah :page',
@@ -45,12 +51,20 @@ return [
         'required'  =>  '*',
         'format'    =>  'Format: :format',
         'max_size'  =>  'Ukuran maks. :size',
-        'type'      =>  'Ketik disini..'
+        'type'      =>  'Ketik disini..',
+        'optional'  =>  '(Opsional)',
+        'checkAll'  =>  'Pilih Semua',
+        'fromPrice' =>  'Dari',
+        'toPrice'   =>  'Sampai',
+        'reorder'   =>  'Menyusun Ulang Foto',
     ],
     'val_failed'    =>  'failed',
     'val_success'   =>  'success',
     'toastSuccess'  =>  ':page <strong>:value</strong> telah ditambahkan.',
-    'cropTitle'     =>  'Crop gambar sebelum upload'
+    'cropTitle'     =>  'Crop gambar sebelum upload',
+    'orderUpdated'  =>  'Urutan foto berhasil diupdate!',
+    'wColors'       =>  'Memiliki varian warna',
+    'woColors'      =>  'Tidak memiliki varian warna',
 ]
 
 ?>

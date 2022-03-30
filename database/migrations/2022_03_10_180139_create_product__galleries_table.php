@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('shop__items_id')->nullable()->comment('ID Item')
                     ->constrained()->nullOnDelete()->onUpdate('cascade');
             $table->string('photo')->comment('Foto Item');
+            $table->integer('photo_order')->comment('Urutan Foto');
             $table->timestamps();
         });
     }

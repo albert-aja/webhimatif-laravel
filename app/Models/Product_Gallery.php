@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product_Gallery extends Model
 {
     protected $fillable = [
-        'shop__items_id', 'photo'
+        'shop__items_id', 'photo', 'photo_order'
     ];
 
     public function shop_item(){

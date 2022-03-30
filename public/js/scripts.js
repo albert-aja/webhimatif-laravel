@@ -57,7 +57,7 @@ $(function () {
                         "active"
                     );
 
-                    if (active == true) {
+                    if (active) {
                         me.parent().removeClass("active");
                         me.parent()
                             .find("> .dropdown-menu")
@@ -355,52 +355,6 @@ $(function () {
                 });
             }
         }
-    });
-
-    $(document).ready(function () {
-        if ($(".input-images").attr("data-folder")) {
-            let img_arr = $(".input-images").attr("data-images").split(",");
-            var preloaded = [];
-            var data_img;
-
-            img_arr.forEach(function (item, index) {
-                console.log(item);
-                data_img = {
-                    id: index + 1,
-                    src:
-                        $(".input-images").attr("data-folder") +
-                        item +
-                        "/3x_" +
-                        item,
-                };
-                preloaded.push(data_img);
-            });
-
-            $(".input-images").imageUploader({
-                label: "Drag & Drop files here or click to browse",
-                imagesInputName: "foto",
-                extensions: [".jpg", ".jpeg", ".png"],
-                mimes: ["image/jpeg", "image/png"],
-                maxSize: 5242880,
-                maxFiles: 10,
-                preloaded: preloaded,
-            });
-        } else {
-            $(".input-images").imageUploader({
-                label: "Drag & Drop files here or click to browse",
-                imagesInputName: "foto",
-                extensions: [".jpg", ".jpeg", ".png"],
-                mimes: ["image/jpeg", "image/png"],
-                maxSize: 5242880,
-                maxFiles: 10,
-            });
-        }
-    });
-
-    $("#checkAll").click(function () {
-        $("input.colorinput-input:checkbox")
-            .not(this)
-            .prop("checked", this.checked);
     });
 
     function colorBucket() {

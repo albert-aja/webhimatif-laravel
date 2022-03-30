@@ -112,7 +112,7 @@
 				$('#modal_add_position').modal('hide');
 				Swal.fire(
 					'{{ __("admin/swal.success") }}',
-					'Jabatan ' + capitalize(param.position) + ' telah ditambahkan',
+					'{{ __("admin/crud.variable.position") }} ' + capitalize(param.position) + ' {{ __("admin/swal.successItem") }}',
 					'success',
 				);
 				reload_table(position_table);
@@ -168,7 +168,6 @@
 		e.preventDefault();
 	})
 
-    
     $(document).on("click", ".deletePosition", function() {
 		let title = $(this).attr("data-title");
 		let id = $(this).attr("data-id");

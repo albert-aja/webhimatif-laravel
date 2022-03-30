@@ -93,7 +93,7 @@
                         <div class="form-group row mb-4">
                             <label class="col-form-label col-12 col-md-3 col-lg-3"></label>
                             <div class="col-sm-12 col-md-7">
-                                <button class="btn btn-primary clicked-button" type="submit" formaction="/admin/berita/update_article">Edit</button>
+                                <button class="btn btn-primary" type="submit" formaction="/admin/berita/update_article">Edit</button>
                                 <button class="btn btn-warning" formtarget="_blank" formaction="/admin/berita/preview_article">Preview</button>
                                 <a class="btn btn-info" href="/admin/Berita">Kembali</a>
                             </div>

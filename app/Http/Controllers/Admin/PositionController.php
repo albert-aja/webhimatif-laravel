@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Position;
+
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Admin\AdminController;
 
 class PositionController extends AdminController
 {
@@ -30,10 +30,10 @@ class PositionController extends AdminController
 						return '<div class="dropdown d-inline">
 									<button class="btn btn-warning dropdown-toggle me-1 mb-1" type="button" data-bs-toggle="dropdown">' .__('admin/crud.btn.action'). '</button>
 									<div class="dropdown-menu">
-										<a href="#" class="dropdown-item has-icon editPosition" data-id="' .$item->id. '">
+										<a type="button" class="dropdown-item has-icon editPosition" data-id="' .$item->id. '">
 											<i class="fas fa-pen"></i> ' .__('admin/crud.btn.edit'). '
 										</a>
-										<a href="#" class="dropdown-item has-icon deletePosition" data-title="' .$item->position. '" data-id="' .$item->id. '">
+										<a type="button" class="dropdown-item has-icon deletePosition" data-title="' .$item->position. '" data-id="' .$item->id. '">
 											<i class="fas fa-times"></i> ' .__('admin/crud.btn.delete'). '
 										</a>
 									</div>
@@ -102,8 +102,10 @@ class PositionController extends AdminController
     }
 
 	private function error_feedback($val){
-		$feedback['status'] 	= __('admin/crud.val_failed');
-		$feedback['position'] 	= $val->errors()->first('position') ?? false;
+		$feedback = [
+			'status' 	=> __('admin/crud.val_failed'),
+			'position' 	=> $val->errors()->first('position') ?? false,
+		];
 
 		return $feedback;
 	}

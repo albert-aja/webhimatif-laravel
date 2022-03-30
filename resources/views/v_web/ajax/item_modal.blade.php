@@ -11,7 +11,7 @@
 				<div class="carousel-indicators">
 
 				@for($i=0;$i<$img_num;$i++)
-					<button type="button" data-bs-target="#item-carousel" data-bs-slide-to="{{ $i }}" aria-label="Slide {{ $i }}" {{ ($i == 0) ? 'class="active" aria-current="true"' : ''}}></button>
+					<button type="button" data-bs-target="#item-carousel" data-bs-slide-to="{{ $i }}" aria-label="Slide {{ $i }}" @if($i == 0) class="active" aria-current="true" @endif></button>
 				@endfor
 
 				</div>
@@ -37,8 +37,7 @@
 			</div>
 			@else
 				<a href="{{ asset($item['photo']->first()['photo']) }}" class="lightbox">
-					<img src="{{ asset($item['photo']->first()['photo']) }}" 
-					alt="{{ $item['item'] }}">
+					<img src="{{ asset($item['photo']->first()['photo']) }}" alt="{{ $item['item'] }}">
 				</a>
 			@endif
 		</div>
@@ -48,22 +47,22 @@
 			<span class="price">{{ $item['price'] }}</span>
 			<div class="item-description">
 				{!! $item['description'] !!}
-				@if($colors->count() > 0)
+			@if($colors->count() > 0)
 				<p>Pilihan Warna :</p>
 				@foreach($colors as $color)
 					<span class="product-color" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ ucwords($color->product_color['color']) }}" style="background-color: {{ $color->product_color['hex_code'] }}"></span>
 				@endforeach
-				@endif
+			@endif
 			</div>
 			<div class="card_footer">
 				<span>Info lebih lanjut : </span>
 				<div class="social-links">
 
-					@foreach($contacts as $contact)
+				@foreach($contacts as $contact)
 					<a href="{{ $contact['link'] }}" class="{{ $contact['social'] }} social-media" target="_blank" rel="noopener noreferrer" style="background: {{ $contact['color'] }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ ucwords($contact['social']) }}">
 						<i class="{{ $contact['icon'] }}"></i>
 					</a>
-					@endforeach
+				@endforeach
 
 				</div>
 			</div>

@@ -9,9 +9,6 @@
         getWebStatus();
     });
 
-    /**
-	 * Easy selector helper function
-	 */
 	const select = (el, all = false) => {
 		el = el.trim();
 		if (all) {
@@ -31,6 +28,18 @@
 	function hide_loader(){
 		$(LOADER).hide(0);
 	}
+
+    function build_ckeditor() {
+        let editor = CKEDITOR.replace("ckeditor", {
+            height: 300,
+        });
+
+        editor.config.extraPlugins = "autogrow";
+        editor.config.editorplaceholder = '{{ __("admin/crud.form.type") }}';
+        editor.config.allowedContent = true;
+        editor.config.autoGrow_minHeight = 300;
+        editor.config.autoGrow_maxHeight = 800;
+    }
 
 	function call_modal(modal,data){
 		$('#modal-div').html(data);
@@ -194,15 +203,20 @@
         }
     })
 
-	//loading button
-	$(document).on("click", ".clicked-button", function() {
-		//change button text
-		$(this).innerText = 'Loading...';
-		// disable button
-		$(this).prop("disabled", true);
-		// add spinner to button
-		$(this).html(
-			`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
-		);
-    });
+    function select2() {
+        if (jQuery().select2) {
+            $(".select2").select2({
+                dropdownParent: $('.modal-body')
+            });
+        }
+    }
+
+    function tooltip(){
+        let tooltipTriggerList = [].slice.call(
+            document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        );
+        let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    }
 </script>

@@ -72,6 +72,18 @@ class General
     }
 
     /**
+     * Gets the SHOP ITEM folder path of an image.
+     * 
+     * @param string $category_slug
+     * @param string $item_slug
+     * @param string $photo
+     * 
+     * @return string image folder path
+     */
+    public static function getShopPhoto(string $category_slug, string $item_slug, string $filename, $size = ''){
+    }
+
+    /**
      * Outsmart the difference in photo size by providing a width,
      * that matches the dimensions (w x h) of the photo.
      * Purpose: to ensure that all photos of the commitees are neatly arranged.

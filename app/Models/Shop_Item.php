@@ -17,6 +17,8 @@ class Shop_Item extends Model
         'price'
     ];
 
+    protected $with = ['product_category', 'product_with_color', 'product_gallery', 'product_price'];
+
     //relations
     public function product_category(){
         return $this->belongsTo(Product_Category::class, 'product__categories_id', 'id');
@@ -27,7 +29,7 @@ class Shop_Item extends Model
     }
 
     public function product_gallery(){
-        return $this->hasMany(Product_Gallery::class, 'shop__items_id', 'id');
+        return $this->hasMany(Product_Gallery::class, 'shop__items_id', 'id')->orderBy('photo_order');
     }
 
     public function product_price(){
