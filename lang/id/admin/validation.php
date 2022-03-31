@@ -13,12 +13,15 @@ return [
         'mime'      => 'Ekstensi gambar yang diizinkan adalah :mime.',
     ],
     'unique' => [
-        'existed'   => ':field sudah ada.',
-        'used'      => ':field sudah digunakan.'
+        'existed'   => ':field :input sudah ada.',
+        'used'      => ':field :input sudah digunakan.'
     ],
     'exists'    => 'Data yang dipilih tidak valid',
     'integer'   => ':field harus berupa angka bulat.',
     'gt'        => 'Range harga tidak seimbang.',
+    'regex' => [
+        'hex' => ':input bukan merupakan kode hex',
+    ],
     'post' => [
         'publish_date' => [
             'required'  => 'Tanggal terbit belum diisi.',
@@ -56,7 +59,7 @@ return [
     ],
     'position' => [
         'required'  => 'Jabatan belum diisi.',
-        'unique'    => 'Jabatan sudah ada.'
+        'unique'    => 'Jabatan :input sudah ada.'
     ]
 ]
 

@@ -1,7 +1,7 @@
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="{{ route('admin-dashboard') }}">{{ $tahun_kepengurusan['year'] }}</a>
+            <a href="{{ route('admin-dashboard') }}">{{ $tahun_kepengurusan->year }}</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
             <a href="{{ route('admin-dashboard') }}"><img src="{{ asset('img/logo/black/black_100.png') }}"></a>
@@ -44,16 +44,16 @@
                 <li class="nav-item dropdown {{ (request()->routeIs('shop-*') || request()->routeIs('category-*') || request()->routeIs('color-*') || request()->routeIs('umcontact-*')) ? 'active' : '' }}">
                         <a href="#" class="nav-link has-dropdown"><i class="fas fa-shopping-bag"></i> <span>Himatif Shop</span></a>
                         <ul class="dropdown-menu">
-                            <li {{ (request()->routeIs('shop-*')) ? 'class=active' : '' }}">
+                            <li {{ (request()->routeIs('shop-*')) ? 'class=active' : '' }}>
                                 <a href="{{ route('shop-data') }}" class="nav-link"><span> Produk</span></a>
                             </li>
-                            <li {{ (request()->routeIs('category-*')) ? 'class=active' : '' }}">
+                            <li {{ (request()->routeIs('category-*')) ? 'class=active' : '' }}>
                                 <a href="{{ route('category-data') }}" class="nav-link"><span>Kategori</span></a>
                             </li>
-                            <li {{ (request()->routeIs('color-*')) ? 'class=active' : '' }}">
+                            <li {{ (request()->routeIs('color-*')) ? 'class=active' : '' }}>
                                 <a href="{{ route('color-data') }}" class="nav-link"><span>Warna</span></a>
                             </li>
-                            <li {{ (request()->routeIs('umcontanct-*')) ? 'class=active' : '' }}">
+                            <li {{ (request()->routeIs('umcontanct-*')) ? 'class=active' : '' }}>
                                 <a href="{{ route('umcontact-data') }}" class="nav-link"><span>Kontak</span></a>
                             </li>
                         </ul>

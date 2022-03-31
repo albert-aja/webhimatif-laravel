@@ -90,7 +90,7 @@
 				$('#modal_add_position').modal('hide');
 				Swal.fire(
 					'{{ __("admin/swal.success") }}',
-					'Jabatan ' + capitalize(param.position) + ' telah ditambahkan',
+					'Jabatan ' + capitalize(param.position) + ' {{ __("admin/swal.successItem") }}',
 					'success',
 				);
 				$.ajax({

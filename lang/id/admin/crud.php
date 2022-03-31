@@ -24,6 +24,7 @@ return [
         'category'      =>  'Kategori',
         'item'          =>  'Produk',
         'color'         =>  'Warna',
+        'hex'           =>  'Kode Hex',
     ],
     'table' => [
         'index'     =>  '#',

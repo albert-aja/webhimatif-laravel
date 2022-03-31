@@ -51,8 +51,8 @@
 	}
 
 	//reload tabel setelah aksi (UX)
-	function reload_table(table){
-		table.ajax.reload(null, false);
+	function reload_table(table, callback = null, reset = false){
+		table.ajax.reload(callback, reset);
 	}
 
     //validasi data dan feedback (UX)

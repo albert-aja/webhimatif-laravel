@@ -135,6 +135,31 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
         Route::get('ProductGallery', 'rearrangeModal');
         Route::put('ProductGallery/update', 'updateOrder');
     });
+    Route::controller(ProductColorController::class)->group(function() {
+        Route::get('Product_Color', 'index')->name('color-data');
+        Route::get('Product_Color/create', 'create');
+        Route::post('Product_Color/store', 'store');
+        Route::post('Product_Color/edit', 'edit');
+        Route::put('Product_Color/update', 'update');
+        Route::delete('Product_Color/destroy', 'destroy');
+    });
+    Route::controller(ProductCategoryController::class)->group(function() {
+        Route::get('Product_Category', 'index')->name('category-data');
+        Route::get('Product_Category/create', 'create');
+        Route::post('Product_Category/store', 'store');
+        Route::post('Product_Category/edit', 'edit');
+        Route::put('Product_Category/update', 'update');
+        Route::delete('Product_Category/destroy', 'destroy');
+    });
+
+    Route::resource('UMContact', UMContactController::class, [
+                        'names' => [
+                            'index'     => 'umcontact-data',
+                            'create'    => 'umcontact-create',
+                            'edit'      => 'umcontact-edit',
+                            'destroy'   => 'umcontact-delete',
+                        ]
+                    ]);
     Route::resource('Post', PostController::class, [
                         'names' => [
                             'index'     =>  'post-data',
@@ -145,38 +170,6 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
                             'destroy'   =>  'post-delete',
                         ]
                     ]);
-    Route::get('postDetail', [PostController::class, 'postDetail']);
-    Route::resource('ProductCategory', ProductCategoryController::class, [
-                        'names' => [
-                            'index'     => 'category-data',
-                            'create'    => 'category-create',
-                            'edit'      => 'category-edit',
-                            'destroy'   => 'category-delete',
-                        ]
-                    ]);
-    Route::resource('ProductColor', ProductColorController::class, [
-                        'names' => [
-                            'index'     => 'color-data',
-                            'create'    => 'color-create',
-                            'edit'      => 'color-edit',
-                            'destroy'   => 'color-delete',
-                        ]
-                    ]);
-    Route::resource('UMContact', UMContactController::class, [
-                        'names' => [
-                            'index'     => 'umcontact-data',
-                            'create'    => 'umcontact-create',
-                            'edit'      => 'umcontact-edit',
-                            'destroy'   => 'umcontact-delete',
-                        ]
-                    ]);
-    Route::resource('WorkProgram', WorkProgramController::class, [
-                        'names' => [
-                            'create'    => 'progja-create',
-                            'edit'      => 'progja-edit',
-                            'destroy'   => 'progja-delete',
-                        ]
-                    ])->except(['index']);
     Route::prefix('Config')->group(function () {
         Route::resource('History', HistoryController::class, [
                             'names' => [

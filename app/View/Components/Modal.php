@@ -11,9 +11,9 @@ class Modal extends Component
     public $title;
 
     public function __construct($modalID, $modalSize, $title){
-        $this->modalID = $modalID;
-        $this->modalSize = $modalSize;
-        $this->title = $title;
+        $this->modalID      = $modalID;
+        $this->modalSize    = $modalSize;
+        $this->title        = $title;
     }
 
     public function render()

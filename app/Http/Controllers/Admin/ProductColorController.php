@@ -1,215 +1,125 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Product_Color;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
-class ProductColorController extends Controller
+class ProductColorController extends AdminController
 {
-
-	public function warna(){
-		$this->data['title'] = 'Warna';
-		
-		return view('v_admin/shop/warna/data', $this->data);
+	public function __construct(){
+		parent::__construct();
+		$this->data['page'] = ['page' => 'Warna Produk'];
 	}
 
-	public function getWarna(){
-		$table = $this->table_data('warna');
-		
-		$data = [];
-		$no = $table['start'] + 1;
+	public function index(){
+		$this->data['title'] = __('admin/crud.data', $this->data['page']);
 
-		foreach($table['list'] as $tmp){
-			$row   = [];
-			$row[] = $no;
-			$row[] = $tmp['warna'];
-			$row[] = '<div style="background:'.$tmp['hex'].';" class="social-color"></div>';
+		if(request()->ajax()){
+            return Datatables::of(Product_Color::query())
+					->editColumn('hex_code', function($item){
+						return '<div style="background:'.$item['hex_code'].';" class="social-color" data-bs-toggle="tooltip" data-bs-placement="top" title=' .$item['hex_code']. '></div>';
+					})
+					->addColumn('action', function($item){
+						return '<div class="dropdown d-inline">
+									<button class="btn btn-warning dropdown-toggle me-1 mb-1" type="button" data-bs-toggle="dropdown">' .__('admin/crud.btn.action'). '</button>
+									<div class="dropdown-menu">
+										<a type="button" class="dropdown-item has-icon editColor" data-id="' .$item->id. '">
+											<i class="fas fa-pen"></i> ' .__('admin/crud.btn.edit'). '
+										</a>
+										<a type="button" class="dropdown-item has-icon deleteColor" data-id="' .$item->id. '" data-color="' .$item->color. '">
+											<i class="fas fa-times"></i> ' .__('admin/crud.btn.delete'). '
+										</a>
+									</div>
+								</div>';
+					})
+					->rawColumns(['hex_code', 'action'])
+					->addIndexColumn()
+					->make();
+        }
 
-			//kolom untuk button
-			$row[] = '<a href="/Admin/Shop/view_edit_warna?id='.$tmp['id'].'" class="btn btn-icon icon-left btn-primary m-1" 
-						style="min-width: 5rem"><i class="fas fa-pen"></i>Edit</a>
-						<button class="btn btn-icon icon-left btn-danger" id="delete_warna" type="button" 
-						data-id="'.$tmp['id'].'" data-warna="'.$tmp['warna'].'" style="min-width: 5rem">
-						<i class="fas fa-times"></i>Hapus</button>';
-			
-			$data[] = $row;
-			$no++;
+		return view('v_admin.shop.color.data', $this->data);
+	}
+
+    public function create(){
+        return view('v_admin.shop.color.modal_add', $this->data);
+    }
+
+    public function store(Request $request){
+		self::checkHex($request);
+
+        $val = self::validator($request->all());
+
+		if(!empty($val->errors()->messages())){
+			$feedback = self::error_feedback($val);
+		} else {
+			Product_Color::create($request->input());
+
+			$feedback['status'] 	= __('admin/crud.val_success');
 		}
-		
-		$table['output']['data'] = $data;
 
-		echo json_encode($table['output']);
-		exit();
-	}
+		echo json_encode($feedback);
+    }
 
-	public function view_add_warna(){
-		$this->data['title'] = 'Tambah Warna';
-		
-		return view('v_admin/shop/warna/add', $this->data);
-	}
+    public function edit(Request $request){
+		$this->data['color'] = Product_Color::findOrFail($request->id);
 
-	public function add_warna(){
-        $warna 	= $this->request->getVar('warna');
-        $hex 	= $this->request->getVar('hex');
+		return view('v_admin.shop.color.modal_edit', $this->data);
+    }
 
-		//validation 
-		if(!$this->validate([
-			'warna' => [
-				'rules'  => 'required|is_unique[warna.warna]',
-				'errors' => [
-					'required'  => 'Warna masih kosong',
-					'is_unique' => 'Warna <b>' .$warna. '</b> sudah ada',				
-				]
-			],
-			'hex' => [
-				'rules'  => 'required|is_unique[warna.hex]|regex_match[^#(?:[0-9a-fA-F]{3}){1,2}$]',
-				'errors' => [
-					'required'    => 'Hex masih kosong',
-					'is_unique'   => 'Hex <b>' .$hex. '</b> sudah ada',
-					'regex_match' => $hex. 'bukan merupakan hex code'				
-				]
-			],
-		])) {
-			return redirect()->back()->withInput();
+    public function update(Request $request){
+		self::checkHex($request);
+
+        $val = self::validator($request->all());
+
+		if(!empty($val->errors()->messages())){
+			$feedback = self::error_feedback($val);
+		} else {
+			Product_Color::create($request->input());
+
+			$feedback['status'] 	= __('admin/crud.val_success');
 		}
-        
-		//process input data
-		$this->m_warna->save([
-			'warna' => $warna,
-			'hex' 	=> $hex,
+
+		echo json_encode($feedback);
+    }
+
+    public function destroy(Request $request){
+		Product_Color::findOrFail($request->id)->delete();
+    }
+
+	private function checkHex($request){
+		if($request->input('hex_code')){
+			if(substr($request->input('hex_code'),0,1) != '#'){
+				return $request->merge([
+					'hex_code' => '#' .$request->input('hex_code')
+				]);
+			}
+		}
+	}
+
+    private function validator(array $data, string $id = ''){
+        return Validator::make($data, [
+			'color'		=> 'required|unique:product__colors' .(($id) ? ',color,'.$id : ''),
+            'hex_code'	=> 'required|regex:/^#(?:[0-9a-fA-F]{3}){1,2}$/|unique:product__colors' .(($id) ? ',hex_code,'.$id : ''),
+		], [
+			'color.required' 	=> __('admin/validation.required.input', ['field' => __('admin/crud.variable.color')]),
+			'color.unique' 		=> __('admin/validation.unique.existed', ['field' => __('admin/crud.variable.color')]),
+			'hex_code.required' => __('admin/validation.required.input', ['field' => __('admin/crud.variable.hex')]),
+			'hex_code.regex' 	=> __('admin/validation.regex.hex'),
+			'hex_code.unique' 	=> __('admin/validation.unique.existed', ['field' => __('admin/crud.variable.hex')]),
 		]);
-		
-		//pesan yang ditampilkan apabila input success
-		session()->setFlashdata('pesan', 'Warna <b>' .$warna. '</b> telah ditambahkan.');
-		
-		return redirect()->to('/Admin/Shop/warna');
+    }
+
+	private function error_feedback($val){
+		$feedback = [
+			'status' 		=> __('admin/crud.val_failed'),
+			'color' 		=> $val->errors()->first('color') ?? false,
+			'hex_code' 		=> $val->errors()->first('hex_code') ?? false,
+		];
+
+		return $feedback;
 	}
-
-	public function view_edit_warna(){
-		$id = $this->request->getVar('id');
-
-		$this->data['title'] = 'Edit Warna';
-
-		$this->data['warna'] = $this->m_warna->find($id);
-		
-		return view('v_admin/shop/warna/edit', $this->data);
-	}
-
-	public function edit_warna(){
-		$id 	= $this->request->getVar('id');
-        $warna 	= $this->request->getVar('warna');
-        $hex 	= $this->request->getVar('hex');
-		
-		//validation 
-		if(!$this->validate([
-			'warna' => [
-				'rules'  => 'required|is_unique[warna.warna, warna.id,'.$id.']',
-				'errors' => [
-					'required'  => 'Warna masih kosong',
-					'is_unique' => 'Warna <b>' .$warna. '</b> sudah ada',				
-				]
-			],
-			'hex' => [
-				'rules'  => 'required|is_unique[warna.hex, warna.id,'.$id.']|regex_match[^#(?:[0-9a-fA-F]{3}){1,2}$]',
-				'errors' => [
-					'required'    => 'Hex masih kosong',
-					'is_unique'   => 'Hex <b>' .$hex. '</b> sudah ada',
-					'regex_match' => $hex. 'bukan merupakan hex code'				
-				]
-			],
-		])) {
-			return redirect()->back()->withInput();
-		}
-        
-		$this->m_warna->save([
-			'id' => $id,
-			'warna' => $warna,
-			'hex' => $hex,
-		]);
-		
-		//pesan yang ditampilkan apabila input success
-		session()->setFlashdata('pesan', 'Warna <b>' .$warna. '</b> telah diedit.');
-		
-		return redirect()->to('/Admin/Shop/warna');
-	}
-
-	public function delete_warna($id){
-		$this->m_warna->delete($id);
-	}
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Product_Color  $product_Color
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product_Color $product_Color)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Product_Color  $product_Color
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product_Color $product_Color)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product_Color  $product_Color
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Product_Color $product_Color)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Product_Color  $product_Color
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Product_Color $product_Color)
-    {
-        //
-    }
 }

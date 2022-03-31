@@ -1,44 +1,68 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Product_Category;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
-class ProductCategoryController extends Controller
+class ProductCategoryController extends AdminController
 {
-
-	public function kategori(){
-		$this->data['title'] = 'Kategori';
-		
-		return view('v_admin/shop/kategori/data', $this->data);
+	public function __construct(){
+		parent::__construct();
+		$this->data['page'] = ['page' => 'Kategori Produk'];
 	}
 
-	public function getCategory(){
-		$table = $this->table_data('kategoriProduk');
-		
-		$data = [];
-		$no = $table['start'] + 1;
+    public function index(){
+        $this->data['title'] = __('admin/crud.data', $this->data['page']);
 
-		foreach($table['list'] as $tmp){
-			$row   = [];
-			$row[] = $no;
-			$row[] = $tmp['kategori'];
-			$row[] = $tmp['slug'];
-			$row[] = '<img src="/assets/img/web/shop/' .$tmp['foto']. '" style="width: 5rem;">';
+		if(request()->ajax()){
+            return Datatables::of(Product_Category::query())
+					->editColumn('photo', function($item){
+						return '<img src="' .asset('img/web/shop/' .$item['photo']). '" style="width: 5rem;">';
+					})
+					->addColumn('action', function($item){
+						return '<div class="dropdown d-inline">
+									<button class="btn btn-warning dropdown-toggle me-1 mb-1" type="button" data-bs-toggle="dropdown">' .__('admin/crud.btn.action'). '</button>
+									<div class="dropdown-menu">
+										<a type="button" class="dropdown-item has-icon editCategory" data-id="' .$item->id. '">
+											<i class="fas fa-pen"></i> ' .__('admin/crud.btn.edit'). '
+										</a>
+										<a type="button" class="dropdown-item has-icon deleteCategory" data-id="' .$item->id. '" data-category="' .$item->category. '">
+											<i class="fas fa-times"></i> ' .__('admin/crud.btn.delete'). '
+										</a>
+									</div>
+								</div>';
+					})
+					->rawColumns(['photo', 'action'])
+					->addIndexColumn()
+					->make();
+        }
 
-			//kolom untuk button
-			$row[] = '<a href="/Admin/Shop/view_edit_category?id='.$tmp['id'].'" class="btn btn-icon icon-left btn-primary m-1" style="min-width: 5rem"><i class="fas fa-pen"></i>Edit</a><button class="btn btn-icon icon-left btn-danger" id="delete_category" type="button" data-id="'.$tmp['id'].'" data-category="'.$tmp['kategori'].'" style="min-width: 5rem"><i class="fas fa-times"></i>Hapus</button>';
-			
-			$data[] = $row;
-			$no++;
-		}
-		
-		$table['output']['data'] = $data;
+		return view('v_admin.shop.category.data', $this->data);
+    }
 
-		echo json_encode($table['output']);
-		exit();
-	}
+    public function create(){
+        //
+    }
+
+    public function store(Request $request){
+        //
+    }
+
+    public function edit(Product_Category $product_Category){
+        //
+    }
+
+    public function update(Request $request, Product_Category $product_Category){
+        //
+    }
+
+    public function destroy(Product_Category $product_Category){
+        //
+    }
 
 	public function view_add_category(){
 		$this->data['title'] = 'Tambah Kategori';
@@ -90,7 +114,7 @@ class ProductCategoryController extends Controller
 		]);
 		
 		//pesan yang ditampilkan apabila input success
-		session()->setFlashdata('pesan', 'Kategori <b>' .$kategori. '</b> telah ditambahkan.');
+		session()->setFlashdata('pesan', 'Kategori <b>' .$kategori. '</b> {{ __("admin/swal.successItem") }}".');
 		
 		return redirect()->to('/Admin/Shop/Kategori');
 	}
@@ -151,79 +175,4 @@ class ProductCategoryController extends Controller
 		
 		return redirect()->to('/Admin/shop/kategori');
 	}
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Product_Category  $product_Category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product_Category $product_Category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Product_Category  $product_Category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product_Category $product_Category)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product_Category  $product_Category
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Product_Category $product_Category)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Product_Category  $product_Category
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Product_Category $product_Category)
-    {
-        //
-    }
 }

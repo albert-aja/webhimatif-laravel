@@ -102,7 +102,7 @@ class UMContactController extends Controller
 		]);
 
 		//pesan yang ditampilkan apabila input success
-		session()->setFlashdata('pesan', 'Kontak <strong>' .$social. '</strong> telah ditambahkan.');
+		session()->setFlashdata('pesan', 'Kontak <strong>' .$social. '</strong> {{ __("admin/swal.successItem") }}".');
 
 		return redirect()->to('/Admin/KontakUM');
 	}

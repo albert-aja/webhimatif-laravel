@@ -2,48 +2,12 @@
 
 @section('content')
 
-<section class="section">
-    <div class="section-header">
-        <h1>{{ $title }}</h1>
-        {!! $breadcrumb !!}
-    </div>
-
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <h4>@lang('admin/crud.table.header', $page)</h4>
-                    <div class="card-header-action">
-						<button type="button" class="form-control btn btn-icon icon-left btn-primary" id="modal_add">
-							<i class="fas fa-plus"></i> @lang('admin/crud.add', $page)
-						</button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover" id="tableDivision">
-							<thead>
-								<tr class="text-center">
-									<th>@lang('admin/crud.table.index')</th>
-									<th>@lang('admin/crud.variable.division')</th>
-									<th>@lang('admin/crud.variable.alias')</th>
-									<th>@lang('admin/crud.variable.program')</th>
-									<th>@lang('admin/crud.variable.commitee')</th>
-									<th>@lang('admin/crud.table.action')</th>
-								</tr>
-							</thead>
-							<tbody class="align-middle">
-								
-							</tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<div id="modal-div"></div>
+<x-datatable-page :title="$title" :breadcrumb="$breadcrumb" :page="$page" tableID="tableDivision" route="">
+	<th>@lang('admin/crud.variable.division')</th>
+	<th>@lang('admin/crud.variable.alias')</th>
+	<th>@lang('admin/crud.variable.program')</th>
+	<th>@lang('admin/crud.variable.commitee')</th>
+</x-datatable-page>
 
 @endsection
 

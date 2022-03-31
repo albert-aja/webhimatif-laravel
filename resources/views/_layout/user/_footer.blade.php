@@ -48,7 +48,7 @@
             @foreach($socials as $social)
               <a href={{ $social['link'] }} class="{{ $social['social'] }} social-media" 
                 target="_blank" rel="noopener noreferrer" style="background: {{ $social['color'] }}"
-                data-bs-toggle="tooltip" data-bs-placement="top" title={{ ucwords($social['social']) }}>
+                data-bs-toggle="tooltip" data-bs-placement="top" title="{{ ucwords($social['social']) }}">
                 <i class={{ $social['icon'] }}></i>
               </a>
             @endforeach

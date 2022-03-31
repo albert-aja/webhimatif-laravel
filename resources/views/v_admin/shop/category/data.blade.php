@@ -2,16 +2,18 @@
 
 @section('content')
 
-<x-datatable-page :title="$title" :breadcrumb="$breadcrumb" :page="$page" tableID="tablePrograms" :route="route('division-data')">
-	<th>@lang('admin/crud.variable.program')</th>
-	<th>@lang('admin/crud.variable.description')</th>
+<x-datatable-page :title="$title" :breadcrumb="$breadcrumb" :page="$page" tableID="tableCategories" route="">
+    <th>@lang('admin/crud.variable.category')</th>
+    <th>@lang('admin/crud.variable.slug')</th>
+    <th>@lang('admin/crud.variable.photo')</th>
 </x-datatable-page>
 
 @endsection
 
 @push('addon-script')
+
 <script>
-    let program_table = $('#tablePrograms').DataTable({
+    let color_table = $('#tableCategories').DataTable({
 		processing: true,
 		serverSide: true,
 		ordering: true,
@@ -32,35 +34,41 @@
 				sClass: 'text-center',
 				orderable: false, searchable: false
 			},
-			{data: 'program', name: 'program'},
-			{data: 'description', name: 'description'},
+			{data: 'category', name: 'category'},
+			{data: 'slug', name: 'slug'},
+			{
+                data: 'photo', name: 'photo',
+				sClass: 'text-center',
+				orderable: false, searchable: false
+            },
 			{
 				data: 'action', name: 'action',
 				sClass: 'text-center',
 				orderable: false, searchable: false,
 			},
-		]
+		],
 	});
 
 	$(document).on("click", "#modal_add", function() {
 		$.ajax({
 			method: "GET",
-			url: '/Admin/Program/{{ $slug }}/create',
+			url: '/Admin/Product_Color/create',
             beforeSend: function(){
 				show_loader();
 			},
 		}).done(function(data) {
 			hide_loader();
-			call_modal('#modal_add_program', data);
+			call_modal('#modal_add_color', data);
+            colorChange();
 		})
 	})
 
-	$(document).on('submit', '#form_add_program', function(e) {
+	$(document).on('submit', '#form_add_color', function(e) {
 		let data = $(this).serialize();
 
 		$.ajax({
 			method: "POST",
-			url: '/Admin/Program/{{ $slug }}/store',
+			url: '/Admin/Product_Color/store',
 			data: data,
             beforeSend: function(){
                 show_loader();
@@ -70,45 +78,47 @@
             hide_loader();
 			
 			if (feedback.status.toLowerCase() == "{{ __('admin/crud.val_failed') }}") {
-				validation(feedback.program, '#program', '#program-feedback');
-				validation(feedback.description, '#description', '#description-feedback');
+				validation(feedback.color, '#color', '#color-feedback');
+				validation(feedback.hex_code, '#hex_code', '#hex_code-feedback');
 			} else {
 				param = parse_query_string(data);
 
-				$('#modal_add_program').modal('hide');
+				$('#modal_add_color').modal('hide');
 				Swal.fire(
 					'{{ __("admin/swal.success") }}',
-					'Progja ' + capitalize(param.program) + ' {{ __("admin/swal.successItem") }}',
+					'Warna ' + capitalize(param.color) + ' {{ __("admin/swal.successItem") }}',
 					'success',
 				);
-				reload_table(program_table);
+				reload_table(color_table, tooltip);
 			}
 		})
 		e.preventDefault();
 	})
 
-	$(document).on("click", ".editProgram", function() {
+	$(document).on("click", ".editColor", function() {
 		let id = $(this).attr("data-id");
 
 		$.ajax({
 			method: "POST",
-			url: '/Admin/Program/{{ $slug }}/edit/',
+			url: '/Admin/Product_Color/edit',
             data: {id},
             beforeSend: function(){
 				show_loader();
 			},
 		}).done(function(data) {
 			hide_loader();
-			call_modal('#modal_edit_program', data);
+			call_modal('#modal_edit_color', data);
+            colorBucket();
+            colorChange();
 		})
 	})
 	
-	$(document).on('submit', '#form_edit_program', function(e) {
+	$(document).on('submit', '#form_edit_color', function(e) {
 		let data = $(this).serialize();
 
 		$.ajax({
 			method: "POST",
-			url: '/Admin/Program/{{ $slug }}/update',
+			url: '/Admin/Product_Color/update',
 			data: data,
             beforeSend: function(){
                 show_loader();
@@ -118,35 +128,35 @@
             hide_loader();
 			
 			if (feedback.status.toLowerCase() == "{{ __('admin/crud.val_failed') }}") {
-				validation(feedback.program, '#program', '#program-feedback');
-				validation(feedback.description, '#description', '#description-feedback');
+				validation(feedback.color, '#color', '#color-feedback');
+				validation(feedback.hex_code, '#hex_code', '#hex_code-feedback');
 			} else {
 				param = parse_query_string(data);
 
-				$('#modal_edit_program').modal('hide');
+				$('#modal_edit_color').modal('hide');
 				Swal.fire(
 					'{{ __("admin/swal.success") }}',
-					'Progja telah diperbarui',
+					'Warna telah diperbarui',
 					'success',
 				);
-				reload_table(program_table);
+				reload_table(color_table, tooltip);
 			}
 		})
 		e.preventDefault();
 	})
 
-    $(document).on("click", ".deleteProgram", function() {
+    $(document).on("click", ".deleteColor", function() {
 		let id = $(this).attr("data-id");
-		let program = $(this).attr("data-program");
+		let color = $(this).attr("data-color");
 
 		Swal.fire({
-			title: 'Yakin ingin data pengurus ini?',
-			html: 'Progja <strong>' + program + '</strong> akan hilang!',
+			title: 'Yakin ingin hapus warna produk?',
+			html: 'Warna <strong>' + color + '</strong> akan hilang!',
 			showCancelButton: true,
 		}).then((action) => {
 			if (action.isConfirmed) {
 				$.ajax({
-					url: '/Admin/Program/{{ $slug }}/destroy',
+					url: '/Admin/Product_Color/destroy',
 					method: 'DELETE',
                     data: {id},
 					error: function() {
@@ -154,14 +164,15 @@
 					},
 					success: function(data) {
 						Swal.fire({
-							html: 'Progja <strong>' + program + '</strong> berhasil dihapus!',
+							html: 'Warna <strong>' + color + '</strong> berhasil dihapus!',
 							icon: 'success',
 						})
-						reload_table(program_table);
+						reload_table(color_table, tooltip);
 					}
 				});
 			}
 		});
 	});
 </script>
+
 @endpush
