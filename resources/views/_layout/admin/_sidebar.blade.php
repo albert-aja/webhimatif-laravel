@@ -41,7 +41,7 @@
                 </li>
 
             <li class="menu-header">Himatif Shop</li>
-                <li class="nav-item dropdown {{ (request()->routeIs('shop-*') || request()->routeIs('category-*') || request()->routeIs('color-*') || request()->routeIs('umcontact-*')) ? 'active' : '' }}">
+                <li class="nav-item dropdown {{ (request()->routeIs('shop-*') || request()->routeIs('category-*') || request()->routeIs('color-*') || request()->routeIs('contact-*')) ? 'active' : '' }}">
                         <a href="#" class="nav-link has-dropdown"><i class="fas fa-shopping-bag"></i> <span>Himatif Shop</span></a>
                         <ul class="dropdown-menu">
                             <li {{ (request()->routeIs('shop-*')) ? 'class=active' : '' }}>
@@ -53,8 +53,8 @@
                             <li {{ (request()->routeIs('color-*')) ? 'class=active' : '' }}>
                                 <a href="{{ route('color-data') }}" class="nav-link"><span>Warna</span></a>
                             </li>
-                            <li {{ (request()->routeIs('umcontanct-*')) ? 'class=active' : '' }}>
-                                <a href="{{ route('umcontact-data') }}" class="nav-link"><span>Kontak</span></a>
+                            <li {{ (request()->routeIs('contact-*')) ? 'class=active' : '' }}>
+                                <a href="{{ route('contact-data') }}" class="nav-link"><span>Kontak</span></a>
                             </li>
                         </ul>
                     </li>

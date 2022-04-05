@@ -9,9 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product_With_Color extends Model
 {
-    protected $fillable = [
-        'shop__items_id', 'product__colors_id'
-    ];
+    protected $fillable = ['shop__items_id', 'product__colors_id'];
 
     public function shop_item(){
         return $this->belongsTo(Shop_Item::class, 'shop__items_id', 'id');

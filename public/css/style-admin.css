@@ -3970,7 +3970,7 @@ body:not(.sidebar-mini)
     border: 1px solid #dc3545 !important;
 }
 
-#image-preview.is-invalid,
+.image-preview.is-invalid,
 .is-invalid ~ .select2-container .select2-selection--multiple,
 .is-invalid ~ .select2-container .select2-selection--single,
 .is-invalid > .input-images > .image-uploader,
@@ -3987,7 +3987,7 @@ textarea.single-textarea.is-invalid,
     border: 1px solid #198754 !important;
 }
 
-#image-preview.is-valid,
+.image-preview.is-valid,
 .is-valid ~ .select2-container .select2-selection--multiple,
 .is-valid ~ .select2-container .select2-selection--single,
 .is-valid > .input-images > .image-uploader,

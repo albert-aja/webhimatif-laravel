@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Main_Model;
+use Illuminate\Database\Eloquent\Model;
 
-class Mission extends Main_Model
+class Mission extends Model
 {
-    protected $fillable = [
-        'mission'
-    ];
+    protected $fillable = ['mission'];
 }

@@ -14,10 +14,6 @@ class AdminController extends Controller
     public function __construct() {
 		$this->middleware(['isActive', 'auth']);
 
-		$this->post_dir = 'img/news/';
-		$this->division_dir = 'img/divisi/';
-		$this->shop_dir	  = 'img/shop/';
-
 		$breadcrumbs 	= new Breadcrumbs;
 
 		$this->data = [

@@ -16,6 +16,8 @@ class PostController extends AdminController
 	public function __construct(){
 		parent::__construct();
 		$this->data['page'] = ['page' => 'Berita'];
+
+		$this->post_dir = 'img/news/';
 	}
 
     public function uploadProccessing($date, $slug, $image, $folder_name = '', $name = ''){

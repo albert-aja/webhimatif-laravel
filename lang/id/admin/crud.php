@@ -25,6 +25,9 @@ return [
         'item'          =>  'Produk',
         'color'         =>  'Warna',
         'hex'           =>  'Kode Hex',
+        'social_media'  =>  'Media Sosial',
+        'link'          =>  'Link',
+        'icon'          =>  'Ikon',
     ],
     'table' => [
         'index'     =>  '#',
@@ -45,6 +48,7 @@ return [
         'crop'      =>  'Crop',
         'v_image'   =>  'Lihat Foto',
         'rearrange' =>  'Susun Foto',
+        'try_link'  =>  'Coba Link',
     ],
     'form' => [
         'add'       =>  'Form Tambah :page',

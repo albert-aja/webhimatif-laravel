@@ -13,7 +13,7 @@
 @push('addon-script')
 
 <script>
-    let color_table = $('#tableCategories').DataTable({
+    let category_table = $('#tableCategories').DataTable({
 		processing: true,
 		serverSide: true,
 		ordering: true,
@@ -49,27 +49,37 @@
 		],
 	});
 
+	function imagePreview(){
+		$.uploadPreview({
+			input_field: "#image-upload", // Default: .image-upload
+			label_field: "#image-label", // Default: .image-label
+			no_label: false, // Default: false
+		});
+	}
+
 	$(document).on("click", "#modal_add", function() {
 		$.ajax({
 			method: "GET",
-			url: '/Admin/Product_Color/create',
+			url: '/Admin/ProductCategory/create',
             beforeSend: function(){
 				show_loader();
 			},
 		}).done(function(data) {
 			hide_loader();
-			call_modal('#modal_add_color', data);
-            colorChange();
+			call_modal('#modal_add_category', data);
+            imagePreview();
 		})
 	})
 
-	$(document).on('submit', '#form_add_color', function(e) {
-		let data = $(this).serialize();
+	$(document).on('submit', '#form_add_category', function(e) {
+		let data = new FormData(this);
 
 		$.ajax({
 			method: "POST",
-			url: '/Admin/Product_Color/store',
+			url: '/Admin/ProductCategory/store',
 			data: data,
+            processData: false,
+            contentType: false,
             beforeSend: function(){
                 show_loader();
             },
@@ -78,48 +88,47 @@
             hide_loader();
 			
 			if (feedback.status.toLowerCase() == "{{ __('admin/crud.val_failed') }}") {
-				validation(feedback.color, '#color', '#color-feedback');
-				validation(feedback.hex_code, '#hex_code', '#hex_code-feedback');
+				validation(feedback.category, '#category', '#category-feedback');
+				validation(feedback.photo, '#photo', '#photo-feedback');
 			} else {
-				param = parse_query_string(data);
-
-				$('#modal_add_color').modal('hide');
+				$('#modal_add_category').modal('hide');
 				Swal.fire(
 					'{{ __("admin/swal.success") }}',
-					'Warna ' + capitalize(param.color) + ' {{ __("admin/swal.successItem") }}',
+					'Kategori Produk ' + data.get('category') + ' {{ __("admin/swal.successItem") }}',
 					'success',
 				);
-				reload_table(color_table, tooltip);
+				reload_table(category_table);
 			}
 		})
 		e.preventDefault();
 	})
 
-	$(document).on("click", ".editColor", function() {
+	$(document).on("click", ".editCategory", function() {
 		let id = $(this).attr("data-id");
 
 		$.ajax({
 			method: "POST",
-			url: '/Admin/Product_Color/edit',
+			url: '/Admin/ProductCategory/edit',
             data: {id},
             beforeSend: function(){
 				show_loader();
 			},
 		}).done(function(data) {
 			hide_loader();
-			call_modal('#modal_edit_color', data);
-            colorBucket();
-            colorChange();
+			call_modal('#modal_edit_category', data);
+            imagePreview();
 		})
 	})
-	
-	$(document).on('submit', '#form_edit_color', function(e) {
-		let data = $(this).serialize();
+
+	$(document).on('submit', '#form_edit_category', function(e) {
+		let data = new FormData(this);
 
 		$.ajax({
 			method: "POST",
-			url: '/Admin/Product_Color/update',
+			url: '/Admin/ProductCategory/update',
 			data: data,
+            processData: false,
+            contentType: false,
             beforeSend: function(){
                 show_loader();
             },
@@ -128,35 +137,33 @@
             hide_loader();
 			
 			if (feedback.status.toLowerCase() == "{{ __('admin/crud.val_failed') }}") {
-				validation(feedback.color, '#color', '#color-feedback');
-				validation(feedback.hex_code, '#hex_code', '#hex_code-feedback');
+				validation(feedback.category, '#category', '#category-feedback');
+				validation(feedback.photo, '#photo', '#photo-feedback');
 			} else {
-				param = parse_query_string(data);
-
-				$('#modal_edit_color').modal('hide');
+				$('#modal_edit_category').modal('hide');
 				Swal.fire(
 					'{{ __("admin/swal.success") }}',
-					'Warna telah diperbarui',
+					'Kategori Produk telah diperbarui',
 					'success',
 				);
-				reload_table(color_table, tooltip);
+				reload_table(category_table);
 			}
 		})
 		e.preventDefault();
 	})
 
-    $(document).on("click", ".deleteColor", function() {
+    $(document).on("click", ".deleteCategory", function() {
 		let id = $(this).attr("data-id");
-		let color = $(this).attr("data-color");
+		let category = $(this).attr("data-category");
 
 		Swal.fire({
 			title: 'Yakin ingin hapus warna produk?',
-			html: 'Warna <strong>' + color + '</strong> akan hilang!',
+			html: 'Kategori <strong>' + category + '</strong> akan hilang!',
 			showCancelButton: true,
 		}).then((action) => {
 			if (action.isConfirmed) {
 				$.ajax({
-					url: '/Admin/Product_Color/destroy',
+					url: '/Admin/ProductCategory/destroy',
 					method: 'DELETE',
                     data: {id},
 					error: function() {
@@ -164,10 +171,10 @@
 					},
 					success: function(data) {
 						Swal.fire({
-							html: 'Warna <strong>' + color + '</strong> berhasil dihapus!',
+							html: 'Kategori <strong>' + category + '</strong> berhasil dihapus!',
 							icon: 'success',
 						})
-						reload_table(color_table, tooltip);
+						reload_table(category_table);
 					}
 				});
 			}

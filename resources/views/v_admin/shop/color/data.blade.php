@@ -67,7 +67,7 @@
 	$(document).on("click", "#modal_add", function() {
 		$.ajax({
 			method: "GET",
-			url: '/Admin/Product_Color/create',
+			url: '/Admin/ProductColor/create',
             beforeSend: function(){
 				show_loader();
 			},
@@ -83,7 +83,7 @@
 
 		$.ajax({
 			method: "POST",
-			url: '/Admin/Product_Color/store',
+			url: '/Admin/ProductColor/store',
 			data: data,
             beforeSend: function(){
                 show_loader();
@@ -115,7 +115,7 @@
 
 		$.ajax({
 			method: "POST",
-			url: '/Admin/Product_Color/edit',
+			url: '/Admin/ProductColor/edit',
             data: {id},
             beforeSend: function(){
 				show_loader();
@@ -133,7 +133,7 @@
 
 		$.ajax({
 			method: "POST",
-			url: '/Admin/Product_Color/update',
+			url: '/Admin/ProductColor/update',
 			data: data,
             beforeSend: function(){
                 show_loader();
@@ -171,7 +171,7 @@
 		}).then((action) => {
 			if (action.isConfirmed) {
 				$.ajax({
-					url: '/Admin/Product_Color/destroy',
+					url: '/Admin/ProductColor/destroy',
 					method: 'DELETE',
                     data: {id},
 					error: function() {

@@ -21,6 +21,8 @@ class ShopItemController extends AdminController
 	public function __construct(){
 		parent::__construct();
 		$this->data['page'] = ['page' => 'Produk'];
+
+		$this->shop_dir	  = 'img/shop/';
 	}
 
 	private function shop_image(string $category_slug, string $item_slug, string $filename = null){
@@ -50,7 +52,7 @@ class ShopItemController extends AdminController
 		$this->data['title'] = __('admin/crud.data', $this->data['page']);
 
 		if(request()->ajax()){
-            return Datatables::of(Shop_Item::query())
+            return Datatables::of(Shop_Item::orderBy('product__categories_id', 'ASC'))
 					->addColumn('photo', function($item){
 						$photos = $item->product_gallery->pluck('photo')->toArray();
 						$img_loc = self::shop_image($item->product_category->slug, $item['slug']);
@@ -75,7 +77,7 @@ class ShopItemController extends AdminController
 						return '<span class="badge rounded-pill bg-primary">' .$item->product_category->category. '</span>';
 					})
 					->addColumn('color', function($item){
-						if(count($item->product_with_color) > 1){
+						if(count($item->product_with_color)){
 							return '<span class="badge rounded-pill bg-success">' .__("admin/crud.wColors"). '</span>';
 						}
 						return '<span class="badge rounded-pill bg-danger">' .__("admin/crud.woColors"). '</span>';
@@ -129,7 +131,7 @@ class ShopItemController extends AdminController
 
 			$data = Shop_Item::create($request->input());
 
-			$category_slug = Product_Category::where('id', $request->input('product__categories_id'))->first()->value('slug');
+			$category_slug = Product_Category::where('id', '=', $request->input('product__categories_id'))->value('slug');
 			$order = 1;
 
 			foreach($request->file('photo') as $photo){
@@ -330,161 +332,5 @@ class ShopItemController extends AdminController
 		];
 
 		return $feedback;
-	}
-
-	public function update_item(){
-		$id = $this->request->getVar('id');
-		$item = $this->request->getVar('item');
-		
-		//validation 
-		if(!$this->validate([
-			'item' => [
-				'rules'  => 'required|is_unique[shop.item,shop.id,'.$id.']',
-				'errors' => [
-					'required'  => 'Item belum memiliki nama',
-					'is_unique' => 'Item <b>'.$item.'</b> sudah ada',				
-				]
-			],
-			'deskripsi' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => 'Item belum memiliki deskripsi.',
-				]
-			],
-			'kategori' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => 'Item belum memiliki kategori.'
-				]
-			],
-			'harga' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => 'Item belum memiliki harga',			
-				]
-			],
-		])) {
-			return redirect()->back()->withInput();
-		}
-
-		$old_data = $this->m_shop->find($id);
-
-		$slug_item = url_title($item, '-', true);
-		$kategori = $this->request->getVar('kategori');
-		
-		$slug_kategori = $this->m_kategoriProduk->getSlugById($kategori)['slug'];
-
-		$old_slug_kategori = $this->m_kategoriProduk->getSlugById($old_data['kategori'])['slug'];
-		
-		if($slug_kategori. '/' .$slug_item != $old_slug_kategori. '/' .$old_data['slug']){
-			$folder_path = $this->shop_dir.$slug_kategori. '/' .$slug_item;
-		} else {
-			$folder_path = $this->shop_dir.$old_slug_kategori. '/' .$old_data['slug'];
-		}
-		
-		$new_img = $this->request->getFileMultiple('foto');
-		$old_img = $this->request->getVar('preloaded');
-		
-		$old_img_arr = explode(',', $old_data['foto']);
-
-		if($new_img[0]->getError() == 4){
-			
-			if(count($old_img) < count($old_img_arr)){
-				$new_img_collection = [];
-
-				foreach($old_img as $oi){
-					array_push($new_img_collection, $old_img_arr[$oi-1]);
-				}
-
-				$insert_to_db_img = implode(',', $new_img_collection);
-			} else {
-				$insert_to_db_img = $old_data['foto'];
-			}
-		} else {
-			if(count($new_img) + count($old_img) > 10){
-				$msg = 'Jumlah maksimal gambar adalah 10';
-				return redirect()->back()->with('msg', $msg)->withInput();
-			}
-			
-			foreach($new_img['foto'] as $img)
-			{
-				$name = $img->getName();
-
-				if(!$this->validate([
-					'foto' => [
-						'rules'  => 'uploaded[foto]|mime_in[foto, image/jpg,image/jpeg,image/png]|is_image[foto]|max_size[foto, 5120]',
-						'errors' => [
-							'uploaded' => 'Foto belum di upload.',
-							'mime_in'  => 'File bernama <b>' .$name. '</b> memiliki format yang tidak diizinkan.',
-							'is_image' => 'File bernama <b>' .$name. '</b> bukan gambar.',
-							'max_size' => 'File bernama <b>' .$name. '</b> melebihi batas maksimum 5mb.',
-						]
-					],
-				])) {
-					return redirect()->back()->withInput();
-				}
-			}
-
-			$nama_foto = $this->uploadProccessing($new_img, $slug_kategori, $slug_item, $folder_path);
-
-			if(count($old_img) < count($old_img_arr)){
-				$new_img_collection = [];
-
-				foreach($old_img as $oi){
-					array_push($new_img_collection, $old_img_arr[$oi-1]);
-				}
-
-				$insert_to_db_img = implode(',', $new_img_collection). ',' .$nama_foto;
-			} else{
-				$insert_to_db_img = $old_data['foto']. ',' .$nama_foto;
-			}
-		}
-		
-		$deskripsi 	= $this->request->getVar('deskripsi');
-		$harga 		= $this->request->getVar('harga');
-
-		$colors = $this->request->getVar('color');
-
-		if($colors != null){
-			$colors = join(',', $colors);
-		}
-
-		//process update data 
-		$this->m_shop->update($id, [
-			'item' 		=> $item,
-			'slug' 		=> $slug_item,
-			'foto' 		=> $insert_to_db_img,
-			'deskripsi' => $deskripsi,
-			'kategori' 	=> $kategori,
-			'warna' 	=> $colors,
-			'harga' 	=> $harga,
-		]);
-		
-		//pesan yang ditampilkan apabila input success
-		session()->setFlashdata('pesan', 'Item <b>'.$item.'</b> telah diedit.');
-		
-		return redirect()->to('/Admin/Shop');
-	}
-
-	public function delete_item($id){
-		$data = $this->m_shop->joinTable()->find($id);
-
-		//path ke folder gambar
-		$folder_path = $this->shop_dir.$data['slug_kategori'].'/'.$data['slug'];
-
-		$this->truncateDir($folder_path);
-
-		//hapus data dari database
-		$this->m_shop->delete($id);
-
-		return redirect()->to('/Admin/Shop');
-	}
-
-	public function delete_category($id){
-		$data = $this->m_kategoriProduk->find($id);
-
-		unlink('assets/img/web/shop/' .$data['foto']);
-
-		$this->m_kategoriProduk->delete($id);
 	}
 }

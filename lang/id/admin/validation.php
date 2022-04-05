@@ -19,6 +19,7 @@ return [
     'exists'    => 'Data yang dipilih tidak valid',
     'integer'   => ':field harus berupa angka bulat.',
     'gt'        => 'Range harga tidak seimbang.',
+    'url'       => 'Bukan link yang valid',
     'regex' => [
         'hex' => ':input bukan merupakan kode hex',
     ],

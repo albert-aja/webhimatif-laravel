@@ -17,6 +17,8 @@ class CommiteeController extends AdminController
 	public function __construct(){
 		parent::__construct();
 		$this->data['page'] = ['page' => 'Pengurus'];
+
+		$this->division_dir = 'img/divisi/';
 	}
 
 	private function prepare_image(string $img, string $extension, string $slug){

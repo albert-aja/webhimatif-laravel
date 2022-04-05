@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Main_Model;
+use Illuminate\Database\Eloquent\Model;
 
-class Service extends Main_Model
+class Service extends Model
 {
-    protected $fillable = [
-        'service', 'link'
-    ];
+    protected $fillable = ['service', 'link'];
 }

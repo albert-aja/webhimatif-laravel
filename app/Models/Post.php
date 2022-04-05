@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Models\Division;
-use App\Models\Main_Model;
+use Illuminate\Database\Eloquent\Model;
 
-class Post extends Main_Model
+class Post extends Model
 {
     protected $fillable = [
         'title', 'slug', 'hero_image', 'article',

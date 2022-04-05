@@ -1,260 +1,166 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\UM_Contact;
+use App\Helpers\Icon;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
-class UMContactController extends Controller
+class UMContactController extends AdminController
 {
-	public function index(){
-		$this->data['title'] = 'Kontak UM';
-
-		return view('v_admin/shop/kontak/data', $this->data);
+	public function __construct(){
+		parent::__construct();
+		$this->data['page'] = ['page' => 'Kontak UM'];
 	}
 
-	public function getKontakUM(){
-		$table = $this->table_data('kontakUM');
+	private function prepare_iconArray($data, $current = ''){
+        $existed_icons = $data->pluck('icon');
+        $icon_arr = Icon::icon_array();
 
-		$data = [];
-		$no   = $table['start'] + 1;
-
-		foreach($table['list'] as $tmp){
-			$row   = [];
-			$row[] = $no;
-			$row[] = '<a href="' .$tmp['link']. '" target="_blank" rel="noopener noreferrer">' .$tmp['social']. '</a>';
-			$row[] = '<i class="' .$tmp['icon']. '" style="font-size: 2.5rem;"></i>';
-			$row[] = '<div style="background:'.$tmp['color'].';" class="social-color"></div>';
-
-			//kolom untuk button
-			$row[] = '<a href="/Admin/kontakUM/view_edit_kontakUM?id='.$tmp['id'].'" class="btn btn-icon icon-left btn-primary m-1" 
-						style="min-width: 5rem"><i class="fas fa-pen"></i>Edit</a>
-						<button class="btn btn-icon icon-left btn-danger" id="delete_kontakUM" type="button" 
-						data-id="'.$tmp['id'].'" data-social="'.$tmp['social'].'" style="min-width: 5rem">
-						<i class="fas fa-times"></i>Hapus</button>';
-
-			$data[] = $row;
-			$no++;
-		}
-
-		$table['output']['data'] = $data;
-
-		echo json_encode($table['output']);
-		exit();
-	}
-
-	public function view_add_kontakUM(){
-		$this->data['title']   = 'Tambah Kontak UM';
-        $this->data['existed'] = [];
-
-        foreach($this->m_kontakUM->getExistedContact() as $c){
-            array_push($this->data['existed'], $c['icon']);
-        }
-
-		return view('v_admin/shop/kontak/add', $this->data);
-	}
-
-	public function add_kontakUM(){
-        $social = $this->request->getVar('social');
-
-		//validation 
-		if(!$this->validate([
-			'social' => [
-				'rules'  => 'required|is_unique[kontak_um.social]',
-				'errors' => [
-					'required'  => 'Kontak masih kosong',
-					'is_unique' => 'Kontak <strong>' .$social. '</strong> sudah ada',				
-				]
-			],
-			'link' => [
-				'rules'  => 'required|valid_url',
-				'errors' => [
-					'required'  => 'Link URL masih kosong',
-					'valid_url' => 'Link URL tidak valid',				
-				]
-			],
-			'icon' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => 'Icon belum dipilih',
-				]
-			],
-			'hex' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => 'Hex masih kosong',			
-				]
-			],
-		])) {
-			return redirect()->back()->withInput();
-		}
-
-		$link = $this->request->getVar('link');
-        $icon = $this->request->getVar('icon');
-        $hex  = $this->request->getVar('hex');
-
-		//process input data
-		$this->m_kontakUM->save([
-			'social' => $social,
-			'link'   => $link,
-			'icon' 	 => $icon,
-			'color'  => $hex,
-		]);
-
-		//pesan yang ditampilkan apabila input success
-		session()->setFlashdata('pesan', 'Kontak <strong>' .$social. '</strong> {{ __("admin/swal.successItem") }}".');
-
-		return redirect()->to('/Admin/KontakUM');
-	}
-
-	public function view_edit_kontakUM(){
-		$id = $this->request->getVar('id');
-
-		$this->data['kontakUM'] = $this->m_kontakUM->find($id);
-		$this->data['title'] 	= 'Edit Kontak ' .ucwords($this->data['kontakUM']['social']);
-        $this->data['existed'] 	= [];
-
-        foreach($this->m_kontakUM->getExistedContact() as $c){
-			if($c['icon'] == $this->data['kontakUM']['icon']){
-				continue;
+		foreach($existed_icons as $icon){
+			if($key = array_search($icon, array_column($icon_arr, 'icon'))){
+				unset($icon_arr[$key]);
 			}
-            array_push($this->data['existed'], $c['icon']);
-        }
-
-		return view('v_admin/shop/kontak/edit', $this->data);
-	}
-
-	public function edit_kontakUM(){
-		$id = $this->request->getVar('id');
-        $social = $this->request->getVar('social');
-
-		//validation 
-		if(!$this->validate([
-			'social' => [
-				'rules'  => 'required|is_unique[kontak_um.social, kontak_um.id,'.$id.']',
-				'errors' => [
-					'required' => 'Kontak masih kosong',
-					'is_unique' => 'Kontak <strong>' .$social. '</strong> sudah ada',				
-				]
-			],
-			'link' => [
-				'rules'  => 'required|valid_url',
-				'errors' => [
-					'required' => 'Link URL masih kosong',
-					'valid_url' => 'Link URL tidak valid',				
-				]
-			],
-			'icon' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => 'Icon belum dipilih',
-				]
-			],
-			'hex' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => 'Hex masih kosong',			
-				]
-			],
-		])) {
-			return redirect()->back()->withInput();
 		}
 
-		$link = $this->request->getVar('link');
-        $icon = $this->request->getVar('icon');
-        $hex = $this->request->getVar('hex');
+		if($current){
+			array_push($icon_arr, [
+				'name' => $current->social, 
+				'icon' => $current->icon
+			]);
+		}
 
-		//process input data
-		$this->m_kontakUM->save([
-			'id' => $id,
-			'social' => $social,
-			'link' => $link,
-			'icon' => $icon,
-			'color' => $hex,
+		return $icon_arr;
+	}
+
+    public function index(){
+        $this->data['title'] = __('admin/crud.data', $this->data['page']);
+
+		if(request()->ajax()){
+            return Datatables::of(UM_Contact::query())
+					->editColumn('link', function($item){
+						return '<a href="' .$item->link. '" target="_blank" rel="noopener noreferrer">' .$item->social. '</a>';
+					})
+					->editColumn('icon', function($item){
+						return '<i class="' .$item->icon. '" style="font-size: 2.5rem;"></i>';
+					})
+					->editColumn('color', function($item){
+						return '<div style="background:'.$item->color.';" class="social-color" data-bs-toggle="tooltip" data-bs-placement="top" title=' .$item->color. '></div>';
+					})
+					->addColumn('action', function($item){
+						return '<div class="dropdown d-inline">
+									<button class="btn btn-warning dropdown-toggle me-1 mb-1" type="button" data-bs-toggle="dropdown">' .__('admin/crud.btn.action'). '</button>
+									<div class="dropdown-menu">
+										<a type="button" class="dropdown-item has-icon editContact" data-id="' .$item->id. '">
+											<i class="fas fa-pen"></i> ' .__('admin/crud.btn.edit'). '
+										</a>
+										<a type="button" class="dropdown-item has-icon deleteContact" data-id="' .$item->id. '" data-social="' .$item->social. '">
+											<i class="fas fa-times"></i> ' .__('admin/crud.btn.delete'). '
+										</a>
+									</div>
+								</div>';
+					})
+					->rawColumns(['link', 'icon', 'color', 'action'])
+					->addIndexColumn()
+					->make();
+        }
+
+		return view('v_admin.shop.contact.data', $this->data);
+    }
+
+	public function create(){
+		$this->data['title']   = __('admin/crud.add', $this->data['page']);
+        $this->data['existed'] = UM_Contact::all();
+        $this->data['icon_arr'] = self::prepare_iconArray($this->data['existed']);
+
+		return view('v_admin.shop.contact.modal_add', $this->data);
+	}
+
+    public function store(Request $request){
+		self::checkHex($request);
+        $val = self::validator($request->all());
+
+		if(!empty($val->errors()->messages())){
+			$feedback = self::error_feedback($val);
+		} else {
+			UM_Contact::create($request->all());
+
+			$feedback['status'] = __('admin/crud.val_success');
+		}
+
+		echo json_encode($feedback);
+    }
+
+	public function edit(Request $request){
+		$this->data['title']   = __('admin/crud.edit', $this->data['page']);
+        $this->data['existed'] = UM_Contact::all()->except($request->id);
+        $this->data['contact'] = UM_Contact::where('id', '=', $request->id)->first();
+        $this->data['icon_arr'] = self::prepare_iconArray($this->data['existed'], $this->data['contact']);
+
+		return view('v_admin.shop.contact.modal_edit', $this->data);
+	}
+
+	public function update(Request $request){
+		self::checkHex($request);
+
+        $val = self::validator($request->all());
+
+		if(!empty($val->errors()->messages())){
+			$feedback = self::error_feedback($val);
+		} else {
+			$item = UM_Contact::findOrFail($request->id);
+
+			$item->fill($request->all())->save();
+
+			$feedback['status'] 	= __('admin/crud.val_success');
+		}
+
+		echo json_encode($feedback);
+	}
+
+    public function destroy(Request $request){
+		UM_Contact::findOrFail($request->id)->delete();
+    }
+
+	private function checkHex($request){
+		if($request->input('color')){
+			if(substr($request->input('color'),0,1) != '#'){
+				return $request->merge([
+					'color' => '#' .$request->input('color')
+				]);
+			}
+		}
+	}
+
+    private function validator(array $data, string $id = ''){
+        return Validator::make($data, [
+			'social'	=> 'required|unique:u_m__contacts' .(($id) ? ',social,'.$id : ''),
+			'link'		=> 'required|active_url|url',
+            'icon'		=> 'required',
+            'color'		=> 'required',
+		], [
+			'social.required' 	=> __('admin/validation.required.input', ['field' => __('admin/crud.variable.social_media')]),
+			'social.unique' 	=> __('admin/validation.unique.existed', ['field' => __('admin/crud.variable.social_media')]),
+			'link.required' 	=> __('admin/validation.required.input', ['field' => __('admin/crud.variable.link')]),
+			'link.active_url' 	=> __('admin/validation.url'),
+			'link.url' 			=> __('admin/validation.url'),
+			'icon.required' 	=> __('admin/validation.required.input', ['field' => __('admin/crud.variable.icon')]),
+			'color.required' 	=> __('admin/validation.required.input', ['field' => __('admin/crud.variable.color')]),
 		]);
+    }
 
-		//pesan yang ditampilkan apabila input success
-		session()->setFlashdata('pesan', 'Kontak <strong>' .$social. '</strong> telah diedit.');
-		
-		return redirect()->to('/Admin/KontakUM');
+	private function error_feedback($val){
+		$feedback = [
+			'status' => __('admin/crud.val_failed'),
+			'social' => $val->errors()->first('social') ?? false,
+			'link' 	 => $val->errors()->first('link') ?? false,
+			'icon' 	 => $val->errors()->first('icon') ?? false,
+			'color'  => $val->errors()->first('color') ?? false,
+		];
+
+		return $feedback;
 	}
-
-	public function delete_kontakUM($id){
-		$this->m_kontakUM->delete($id);
-	}
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\UM_Contact  $uM_Contact
-     * @return \Illuminate\Http\Response
-     */
-    public function show(UM_Contact $uM_Contact)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\UM_Contact  $uM_Contact
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(UM_Contact $uM_Contact)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\UM_Contact  $uM_Contact
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, UM_Contact $uM_Contact)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\UM_Contact  $uM_Contact
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(UM_Contact $uM_Contact)
-    {
-        //
-    }
 }

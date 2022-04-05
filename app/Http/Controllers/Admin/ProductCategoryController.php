@@ -3,16 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Product_Category;
+use App\Helpers\General;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use Intervention\Image\Facades\Image;
+use Ramsey\Uuid\Uuid;
 
 class ProductCategoryController extends AdminController
 {
 	public function __construct(){
 		parent::__construct();
 		$this->data['page'] = ['page' => 'Kategori Produk'];
+
+		$this->category_dir = 'img/web/shop/';
 	}
 
     public function index(){
@@ -21,7 +27,7 @@ class ProductCategoryController extends AdminController
 		if(request()->ajax()){
             return Datatables::of(Product_Category::query())
 					->editColumn('photo', function($item){
-						return '<img src="' .asset('img/web/shop/' .$item['photo']). '" style="width: 5rem;">';
+						return '<img src="' .asset($this->category_dir .$item['photo']). '" style="width: 5rem;">';
 					})
 					->addColumn('action', function($item){
 						return '<div class="dropdown d-inline">
@@ -45,134 +51,100 @@ class ProductCategoryController extends AdminController
     }
 
     public function create(){
-        //
+        return view('v_admin.shop.category.modal_add', $this->data);
     }
 
     public function store(Request $request){
-        //
-    }
+        $val = self::validator($request->all());
 
-    public function edit(Product_Category $product_Category){
-        //
-    }
+		if(!empty($val->errors()->messages())){
+			$feedback = self::error_feedback($val);
+		} else {
+			$request['photo'] = Uuid::uuid4().'.'.$request->file('photo')->extension();
+			$folderPath = public_path($this->category_dir);
 
-    public function update(Request $request, Product_Category $product_Category){
-        //
-    }
+			self::resizeImage($request->file('photo'), $folderPath, $request->input('photo'));
 
-    public function destroy(Product_Category $product_Category){
-        //
-    }
+			$request['slug'] = Str::slug($request->category);
 
-	public function view_add_category(){
-		$this->data['title'] = 'Tambah Kategori';
-		
-		return view('v_admin/shop/kategori/add', $this->data);
-	}
+			Product_Category::create($request->input());
 
-	public function add_category(){
-        $kategori = $this->request->getVar('kategori');
-		
-		//validation 
-		if(!$this->validate([
-			'kategori' => [
-				'rules'  => 'required|is_unique[kategori_produk.kategori]',
-				'errors' => [
-					'required'  => 'Kategori masih kosong',
-					'is_unique' => 'Kategori' .$kategori. 'sudah ada',				
-				]
-			],
-			'foto' => [
-				'rules'  => 'uploaded[foto]|mime_in[foto, image/jpg,image/jpeg,image/png]|is_image[foto]|max_size[foto, 5120]',
-				'errors' => [
-					'uploaded' => 'Foto belum di upload.',
-					'mime_in'  => 'File memiliki format yang tidak diizinkan.',
-					'is_image' => 'File bukan gambar.',
-					'max_size' => 'File melebihi batas maksimum 5mb.',
-				]
-			],
-		])) {
-			return redirect()->to('/Admin/shop/view_add_category')->withInput();
+			$feedback['status'] = __('admin/crud.val_success');
 		}
 
-        $slug = url_title($kategori, '-', true);
+		echo json_encode($feedback);
+    }
 
-		$image = $this->request->getFile('foto');
+    public function edit(Request $request){
+		$this->data['title'] 	= __('admin/crud.edit', $this->data['page']);
+		$this->data['category'] = Product_Category::find($request->id);
 
-		$name = $image->getRandomName();
-		
-		\Config\Services::image()
-			->withFile($image)
-			->resize(700, 500, true, 'width')
-			->save('assets/img/web/shop/' .$name);
+		return view('v_admin.shop.category.modal_edit', $this->data);
+    }
 
-		//process input data
-		$this->m_kategoriProduk->save([
-			'kategori' => $kategori,
-			'slug' => $slug,
-			'foto' => $name,
+    public function update(Request $request){
+        $val = self::validator($request->all(), $request->id);
+
+		if(!empty($val->errors()->messages())){
+			$feedback = self::error_feedback($val);
+		} else {
+			$request['slug'] = Str::slug($request->category);
+
+			if($request->file('photo')){
+				General::clearStorage($this->category_dir . $request->input('old_img'));
+
+				$request['photo'] = Uuid::uuid4().'.'.$request->file('photo')->extension();
+				$folderPath = public_path($this->category_dir);
+
+				self::makedir($folderPath);
+				self::resizeImage($request->file('photo'), $folderPath, $request->input('photo'));
+			}
+
+			$item = Product_Category::findOrFail($request->id);
+			$item->fill($request->input())->save();
+
+			$feedback['status'] = __('admin/crud.val_success');
+		}
+
+		echo json_encode($feedback);
+    }
+
+    public function destroy(Request $request){
+		$data = Product_Category::findOrFail($request->id);
+		General::clearStorage($this->category_dir . $data['photo']);
+		$data->delete();
+    }
+
+	private function resizeImage($img, string $folderPath, string $filename){
+		self::makedir($folderPath);
+
+		Image::make($img)->resize(700, null, function ($const) {
+			$const->aspectRatio();
+		})->save($folderPath. '/' .$filename);
+	}
+
+    private function validator(array $data, string $id = ''){
+        return Validator::make($data, [
+			'category'	=> 'required|unique:product__categories' .(($id) ? ',category,'.$id : ''),
+            'photo'		=> ($id) ? '' : 'required'.'|image|mimes:jpeg,jpg,png|file|max:4096',
+		], [
+			'category.required' 	=> __('admin/validation.required.input', ['field' => __('admin/crud.variable.category')]),
+			'category.unique' 		=> __('admin/validation.unique.existed', ['field' => __('admin/crud.variable.category')]),
+			'photo.required' 		=> __('admin/validation.required.upload', ['field' => __('admin/crud.variable.photo')]),
+			'photo.image' 			=> __('admin/validation.image.image', ['field' => __('admin/crud.variable.photo')]),
+			'photo.mime' 			=> __('admin/validation.image.mime', ['mime' => '.jpg, .jpeg, .png']),
+			'photo.file' 			=> __('admin/validation.image.file'),
+			'photo.max' 			=> __('admin/validation.image.max'),
 		]);
-		
-		//pesan yang ditampilkan apabila input success
-		session()->setFlashdata('pesan', 'Kategori <b>' .$kategori. '</b> {{ __("admin/swal.successItem") }}".');
-		
-		return redirect()->to('/Admin/Shop/Kategori');
-	}
+    }
 
-	public function view_edit_category(){
-		$id = $this->request->getVar('id');
+	private function error_feedback($val){
+		$feedback = [
+			'status' 	=> __('admin/crud.val_failed'),
+			'category' 	=> $val->errors()->first('category') ?? false,
+			'photo' 	=> $val->errors()->first('photo') ?? false,
+		];
 
-		$this->data['title'] = 'Edit kategori';
-
-		$this->data['kategori'] = $this->m_kategoriProduk->find($id);
-		
-		return view('v_admin/shop/kategori/edit', $this->data);
-	}
-
-	public function edit_category(){
-        $kategori = $this->request->getVar('kategori');
-        $id = $this->request->getVar('id');
-
-		//validation 
-		if(!$this->validate([
-			'kategori' => [
-				'rules'  => 'required|is_unique[kategori_produk.kategori,kategori_produk.id,'.$id.']',
-				'errors' => [
-					'required'  => 'Kategori masih kosong',
-					'is_unique' => 'Kategori <b>' .$kategori. '</b> sudah ada',				
-				]
-			],
-		])) {
-			return redirect()->to('/Admin/shop/view_edit_category')->withInput();
-		}
-
-        $slug = url_title($kategori, '-', true);
-
-		$image = $this->request->getFile('foto');
-		$old_img = $this->request->getVar('old_img');
-
-		if($image->getError() == 4){
-			$name = $old_img;
-		} else{
-			$name = $image->getRandomName();
-			
-			\Config\Services::image()
-				->withFile($image)
-				->resize(700, 500, true, 'width')
-				->save('assets/img/web/shop/' .$name);
-
-			unlink('assets/img/web/shop/' .$old_img);
-		}
-
-		$this->m_kategoriProduk->update($id, [
-			'kategori' 	=> $kategori,
-			'slug' 		=> $slug,
-			'foto' 		=> $name,
-		]);
-		
-		//pesan yang ditampilkan apabila input success
-		session()->setFlashdata('pesan', 'Kategori <b>' .$kategori. '</b> telah diedit.');
-		
-		return redirect()->to('/Admin/shop/kategori');
+		return $feedback;
 	}
 }

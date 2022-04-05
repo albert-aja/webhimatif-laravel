@@ -1,6 +1,5 @@
 <x-modal modalID="modal_edit_item" modalSize="modal-lg" :title="__('admin/crud.form.edit', $page)">
     <form id="form_edit_item" method="POST" enctype="multipart/form-data">
-    {{-- @method('put') --}}
     @csrf
         <input type="hidden" name="id" value="{{ $item->id }}">
         <div class="box-body">

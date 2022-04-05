@@ -130,7 +130,6 @@
         editor.config.autoGrow_minHeight = 300;
         editor.config.autoGrow_maxHeight = 800;
 
-        
     $.uploadPreview({
         input_field: "#image-upload", // Default: .image-upload
         preview_box: "#image-preview", // Default: .image-preview

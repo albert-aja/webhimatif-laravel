@@ -356,43 +356,4 @@ $(function () {
             }
         }
     });
-
-    function colorBucket() {
-        $(".input-group-text").css("background", $("#hex-input").val());
-        $(".input-group-text i").css("opacity", 0);
-    }
-
-    $("#hex-input").keyup(function () {
-        colorBucket();
-        if ($("#preview-btn").length > 0) {
-            $("#preview-btn").css("background", $(this).val());
-            $("#preview-icon").css("color", "#fff");
-        }
-    });
-
-    if ($("#linkMediaSosial").length > 0) {
-        function socialMediaLink() {
-            if ($("#linkMediaSosial").val().match("https://.*")) {
-                var el = $("#linkTo");
-                el.attr("href", $("#linkMediaSosial").val());
-                el.css("pointer-events", "visible");
-                el.addClass("btn-primary");
-                el.removeClass("btn-secondary");
-            }
-        }
-
-        if (document.querySelector("#linkMediaSosial").value.length != 0) {
-            socialMediaLink();
-        }
-
-        $("#linkMediaSosial").keyup(function () {
-            socialMediaLink();
-            $("#preview-btn").attr("href", $("#linkMediaSosial").val());
-        });
-
-        $("input[name='icon']").click(function () {
-            $("#preview-icon").removeClass();
-            $("#preview-icon").addClass($("input[name='icon']:checked").val());
-        });
-    }
 });

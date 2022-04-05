@@ -128,7 +128,7 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
         Route::get('Shop/create', 'create');
         Route::post('Shop/store', 'store');
         Route::post('Shop/edit', 'edit');
-        Route::put('Shop/update', 'update');
+        Route::post('Shop/update', 'update');
         Route::delete('Shop/destroy', 'destroy');
     });
     Route::controller(ProductGalleryController::class)->group(function() {
@@ -136,30 +136,30 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
         Route::put('ProductGallery/update', 'updateOrder');
     });
     Route::controller(ProductColorController::class)->group(function() {
-        Route::get('Product_Color', 'index')->name('color-data');
-        Route::get('Product_Color/create', 'create');
-        Route::post('Product_Color/store', 'store');
-        Route::post('Product_Color/edit', 'edit');
-        Route::put('Product_Color/update', 'update');
-        Route::delete('Product_Color/destroy', 'destroy');
+        Route::get('ProductColor', 'index')->name('color-data');
+        Route::get('ProductColor/create', 'create');
+        Route::post('ProductColor/store', 'store');
+        Route::post('ProductColor/edit', 'edit');
+        Route::put('ProductColor/update', 'update');
+        Route::delete('ProductColor/destroy', 'destroy');
     });
     Route::controller(ProductCategoryController::class)->group(function() {
-        Route::get('Product_Category', 'index')->name('category-data');
-        Route::get('Product_Category/create', 'create');
-        Route::post('Product_Category/store', 'store');
-        Route::post('Product_Category/edit', 'edit');
-        Route::put('Product_Category/update', 'update');
-        Route::delete('Product_Category/destroy', 'destroy');
+        Route::get('ProductCategory', 'index')->name('category-data');
+        Route::get('ProductCategory/create', 'create');
+        Route::post('ProductCategory/store', 'store');
+        Route::post('ProductCategory/edit', 'edit');
+        Route::put('ProductCategory/update', 'update');
+        Route::delete('ProductCategory/destroy', 'destroy');
+    });
+    Route::controller(UMContactController::class)->group(function() {
+        Route::get('UMContact', 'index')->name('contact-data');
+        Route::get('UMContact/create', 'create');
+        Route::post('UMContact/store', 'store');
+        Route::post('UMContact/edit', 'edit');
+        Route::put('UMContact/update', 'update');
+        Route::delete('UMContact/destroy', 'destroy');
     });
 
-    Route::resource('UMContact', UMContactController::class, [
-                        'names' => [
-                            'index'     => 'umcontact-data',
-                            'create'    => 'umcontact-create',
-                            'edit'      => 'umcontact-edit',
-                            'destroy'   => 'umcontact-delete',
-                        ]
-                    ]);
     Route::resource('Post', PostController::class, [
                         'names' => [
                             'index'     =>  'post-data',

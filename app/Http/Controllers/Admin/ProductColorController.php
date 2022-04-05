@@ -58,7 +58,7 @@ class ProductColorController extends AdminController
 		} else {
 			Product_Color::create($request->input());
 
-			$feedback['status'] 	= __('admin/crud.val_success');
+			$feedback['status'] = __('admin/crud.val_success');
 		}
 
 		echo json_encode($feedback);
@@ -78,7 +78,9 @@ class ProductColorController extends AdminController
 		if(!empty($val->errors()->messages())){
 			$feedback = self::error_feedback($val);
 		} else {
-			Product_Color::create($request->input());
+			$item = Product_Color::findOrFail($request->id);
+
+			$item->fill($request->all())->save();
 
 			$feedback['status'] 	= __('admin/crud.val_success');
 		}

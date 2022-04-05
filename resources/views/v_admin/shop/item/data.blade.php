@@ -110,7 +110,7 @@
 				validation(feedback.fromPrice, '#fromPrice', '#fromPrice-feedback');
 				validation(feedback.toPrice, '#toPrice', '#toPrice-feedback');
 			} else {
-				$('#modal_add_program').modal('hide');
+				$('#modal_add_item').modal('hide');
 				Swal.fire(
 					'{{ __("admin/swal.success") }}',
 					'{{ __("admin/crud.variable.item") }} ' + data.get('item') + ' {{ __("admin/swal.successItem") }}',
@@ -151,7 +151,7 @@
 		let data = new FormData(this);
 
 		$.ajax({
-			method: "PUT",
+			method: "POST",
 			url: '/Admin/Shop/update',
 			data: data,
             processData: false,
@@ -171,13 +171,13 @@
 				validation(feedback.fromPrice, '#fromPrice', '#fromPrice-feedback');
 				validation(feedback.toPrice, '#toPrice', '#toPrice-feedback');
 			} else {
-				$('#modal_edit_position').modal('hide');
+				$('#modal_edit_item').modal('hide');
 				Swal.fire(
 					'{{ __("admin/swal.success") }}',
 					'{{ __("admin/swal.successEdit", ["page" => $title]) }}',
 					'success',
 				);
-				reload_table(position_table);
+				reload_table(item_table);
 			}
 		})
 		e.preventDefault();

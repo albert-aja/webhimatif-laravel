@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Models\Commitee;
-use App\Models\Main_Model;
+use Illuminate\Database\Eloquent\Model;
 
-class Position extends Main_Model
+class Position extends Model
 {
     protected $fillable = ['position'];
 

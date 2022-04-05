@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Main_Model;
+use Illuminate\Database\Eloquent\Model;
 
-class History extends Main_Model
+class History extends Model
 {
-    protected $fillable = [
-        'history'
-    ];
+    protected $fillable = ['history'];
 }

@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Models\Shop_Item;
-use App\Models\Main_Model;
+use Illuminate\Database\Eloquent\Model;
 
-class Product_Category extends Main_Model
+class Product_Category extends Model
 {
     protected $fillable = [
         'category', 'slug', 'photo'
