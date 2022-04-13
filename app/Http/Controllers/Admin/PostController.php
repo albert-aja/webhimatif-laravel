@@ -8,8 +8,9 @@ use App\Models\Division;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
+use Ramsey\Uuid\Uuid;
+use Yajra\DataTables\Facades\DataTables;
 
 class PostController extends AdminController
 {
@@ -17,103 +18,21 @@ class PostController extends AdminController
 		parent::__construct();
 		$this->data['page'] = ['page' => 'Berita'];
 
-		$this->post_dir = 'img/news/';
+		$this->hero_img_dir 	= 'img/news/hero_image/';
 	}
 
-    public function uploadProccessing($date, $slug, $image, $folder_name = '', $name = ''){
-		//generate nama random untuk gambar
-		if($name == ''){
-			$name = $image->getRandomName();
-		}
-		
-		if($folder_name == ''){
-			//buat slug untuk nama folder
-			$folder_name = url_title(indonesia_date($date), '-', true) .'_'. $slug;
-		}
+    public function uploadHeroImage($image){
+		$filename = Uuid::uuid4().'.'.$image->extension();
 
-		//membuat folder apabila belum ada
-		if (!file_exists($this->post_dir .$folder_name)) {
-			@mkdir($this->post_dir .$folder_name, 0777, true);
-		}
+		self::makedir($this->hero_img_dir);
+		self::saveResized([800, 300, 100], $image, $this->hero_img_dir, $filename);
 
-		//melakukan resize gambar sebanyak 3 ukuran
-		//besar
-		\Config\Services::image()
-			->withFile($image)
-			->resize(1000, 800, true, 'height')
-			->save($this->post_dir .$folder_name .'/1x_' .$name);
-
-		//medium
-		\Config\Services::image()
-			->withFile($image)
-			->resize(600, 300, true, 'height')
-			->save($this->post_dir .$folder_name .'/2x_' .$name);
-		
-		//kecil
-		\Config\Services::image()
-			->withFile($image)
-			->resize(200, 100, true, 'height')
-			->save($this->post_dir .$folder_name .'/3x_' .$name);
-			
-		//mengakali bug adanya file html kosong saat gambar disimpan
-		$empty_file = $folder_name. '/index.html';
-		
-		//apabila index.html ada, maka dihapus
-		if(file_exists($empty_file)){
-			unlink($empty_file);
-		}
-		
-		//mengembalikan nama gambar untuk disimpan ke dalam database
-		return $name;
+		return $filename;
 	}
 
-	public function uploadArticleImage(){
-		$title = $this->request->getVar('judul');
-		$date  = $this->request->getVar('date');
-		
-		if($date == ''){
-			$date = date('Y-m-d');
-		}
-
-		//membuat slug dari title
-		$slug = url_title($title, '-', true);
-
-		$image = $this->request->getFile('upload');
-
-		$name   = $image->getRandomName();
-		$folder = url_title(indonesia_date($date), '-', true) .'_'. $slug .'/img';
-
-		if (!file_exists($this->post_dir .$folder)) {
-			@mkdir($this->post_dir .$folder, 0777, true);
-		}
-
-		$path = $this->post_dir .$folder .'/2x_' .$name;
-		
-		\Config\Services::image()
-			->withFile($image)
-			->resize(1000, 800, true, 'height')
-			->save($this->post_dir .$folder .'/1x_' .$name);
-
-		\Config\Services::image()
-			->withFile($image)
-			->resize(800, 350, true, 'width')
-			->save($path);
-			
-		$functionNumber = $this->request->getVar('CKEditorFuncNum');
-		$url = base_url(). '/' .$path;
-		$message = '';
-		
-		echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($functionNumber, '$url', $message)</script>";
-	}
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 	public function index(){
 		$this->data['title'] = __('admin/crud.data', $this->data['page']);
-		
+
 		if(request()->ajax()){
             return Datatables::of(Post::with(['division']))
 					->addColumn('action', function($item){
@@ -137,9 +56,7 @@ class PostController extends AdminController
 						return (strlen($item->article) <= $max) ? $item->article : substr($item->article, 0, $max) . '...';
 					})
 					->editColumn('hero_image', function($item){
-						$img_loc = General::getNewsPhoto($item->created_at, $item['slug']);
-
-						return '<img src="' .asset('img/news/' .$img_loc. '/3x_' .$item->hero_image). '" style="min-height: 6rem"/>';
+						return '<img src="' .asset($this->hero_img_dir. '3x_' .$item->hero_image). '" style="min-height: 6rem"/>';
 					})
 					->editColumn('division_id', function($item){
 						return '<span class="badge rounded-pill bg-primary">' .$item->division->alias. '</span>';
@@ -155,11 +72,6 @@ class PostController extends AdminController
 		return view('v_admin.post.data', $this->data);
 	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(){
 		$this->data['title'] 		= __('admin/crud.add', $this->data['page']);
 		$this->data['divisions'] 	= Division::select('id', 'division')->get();
@@ -167,87 +79,74 @@ class PostController extends AdminController
 		return view('v_admin.post.write', $this->data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request){
-        $data = self::validator($request->all())->validate();
+        $val = self::validator($request->all());
 
-        $data['slug'] = Str::slug($request->product_name);
+        if(!empty($val->errors()->messages())){
+			$feedback = self::error_feedback($val);
+		} else {
+			$request['hero_image'] = self::uploadHeroImage($request->file('hero_image'));
 
-        $this->product::create($data);
+			$request['slug'] = Str::slug($request->title);
 
-        return redirect()->route($this->index_route);
+			Post::create($request->input());
+
+			$feedback['status'] 	= __('admin/crud.val_success');
+			$feedback['redirect']	= route('post-data');
+		}
+
+		echo json_encode($feedback);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Post $post)
-    {
-        //
+    public function edit(Request $request){
+		$this->data['title'] 		= __('admin/crud.edit', $this->data['page']);
+		$this->data['post'] 		= Post::where('id', $request->id)->first();
+		$this->data['divisions'] 	= Division::select('id', 'division')->get();
+
+		return view('v_admin.post.write', $this->data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Post $post)
-    {
-        //
+    public function update(Request $request){
+        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Post $post)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Post $post)
-    {
-        //
+    public function destroy(Request $request){
+		$data = Post::findOrFail($request->id);
+		// General::clearStorage(self::shop_image($data->product_category->slug, $data['slug'], $data['photo']));
+		$data->delete();
     }
 
     private function validator(array $data){
         return Validator::make($data, [
-			'publish_date'	=> 'required|date',
+			'created_at'	=> 'required|date',
             'title'     	=> 'required|unique:posts',
             'hero_image'  	=> 'required|image|file|max:4096',
             'article'  		=> 'required',
-			'division'		=> 'required',
+			'division_id'		=> 'required',
 		], [
-			'publish_date.required' => __('admin/validation.post.publish_date.required'),
-			'publish_date.date' 	=> __('admin/validation.post.publish_date.date'),
+			'created_at.required' 	=> __('admin/validation.post.publish_date.required'),
+			'created_at.date' 		=> __('admin/validation.post.publish_date.date'),
 			'title.required' 		=> __('admin/validation.post.title.required'),
 			'title.unique' 			=> __('admin/validation.post.title.unique'),
 			'hero_image.required' 	=> __('admin/validation.post.hero_image.required'),
 			'hero_image.image' 		=> __('admin/validation.post.hero_image.image'),
 			'hero_image.file' 		=> __('admin/validation.post.hero_image.file'),
 			'hero_image.max' 		=> __('admin/validation.post.hero_image.max'),
-			'article.required' 		=> __('admin/validation.post.publish_date.required'),
-			'division.required' 	=> __('admin/validation.post.division.required'),
+			'article.required' 		=> __('admin/validation.post.article.required'),
+			'division_id.required' 	=> __('admin/validation.post.division.required'),
 		]);
     }
+
+	private function error_feedback($val){
+		return [
+			'status' 		=> __('admin/crud.val_failed'),
+			'created_at' 	=> $val->errors()->first('created_at') ?? false,
+			'title' 		=> $val->errors()->first('title') ?? false,
+			'hero_image' 	=> $val->errors()->first('hero_image') ?? false,
+			'article' 		=> $val->errors()->first('article') ?? false,
+			'division' 		=> $val->errors()->first('division_id') ?? false,
+		];
+	}
 
 	public function write_article(){
 		$title = $this->request->getVar('title');
@@ -358,17 +257,7 @@ class PostController extends AdminController
 		}
 
 		$this->data['title'] = 'Preview Article';
-		
-		$tags = $this->request->getVar('tag');
-		
-		$tag_arr = [];
 
-		for($i=0; $i<count($tags); $i++){
-			array_push($tag_arr, $this->tagBerita->getDataById($tags[$i]));
-		}
-		
-		$this->data['tag'] = $tag_arr;
-		
 		$this->data['post'] = [
             'title' 	 => $title,
 			'hero_img'   => $this->request->getVar('preview'),

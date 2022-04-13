@@ -20,7 +20,7 @@ class Product_Category extends Model
     public function count_category(){
         return $this->select('product__categories.category', 'product__categories.slug')
                     ->selectRaw('count(shop__items.product__categories_id) as total_count')
-                    ->join('shop__items', 'shop__items.product__categories_id', '=', 'product__categories.id')
+                    ->join('shop__items', 'shop__items.product__categories_id', 'product__categories.id')
                     ->groupBy('product__categories.category')
                     ->orderBy('product__categories.id', 'ASC')
                     ->get();

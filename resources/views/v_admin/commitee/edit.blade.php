@@ -134,7 +134,6 @@
                         window.location.href = feedback.redirect;
                     }
                 })
-
 			}
 		})
 		e.preventDefault();

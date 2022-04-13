@@ -48,7 +48,7 @@ class CommiteeController extends AdminController
 	}
 
 	private function prepare_data($slug){
-		$this->division = Division::where('slug', '=', $slug)->first();
+		$this->division = Division::where('slug', $slug)->first();
 
 		$this->data['page']['page'] .= ' ' .$this->division->alias;
 		$this->data['slug'] = $slug;
@@ -110,7 +110,7 @@ class CommiteeController extends AdminController
 									$slug
 								);
 
-			$request['division_id'] = Division::where('slug', '=', $slug)->first()['id'];
+			$request['division_id'] = Division::where('slug', $slug)->first()['id'];
 
 			Commitee::create($request->input());
 

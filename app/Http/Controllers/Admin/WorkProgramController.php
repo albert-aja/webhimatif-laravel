@@ -17,7 +17,7 @@ class WorkProgramController extends AdminController
 	}
 
 	private function prepare_data($slug){
-		$this->division = Division::where('slug', '=', $slug)->first();
+		$this->division = Division::where('slug', $slug)->first();
 		
 		$this->data['page']['page'] .= ' ' .$this->division->alias;
 		$this->data['slug'] = $slug;
@@ -63,7 +63,7 @@ class WorkProgramController extends AdminController
 		if(!empty($val->errors()->messages())){
 			$feedback = self::error_feedback($val);
 		} else {
-			$request['division_id'] = Division::where('slug', '=', $slug)->first()['id'];
+			$request['division_id'] = Division::where('slug', $slug)->first()['id'];
 
 			Work_Program::create($request->input());
 

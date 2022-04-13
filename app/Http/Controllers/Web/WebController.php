@@ -117,8 +117,7 @@ class WebController extends Controller
 
 		$this->data['title'] 	= $this->article['title'];
 		$this->data['post'] 	= $viewModel->article();
-		$this->data['latest'] 	= $viewModel->latest();
-		$this->data['folder'] 	= $viewModel->folder();
+		$this->data['latest'] 	= $viewModel->latest()->take(3);
 
 		//tambah jumlah viewer
 		$this->article->update([

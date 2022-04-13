@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-
 use App\Helpers\Breadcrumbs;
+
+use App\Models\Article_Image;
 use App\Models\Management_Year;
 
+use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
 
 class AdminController extends Controller
@@ -14,7 +15,7 @@ class AdminController extends Controller
     public function __construct() {
 		$this->middleware(['isActive', 'auth']);
 
-		$breadcrumbs 	= new Breadcrumbs;
+		$breadcrumbs = new Breadcrumbs;
 
 		$this->data = [
 			'tahun_kepengurusan' => Management_Year::first(),
@@ -22,7 +23,7 @@ class AdminController extends Controller
 		];
 	}
 
-	protected function saveResized(array $sizes, $img, string $folderPath, string $filename){
+	protected function saveResized(array $sizes, $img, string $folderPath, string $filename, $article = false){
         $img = Image::make($img);
 
 		for($i=0;$i<count($sizes);$i++){
@@ -30,6 +31,13 @@ class AdminController extends Controller
 			$img->resize(null, $sizes[$i], function ($const) {
 				$const->aspectRatio();
 			})->save($folderPath. '/' .$front_name. $filename);
+
+			if($article){
+				Article_Image::create([
+					'posts_id' 	=> $article,
+					'photo'		=> $front_name. $filename,
+				]);
+			}
 		}
 	}
 

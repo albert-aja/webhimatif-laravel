@@ -1,6 +1,6 @@
 @extends('_layout.admin._template')
 
-@section('content')  
+@section('content')
 
 <section class="section">
     <div class="section-header">
@@ -51,7 +51,7 @@
 
 @push('addon-script')
 <script>
-    let dataTable = $('#tablePosts').DataTable({
+    let news_table = $('#tablePosts').DataTable({
 		processing: true,
 		serverSide: true,
 		ordering: true,
@@ -75,7 +75,8 @@
 			{data: 'title', name: 'title'},
 			{data: 'article', name: 'article'},
 			{
-				data: 'hero_image', name: 'hero_image', 
+				data: 'hero_image', name: 'hero_image',
+				sClass: 'text-center',
 				orderable: false, searchable: false,
 			},
 			{data: 'created_at', name: 'created_at'},
@@ -94,6 +95,54 @@
 			},
 		]
 	});
+
+	$(document).on("click", ".editDivision", function() {
+		let id = $(this).attr("data-id");
+
+		$.ajax({
+			method: "POST",
+			url: '/Admin/Post/edit',
+			data: {id},
+            beforeSend: function(){
+				show_loader();
+			},
+		}).done(function(data) {
+			hide_loader();
+			call_modal('#modal_edit_division', data);
+		})
+	})
+	
+	$(document).on('submit', '#form_edit_division', function(e) {
+		let data = $(this).serialize();
+
+		$.ajax({
+			method: "POST",
+			url: '/Admin/Post/update',
+			data: data,
+            beforeSend: function(){
+                show_loader();
+            },
+		}).done(function(res) {
+			let feedback = jQuery.parseJSON(res);
+            hide_loader();
+			
+			if (feedback.status.toLowerCase() == "{{ __('admin/crud.val_failed') }}") {
+				validation(feedback.division, '#division', '#division-feedback');
+				validation(feedback.alias, '#alias', '#alias-feedback');
+			} else {
+				param = parse_query_string(data);
+
+				$('#modal_edit_division').modal('hide');
+				Swal.fire(
+					'{{ __("admin/swal.success") }}',
+					'{{ __("admin/swal.successEdit", ["page" => $title]) }}',
+					'success',
+				);
+				reload_table(news_table);
+			}
+		})
+		e.preventDefault();
+	})
 
     $(document).on("click", ".deletePost", function() {
 		let title = $(this).attr("data-title");

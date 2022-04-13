@@ -45,21 +45,6 @@ class General
     }
 
     /**
-     * Gets the NEWS folder path of an image.
-     * 
-     * @param string $date
-     * @param string $slug
-     * 
-     * @return string image folder path
-     */
-    public static function getNewsPhoto($date, $slug){
-        $first  = str_replace(' ', '-', strtolower(self::indonesia_date($date)));
-        $second = $slug;
-
-        return $first .'_'. $second;
-    }
-
-    /**
      * Gets the COMMITEE folder path of an image.
      * 
      * @param string $slug

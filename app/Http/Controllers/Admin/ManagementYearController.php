@@ -1,117 +1,49 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Management_Year;
+
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
-class ManagementYearController extends Controller
+class ManagementYearController extends AdminController
 {
-    public function periode(){
-		$this->data['title'] = 'Periode Kepengurusan';
+    public function index(){
+        $this->data['title'] = __('admin/crud.data', ['page' => __('admin/crud.variable.year')]);
 
-		return view('v_admin/config/tahun', $this->data);
-	}
+		return view('v_admin.config.periode', $this->data);
+    }
 
-	public function edit_periode(){
-		//validation 
-		if(!$this->validate([
-			'tahun' => [
-				'rules'  => 'required|max_length[40]',
-				'errors' => [
-					'required'   => 'Periode Kepengurusan belum diisi',
-					'max_length' => 'Periode Kepengurusan tidak boleh lebih dari 40 karakter',				
-				]
-			],
-		])) {
-			return redirect()->to('/Admin/Config/Periode')->withInput();
+    public function update(Request $request){
+        $val = self::validator($request->all());
+
+		if(!empty($val->errors()->messages())){
+			$feedback = self::error_feedback($val);
+		} else {
+			$item = Management_Year::findOrFail($request->id);
+
+			$request['year'] = "Himatif " .$request['year'];
+			$item->fill($request->input())->save();
+
+			$feedback['status'] = __('admin/crud.val_success');
 		}
 
-		//process input data
-		$this->tahun->save([
-			'id'    => $this->request->getVar('id'),
-			'tahun' => trim($this->request->getVar('tahun')),
+		echo json_encode($feedback);
+    }
+
+    private function validator(array $data){
+        return Validator::make($data, [
+			'year' => 'required',
+		], [
+			'year.required' => __('admin/validation.required.input', ['field' => __('admin/crud.variable.year')]),
 		]);
+    }
 
-		//pesan yang ditampilkan apabila input success
-		session()->setFlashdata('pesan', 'Periode Kepengurusan telah diedit.');
-		
-		return redirect()->to('/Admin/Config/Periode');
+	private function error_feedback($val){
+		return [
+			'status' 	=> __('admin/crud.val_failed'),
+			'year' 		=> $val->errors()->first('year') ?? false,
+		];
 	}
-    
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Management_Year  $management_Year
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Management_Year $management_Year)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Management_Year  $management_Year
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Management_Year $management_Year)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Management_Year  $management_Year
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Management_Year $management_Year)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Management_Year  $management_Year
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Management_Year $management_Year)
-    {
-        //
-    }
 }

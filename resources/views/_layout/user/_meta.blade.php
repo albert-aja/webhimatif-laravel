@@ -28,7 +28,7 @@
 {!! '<meta name="description" content="' .$article. '"/>
 <meta property="og:title" content="' .$post['title']. '" />
 <meta property="og:description" content="' .$article. '">
-<meta property="og:image" content="' .asset('img/news/' .$folder. '/3x_' .$post['hero_image']). '">
+<meta property="og:image" content="' .asset('img/news/hero_image/3x_' .$post['hero_image']). '">
 <meta property="og:url" content="' .url()->current(). '" />' !!}
 @else
 {!! '<meta name="description" content="' .$history['history']. '"/>

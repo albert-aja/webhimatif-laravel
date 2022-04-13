@@ -120,12 +120,10 @@ class DivisionController extends AdminController
     }
 
 	private function error_feedback($val){
-		$feedback = [
+		return [
 			'status' 	=> __('admin/crud.val_failed'),
 			'division' 	=> $val->errors()->first('division') ?? false,
 			'alias' 	=> $val->errors()->first('alias') ?? false,
 		];
-
-		return $feedback;
 	}
 }

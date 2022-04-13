@@ -16,12 +16,11 @@ class LoadPostViewModel extends ViewModel
     public function post_config($posts){
         $this->article_max = config('web.ARTICLE_MAX'); //panjang maksimal artikel
         return collect($posts)->map(function($post){
-            $img_loc = General::getNewsPhoto($post['created_at'], $post['slug']);
             $article = (strlen($post['article']) <= $this->article_max) ? $post['article'] : substr($post['article'], 0, $this->article_max) . '...';
 
             return collect($post)->merge([
-                'hero_image-l'  => 'img/news/'.$img_loc.'/3x_'.$post['hero_image'],
-                'hero_image-m'  => 'img/news/'.$img_loc.'/2x_'.$post['hero_image'],
+                'hero_image-l'  => 'img/news/hero_image/3x_'.$post['hero_image'],
+                'hero_image-m'  => 'img/news/hero_image/2x_'.$post['hero_image'],
                 'created_at'    => General::indonesia_date($post['created_at']),
                 'article'       => $article,
             ])->except('division_id', 'viewed');

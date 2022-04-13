@@ -19,7 +19,7 @@
                         <div class="invalid-feedback" id="link-feedback"></div>
                     </div>
                     <div class="col-3">
-                        <a href="" class="btn btn-secondary" id="linkTo" target="_blank" rel="noopener noreferrer" style="pointer-events: none">@lang('admin/crud.btn.try_link')</a>
+                        <a href="#" class="btn btn-secondary" id="linkTo" target="_blank" rel="noopener noreferrer" style="pointer-events: none">@lang('admin/crud.btn.try_link')</a>
                     </div>
                 </div>
             </div>

@@ -131,7 +131,7 @@ class ShopItemController extends AdminController
 
 			$data = Shop_Item::create($request->input());
 
-			$category_slug = Product_Category::where('id', '=', $request->input('product__categories_id'))->value('slug');
+			$category_slug = Product_Category::where('id', $request->input('product__categories_id'))->value('slug');
 			$order = 1;
 
 			foreach($request->file('photo') as $photo){
@@ -197,7 +197,7 @@ class ShopItemController extends AdminController
 
 			$old_image_path = self::shop_image($db_data->product_category->slug, $db_data->slug);
 
-			$new_slug = Product_Category::where('id', '=', $request->input('product__categories_id'))->pluck('slug')->first();
+			$new_slug = Product_Category::where('id', $request->input('product__categories_id'))->pluck('slug')->first();
 			$new_image_path = self::shop_image($new_slug, $request->input('slug'));
 
 			if($old_image_path != $new_image_path){
@@ -247,8 +247,8 @@ class ShopItemController extends AdminController
 			if(!is_null($old2new)){
 				foreach($old2new as $color){
 					Product_With_Color::where([
-						['shop__items_id', '=', $item_id],
-						['product__colors_id', '=', $color],
+						['shop__items_id', $item_id],
+						['product__colors_id', $color],
 					])->delete();
 				}
 			}
@@ -276,7 +276,7 @@ class ShopItemController extends AdminController
 					'price'				=> $prices[1],
 				]);
 			} else if (count($prices) < $count_price){
-				Product_Price::where('shop__items_id', '=', $item_id)->get()->last()->delete();
+				Product_Price::where('shop__items_id', $item_id)->get()->last()->delete();
 			} else {
 				for($i=0;$i<count($db_prices);$i++){
 					$db_prices[$i]->fill([

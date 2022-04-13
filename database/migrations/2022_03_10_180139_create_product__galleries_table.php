@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('product__galleries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('shop__items_id')->nullable()->comment('ID Item')
-                    ->constrained()->nullOnDelete()->onUpdate('cascade');
+            $table->foreignId('shop__items_id')->comment('ID Item')
+                    ->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('photo')->comment('Foto Item');
             $table->integer('photo_order')->comment('Urutan Foto');
             $table->timestamps();

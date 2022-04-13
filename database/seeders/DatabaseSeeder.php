@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Seeder;
+
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Vision;
@@ -15,6 +17,7 @@ use App\Models\Shop_Item;
 use App\Models\UM_Contact;
 use App\Models\Social_Media;
 use App\Models\Work_Program;
+use App\Models\Article_Image;
 use App\Models\Product_Color;
 use App\Models\Product_Price;
 use App\Models\Management_Year;
@@ -22,8 +25,6 @@ use App\Models\Product_Gallery;
 use App\Models\Maintenance_Info;
 use App\Models\Product_Category;
 use App\Models\Product_With_Color;
-
-use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -172,42 +173,42 @@ class DatabaseSeeder extends Seeder
         $posts = array(
             array('id' => '1','title' => 'KONGKOW – KONGKOW ILMU PENGETAHUAN ‘Bincang Karir : Raih Mimpi Dunia IT’','slug' => 'kongkow-kongkow-ilmu-pengetahuan-bincang-karir-raih-mimpi-dunia-it','hero_image' => '1638966923_adac4c8c2ddd19bcb535.png','article' => '<p>Kali ini HIMATIF kembali mengadakan kegiatan Kongkil (Kongkow-Kongkow Ilmu Pengetahuan) yang berlangsung pada 09 Oktober 2021 via Zoom. Kegiatan kongkil sendiri kembali diadakan karna dinilai cukup memberikan manfaat kepada para pesertanya. Kongkil yang diadakan HIMATIF kali ini mengusung tema &lsquo;Bincang Karir : Raih Mimpi Dunia IT&rsquo; yang dibawakan oleh Muhammad Fadly Tanjung sebagai pembicara. Muhammad Fadly Tanjung sendiri merupakan alumni Teknologi Informasi Angkatan 2014 yang sekarang bekerja sebagai Software Engineer di Tokopedia.</p>
 
-            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/11-oktober-2021_kongkow-kongkow-ilmu-pengetahuan-bincang-karir-raih-mimpi-dunia-it/img/1x_1638966437_a790aa31304c1ae9553a.png"><img alt="KONGKOW – KONGKOW ILMU PENGETAHUAN ‘Bincang Karir : Raih Mimpi Dunia IT’" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/11-oktober-2021_kongkow-kongkow-ilmu-pengetahuan-bincang-karir-raih-mimpi-dunia-it/img/2x_1638966437_a790aa31304c1ae9553a.png" src="https://www.himatifusu.com/assets/img/news/11-oktober-2021_kongkow-kongkow-ilmu-pengetahuan-bincang-karir-raih-mimpi-dunia-it/img/2x_1638966437_a790aa31304c1ae9553a.png" /></a></p>
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638966437_a790aa31304c1ae9553a.png"><img alt="KONGKOW – KONGKOW ILMU PENGETAHUAN ‘Bincang Karir : Raih Mimpi Dunia IT’" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638966437_a790aa31304c1ae9553a.png" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638966437_a790aa31304c1ae9553a.png" /></a></p>
 
             <p>Dalam materi yang disampaikan, pembicara memberikan banyak pengetahuan terkait kiat-kiat untuk bisa diterima bekerja pada perusahaan impian. Para peserta diajak untuk menyadari kemampuan dan potensi yang dimiliki didalam dirinya (desain, pemrograman, dll) dan dimotivasi untuk tidak gampang menyerah.</p>
 
-            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/11-oktober-2021_kongkow-kongkow-ilmu-pengetahuan-bincang-karir-raih-mimpi-dunia-it/img/1x_1638966488_d5addb10ba6cf14f835d.png"><img alt="KONGKOW – KONGKOW ILMU PENGETAHUAN ‘Bincang Karir : Raih Mimpi Dunia IT’" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/11-oktober-2021_kongkow-kongkow-ilmu-pengetahuan-bincang-karir-raih-mimpi-dunia-it/img/2x_1638966488_d5addb10ba6cf14f835d.png" src="https://www.himatifusu.com/assets/img/news/11-oktober-2021_kongkow-kongkow-ilmu-pengetahuan-bincang-karir-raih-mimpi-dunia-it/img/2x_1638966488_d5addb10ba6cf14f835d.png" /></a></p>
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638966488_d5addb10ba6cf14f835d.png"><img alt="KONGKOW – KONGKOW ILMU PENGETAHUAN ‘Bincang Karir : Raih Mimpi Dunia IT’" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638966488_d5addb10ba6cf14f835d.png" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638966488_d5addb10ba6cf14f835d.png" /></a></p>
 
             <p>Pada sesi ini juga, para peserta juga diberikan latihan-latihan singkat untuk mengukur kemampuan yang dimiliki. Peserta juga diberi kebebasan untuk melakukan tanya jawab kepada pembicara jika ada hal-hal yang ingin mereka ketahui. Hal ini disambut antusias oleh para peserta dengan banyaknya peserta yang bertanya baik secara langsung maupun dari kolom komentar.</p>
 
-            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/11-oktober-2021_kongkow-kongkow-ilmu-pengetahuan-bincang-karir-raih-mimpi-dunia-it/img/1x_1638966584_dc0b93df051133184577.png"><img alt="KONGKOW – KONGKOW ILMU PENGETAHUAN ‘Bincang Karir : Raih Mimpi Dunia IT’" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/11-oktober-2021_kongkow-kongkow-ilmu-pengetahuan-bincang-karir-raih-mimpi-dunia-it/img/2x_1638966584_dc0b93df051133184577.png" src="https://www.himatifusu.com/assets/img/news/11-oktober-2021_kongkow-kongkow-ilmu-pengetahuan-bincang-karir-raih-mimpi-dunia-it/img/2x_1638966584_dc0b93df051133184577.png" /></a></p>
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638966584_dc0b93df051133184577.png"><img alt="KONGKOW – KONGKOW ILMU PENGETAHUAN ‘Bincang Karir : Raih Mimpi Dunia IT’" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638966584_dc0b93df051133184577.png" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638966584_dc0b93df051133184577.png" /></a></p>
 
             <p>Dengan diadakannya acara ini diharapkan peserta mendapat pengetahuan terkait apa yang akan mereka lakukan didalam dunia pekerjaan nantinya, terutama dibidang IT. Peserta juga mendapatkan gambaran akan bagaimana dunia pekerjaan nantinya.</p>','division_id' => '2','viewed' => '13','created_at' => '2021-10-11 07:00:00','updated_at' => '2022-03-18 15:19:55'),
             array('id' => '2','title' => 'Gathering Pengurus Himpunan Mahasiswa Teknologi Informasi 2021/2022','slug' => 'gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022','hero_image' => '1638968765_a1b89acebb4cc5620772.jpg','article' => '<p>HIMATIF Kembali mengadakan kegiatan gathering pengurus yang berlokasi di Taman Cadika - Medan pada tanggal 30 Oktober 2022 dengan tema &#39;Teamwork make the dreamwork&#39;. Kegiatan gathering pengurus HIMATIF ini berlangsung sejak pukul 10.00 WIB sampai 16.30 WIB.</p>
 
             <p>Kegiatan dikonsep dengan suasana yang santai, riang, sharing dan dipadukan dengan games yang menarik. Kegiatan dimulai dengan pembukaan oleh Wakil Ketua HIMATIF (M. Bagoes Prasetya) dan dilanjutkan dengan kata sambutan dari Koordinator divisi PSDM (Yulia Citra Wardani). Kemudian, kegiatan dilanjutkan dengan penjelasan teknis game yang akan dilaksanakan nantinya setelah ibadah dan makan siang bersama.</p>
 
-            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/1x_1638968820_09312275cc3fb1a970dd.jpg"><img alt="Gathering Pengurus Himpunan Mahasiswa Teknologi Informasi 2021/2022" data-src="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/2x_1638968820_09312275cc3fb1a970dd.jpg" src="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/2x_1638968820_09312275cc3fb1a970dd.jpg" /></a></p>
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638968820_09312275cc3fb1a970dd.jpg"><img alt="Gathering Pengurus Himpunan Mahasiswa Teknologi Informasi 2021/2022" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638968820_09312275cc3fb1a970dd.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638968820_09312275cc3fb1a970dd.jpg" /></a></p>
 
             <p>Setelah ibadah dan makan siang bersama dilakukan, games yang tadinya sudah dijelaskan pada para peserta pun dimulai. Terdapat 2 jenis games yang dimainkan pada gathering kali ini, yaitu games estafet dan games keseluruhan. Pada games estafet terdapat 3 pos yang harus dilewati oleh para peserta, para peserta diharuskan mendayung kayak/perahu dari pos 1 ke pos yang lainnya dimana pada masing-masing post terdapat games yang berbeda.</p>
 
-            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/1x_1638968993_952ae6c4f25b0992aba7.jpg"><img alt="Gathering Pengurus Himpunan Mahasiswa Teknologi Informasi 2021/2022" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/2x_1638968993_952ae6c4f25b0992aba7.jpg" src="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/2x_1638968993_952ae6c4f25b0992aba7.jpg" /></a></p>
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638968993_952ae6c4f25b0992aba7.jpg"><img alt="Gathering Pengurus Himpunan Mahasiswa Teknologi Informasi 2021/2022" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638968993_952ae6c4f25b0992aba7.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638968993_952ae6c4f25b0992aba7.jpg" /></a></p>
 
             <p>Pos 1 berisikan game Tarik stoking dan koin dalam tepung dimana para peserta yang memakai stoking harus meniup lilin yang berada didepannya, setelah selesai peserta menepuk teman kelompoknya untuk lanjut ke game selanjutnya yaitu mengambil 5 koin yang terdapat dalam piring yang berisikan tepung.</p>
 
-            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/1x_1638968853_3b565cbf45150f1c68c9.jpg"><img alt="Gathering Pengurus Himpunan Mahasiswa Teknologi Informasi 2021/2022" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/2x_1638968853_3b565cbf45150f1c68c9.jpg" src="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/2x_1638968853_3b565cbf45150f1c68c9.jpg" /></a></p>
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638968853_3b565cbf45150f1c68c9.jpg"><img alt="Gathering Pengurus Himpunan Mahasiswa Teknologi Informasi 2021/2022" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638968853_3b565cbf45150f1c68c9.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638968853_3b565cbf45150f1c68c9.jpg" /></a></p>
 
             <p>Pos 2 berisikan lomba balap karung dan makan kerupuk, kemudian pos 3 berisi games paku dalam botol dan tiup pingpong.</p>
 
-            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/1x_1638968922_6a8d4b4adb986be73f94.jpg"><img alt="Gathering Pengurus Himpunan Mahasiswa Teknologi Informasi 2021/2022" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/2x_1638968922_6a8d4b4adb986be73f94.jpg" src="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/2x_1638968922_6a8d4b4adb986be73f94.jpg" /></a></p>
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638968922_6a8d4b4adb986be73f94.jpg"><img alt="Gathering Pengurus Himpunan Mahasiswa Teknologi Informasi 2021/2022" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638968922_6a8d4b4adb986be73f94.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638968922_6a8d4b4adb986be73f94.jpg" /></a></p>
 
             <p>Untuk pemberhentian akhir, terdapat pos 4 yang menjadi pos terakhir dimana para peserta bermain secara keseluruhan tim. Pada pos ini terdapat games estafet air, estafet sarung dan estafet karet gelang.</p>
 
-            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/1x_1638968939_5783d3d9c1586d96fd3a.jpg"><img alt="Gathering Pengurus Himpunan Mahasiswa Teknologi Informasi 2021/2022" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/2x_1638968939_5783d3d9c1586d96fd3a.jpg" src="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/2x_1638968939_5783d3d9c1586d96fd3a.jpg" /></a></p>
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638968939_5783d3d9c1586d96fd3a.jpg"><img alt="Gathering Pengurus Himpunan Mahasiswa Teknologi Informasi 2021/2022" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638968939_5783d3d9c1586d96fd3a.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638968939_5783d3d9c1586d96fd3a.jpg" /></a></p>
 
             <p>Kegiatan gathering kemudian diakhiri dengan sesi foto bersama dan pemberian kesan pesan sesama pengurus HIMATIF.</p>
 
-            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/1x_1638968956_7f86d9960a82127c88f9.jpg"><img alt="Gathering Pengurus Himpunan Mahasiswa Teknologi Informasi 2021/2022" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/2x_1638968956_7f86d9960a82127c88f9.jpg" src="https://www.himatifusu.com/assets/img/news/02-november-2021_gathering-pengurus-himpunan-mahasiswa-teknologi-informasi-20212022/img/2x_1638968956_7f86d9960a82127c88f9.jpg" /></a></p>
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638968956_7f86d9960a82127c88f9.jpg"><img alt="Gathering Pengurus Himpunan Mahasiswa Teknologi Informasi 2021/2022" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638968956_7f86d9960a82127c88f9.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638968956_7f86d9960a82127c88f9.jpg" /></a></p>
 
             <p>Kegiatan yang diikuti oleh 55 orang pengurus HIMATIF 2021/2022 ini bertujuan untuk menjalin silaturami antar pengurus HIMATIF, menjalin kerjasama yang produktif antar pengurus HIMATIF, memberi wadah komunikasi antar pengurus HIMATIF dan, memberi sarana sosialisasi kegiatan antar pengurus HIMATIF.</p>
 
@@ -247,27 +248,27 @@ class DatabaseSeeder extends Seeder
 
             <p>Namun, terlepas dari penundaan waktu yang cukup lama, semangat dan antusias dari teman-teman Teknologi Informasi yang hadir di lokasi tetap mengalir sehingga acara tetap dapat dilaksanakan dengan baik. Acara dibuka oleh MC, yaitu Muksalmina dan Annisa Putri Daulay. Dilanjutkan dengan kata sambutan oleh Astrid Nainggolan selaku Koordinator Divisi Olsen dan kata sambutan oleh Muhammad Daifullah selaku Ketua Umum HIMATIF.</p>
 
-            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/1x_1638970561_9e4a302d82fb713e85d7.jpg"><img alt="Kongkow Bareng (KOBAR) 2021" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/2x_1638970561_9e4a302d82fb713e85d7.jpg" src="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/2x_1638970561_9e4a302d82fb713e85d7.jpg" /></a></p>
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638970561_9e4a302d82fb713e85d7.jpg"><img alt="Kongkow Bareng (KOBAR) 2021" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638970561_9e4a302d82fb713e85d7.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638970561_9e4a302d82fb713e85d7.jpg" /></a></p>
 
             <p>Penampilan dibuka oleh grup duo Hamba Tuhan, disusul dengan penampilan solo dari Andi Farras yang mendapat begitu banyak sorak sorai dari penonton. Antusias penonton tidak berhenti disitu, sorak sorai penonton masih terdengar mengiringi penampilan yang dibawakan oleh grup Olsen, Meraki, UC 1000 dan Kawan Kumpul band.</p>
 
             <div class="row">
-            <div class="col-md-6 mb-2"><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/1x_1638970593_1b5a9726e79b49a72d12.jpg"><img alt="Kongkow Bareng (KOBAR) 2021" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/2x_1638970593_1b5a9726e79b49a72d12.jpg" src="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/2x_1638970593_1b5a9726e79b49a72d12.jpg" /></a></div>
+            <div class="col-md-6 mb-2"><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638970593_1b5a9726e79b49a72d12.jpg"><img alt="Kongkow Bareng (KOBAR) 2021" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638970593_1b5a9726e79b49a72d12.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638970593_1b5a9726e79b49a72d12.jpg" /></a></div>
 
-            <div class="col-md-6"><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/1x_1638970606_4f012a4be19bc1a27681.jpg"><img alt="Kongkow Bareng (KOBAR) 2021" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/2x_1638970606_4f012a4be19bc1a27681.jpg" src="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/2x_1638970606_4f012a4be19bc1a27681.jpg" /></a></div>
+            <div class="col-md-6"><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638970606_4f012a4be19bc1a27681.jpg"><img alt="Kongkow Bareng (KOBAR) 2021" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638970606_4f012a4be19bc1a27681.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638970606_4f012a4be19bc1a27681.jpg" /></a></div>
             </div>
 
             <p>Kobar tahun ini cukup berbeda dari kobar tahun &ndash; tahun sebelumnya. Karena kobar tahun ini mendatangkan bintang tamu yaitu band asal medan, &lsquo;Moongazing &amp; Her&lsquo; yang didominasi oleh personel wanita. Sebelum memulai sesi bincang, salah satu personel dari Moongazing &amp; Her, Kak Dara mempersembahkan sebuah lagu dengan suara merdunya.</p>
 
-            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/1x_1638970621_1acb28c7593c73a63f27.jpg"><img alt="Kongkow Bareng (KOBAR) 2021" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/2x_1638970621_1acb28c7593c73a63f27.jpg" src="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/2x_1638970621_1acb28c7593c73a63f27.jpg" /></a></p>
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638970621_1acb28c7593c73a63f27.jpg"><img alt="Kongkow Bareng (KOBAR) 2021" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638970621_1acb28c7593c73a63f27.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638970621_1acb28c7593c73a63f27.jpg" /></a></p>
 
             <p>Kedua MC berbincang-bincang dengan bintang tamu mengenai kehidupan musisi terkhusus musisi wanita di Medan. Banyak ilmu dan pengalaman yang dapat diambil selama interview dengan Moongazing &amp; Her. Diakhir interview Moongazing &amp; Her memberikan harapannya untuk para wanita agar jangan takut untuk berkarya, manfaatkan semua platfrom dan kesempatan yang ada karena tidak ada perbedaan antara musisi wanita dan pria.</p>
 
-            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/1x_1638970635_537d8a8dc887347e9cc8.jpg"><img alt="Kongkow Bareng (KOBAR) 2021" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/2x_1638970635_537d8a8dc887347e9cc8.jpg" src="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/2x_1638970635_537d8a8dc887347e9cc8.jpg" /></a></p>
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638970635_537d8a8dc887347e9cc8.jpg"><img alt="Kongkow Bareng (KOBAR) 2021" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638970635_537d8a8dc887347e9cc8.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638970635_537d8a8dc887347e9cc8.jpg" /></a></p>
 
             <p>Di akhir acara, tentunya MC juga mengumumkan mana penampilan terbaik yang sudah teman-teman Teknologi Informasi tampilkan pada malam itu. Meraki Band terpilih sebagai Best Performance. Selamat teman-teman, kalian keren! Hadiah diserahkan oleh Bang Dani yang berupa merchandise HIMATIF.</p>
 
-            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/1x_1638970650_8cb8ced129e05374e0c2.jpg"><img alt="Kongkow Bareng (KOBAR) 2021" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/2x_1638970650_8cb8ced129e05374e0c2.jpg" src="https://www.himatifusu.com/assets/img/news/21-november-2021_kongkow-bareng-kobar-2021/img/2x_1638970650_8cb8ced129e05374e0c2.jpg" /></a></p>
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638970650_8cb8ced129e05374e0c2.jpg"><img alt="Kongkow Bareng (KOBAR) 2021" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638970650_8cb8ced129e05374e0c2.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638970650_8cb8ced129e05374e0c2.jpg" /></a></p>
 
             <p>Tepat pukul 21.30 WIB, acara Kobar selesai dilaksanakan dan ditutup dengan foto bersama seluruh mahasiswa Teknologi Informasi yang hadir pada malam itu.</p>
 
@@ -278,11 +279,11 @@ class DatabaseSeeder extends Seeder
                     webkitallowfullscreen="webkitallowfullscreen" src="https://www.youtube.com/embed/TO93iL0jAYU"></iframe></p>','division_id' => '5','viewed' => '50','created_at' => '2021-11-21 07:00:00','updated_at' => NULL),
             array('id' => '5','title' => 'KONGKOW – KONGKOW ILMU PENGETAHUAN  ‘Become a Legend : Front End Developer’','slug' => 'kongkow-kongkow-ilmu-pengetahuan-become-a-legend-front-end-developer','hero_image' => '1638971400_278782855cca56c962af.png','article' => '<p>Kongkil &ndash; atau kegiatan dari HIMATIF yang memiliki kepanjangan Kongkow Kongkow Ilmu Pengetahuan kembali dilaksanakan pada 27 November 2021. Pada kesempatan kali ini HIMATIF mengusung tema &lsquo;Become A Legend : Front End Developer&rsquo; dan mengundang Putra Yuszar sebagai pembicara pada kegiatan Kongkil kali ini. Putra Yuszar sendiri merupakan alumni dari Teknologi Informasi yang sekarang bekerja sebagai front end di PT Bangunindo Teknusa Jaya.</p>
 
-            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/29-november-2021_kongkow-kongkow-ilmu-pengetahuan-become-a-legend-front-end-developer/img/1x_1638971435_54bf792e97e1ebfac213.png"><img alt="KONGKOW – KONGKOW ILMU PENGETAHUAN  ‘BECOME A LEGEND : FRONT END DEVELOPER’" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/29-november-2021_kongkow-kongkow-ilmu-pengetahuan-become-a-legend-front-end-developer/img/2x_1638971435_54bf792e97e1ebfac213.png" src="https://www.himatifusu.com/assets/img/news/29-november-2021_kongkow-kongkow-ilmu-pengetahuan-become-a-legend-front-end-developer/img/2x_1638971435_54bf792e97e1ebfac213.png" /></a></p>
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638971435_54bf792e97e1ebfac213.png"><img alt="KONGKOW – KONGKOW ILMU PENGETAHUAN  ‘BECOME A LEGEND : FRONT END DEVELOPER’" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638971435_54bf792e97e1ebfac213.png" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638971435_54bf792e97e1ebfac213.png" /></a></p>
 
             <p>Rangkaian acara dimulai dengan kata sambutan dari Ketua HIMATIF (Muhammad Daifullah) , dan kemudian dilanjutkan oleh pembawaan materi. Materi pada kongkil kali ini mencakup pembelajaran yang harus ditempuh jika ingin menjadi front end developer, portfolio yang harus dipersiapkan dan banyak pengetahuan lain terkait kiat-kiat menjadi front end developer. Kegiatan ini juga dilengkapi oleh sesi tanya jawab yang diikuti oleh antusias para peserta.</p>
 
-            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/29-november-2021_kongkow-kongkow-ilmu-pengetahuan-become-a-legend-front-end-developer/img/1x_1638971458_f494cf8991f662341d26.png"><img alt="KONGKOW – KONGKOW ILMU PENGETAHUAN  ‘BECOME A LEGEND : FRONT END DEVELOPER’" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/29-november-2021_kongkow-kongkow-ilmu-pengetahuan-become-a-legend-front-end-developer/img/2x_1638971458_f494cf8991f662341d26.png" src="https://www.himatifusu.com/assets/img/news/29-november-2021_kongkow-kongkow-ilmu-pengetahuan-become-a-legend-front-end-developer/img/2x_1638971458_f494cf8991f662341d26.png" /></a></p>
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1638971458_f494cf8991f662341d26.png"><img alt="KONGKOW – KONGKOW ILMU PENGETAHUAN  ‘BECOME A LEGEND : FRONT END DEVELOPER’" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1638971458_f494cf8991f662341d26.png" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1638971458_f494cf8991f662341d26.png" /></a></p>
 
             <p>Dengan diadakannya kegiatan ini, diharapkan dapat memberikan pemahaman dan pengetahuan kepada peserta terkait dunia kerja jika mereka ingin terjun sebagai Front End Developer.</p>','division_id' => '2','viewed' => '53','created_at' => '2021-11-29 07:00:00','updated_at' => NULL),
             array('id' => '6','title' => 'Mystery Event HIMATIF 2021 (Cooking and Donate)','slug' => 'mystery-event-himatif-2021-cooking-and-donate','hero_image' => '1642744952_599a42744fc4061b8bc3.jpg','article' => '<p>Sebagai penutup event akhir tahun 2021, HIMATIF menyelenggarakan Mystery Event, Cooking and Donate. Acara cooking and donate (Coonate) sendiri merupakan lomba masak yang diikuti oleh mahasiswa Teknologi Informasi dan hasilnya akan didonasikan kepada mereka yang membutuhkan. Coonate diadakan pada Sabtu, 18 Desember 2021 di Pendopo Fasilkom-TI.</p>
@@ -290,22 +291,22 @@ class DatabaseSeeder extends Seeder
             <p>Terdapat 4 tim yang mendaftarkan diri pada perlombaan masak kali ini dan menu yang akan dilombakan adalah nasi goreng dan mie goreng. Para peserta diberikan bahan dasar untuk memasak dan diperbolehkan untuk membawa bahan tambahan dari rumah seperti udang, bakso, sosis, dan lain-lain.</p>
 
             <div class="row">
-            <div class="col-md-6 mb-2"><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/20-desember-2021_mystery-event-himatif-2021-cooking-and-donate/img/1x_1642744977_4986f28cf16e63005f82.jpg"><img alt="Mystery Event HIMATIF 2021 (Cooking and Donate)" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/20-desember-2021_mystery-event-himatif-2021-cooking-and-donate/img/2x_1642744977_4986f28cf16e63005f82.jpg" src="https://www.himatifusu.com/assets/img/news/20-desember-2021_mystery-event-himatif-2021-cooking-and-donate/img/2x_1642744977_4986f28cf16e63005f82.jpg" /></a></div>
+            <div class="col-md-6 mb-2"><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1642744977_4986f28cf16e63005f82.jpg"><img alt="Mystery Event HIMATIF 2021 (Cooking and Donate)" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1642744977_4986f28cf16e63005f82.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1642744977_4986f28cf16e63005f82.jpg" /></a></div>
 
-            <div class="col-md-6"><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/20-desember-2021_mystery-event-himatif-2021-cooking-and-donate/img/1x_1642744994_0447af4d897a3b6f2056.jpg"><img alt="Mystery Event HIMATIF 2021 (Cooking and Donate)" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/20-desember-2021_mystery-event-himatif-2021-cooking-and-donate/img/2x_1642744994_0447af4d897a3b6f2056.jpg" src="https://www.himatifusu.com/assets/img/news/20-desember-2021_mystery-event-himatif-2021-cooking-and-donate/img/2x_1642744994_0447af4d897a3b6f2056.jpg" /></a></div>
+            <div class="col-md-6"><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1642744994_0447af4d897a3b6f2056.jpg"><img alt="Mystery Event HIMATIF 2021 (Cooking and Donate)" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1642744994_0447af4d897a3b6f2056.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1642744994_0447af4d897a3b6f2056.jpg" /></a></div>
             </div>
 
             <p>Dengan dua pilihan menu tadi peserta diberikan waktu untuk membuat kreasi makanan yang selanjutnya akan dinilai oleh para juri. Juri yang menilai masakan merupakan perwakilan dari HIMATIF dan peserta yang berhadir pada acara.</p>
 
             <div class="row">
-            <div class="col-md-6 mb-2"><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/20-desember-2021_mystery-event-himatif-2021-cooking-and-donate/img/1x_1642745376_b137b0e85fc625989e48.jpg"><img alt="Mystery Event HIMATIF 2021 (Cooking and Donate)" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/20-desember-2021_mystery-event-himatif-2021-cooking-and-donate/img/2x_1642745376_b137b0e85fc625989e48.jpg" src="https://www.himatifusu.com/assets/img/news/20-desember-2021_mystery-event-himatif-2021-cooking-and-donate/img/2x_1642745376_b137b0e85fc625989e48.jpg" /></a></div>
+            <div class="col-md-6 mb-2"><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1642745376_b137b0e85fc625989e48.jpg"><img alt="Mystery Event HIMATIF 2021 (Cooking and Donate)" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1642745376_b137b0e85fc625989e48.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1642745376_b137b0e85fc625989e48.jpg" /></a></div>
 
-            <div class="col-md-6"><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/20-desember-2021_mystery-event-himatif-2021-cooking-and-donate/img/1x_1642745394_1b07adaa18dbe3e7445e.jpg"><img alt="Mystery Event HIMATIF 2021 (Cooking and Donate)" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/20-desember-2021_mystery-event-himatif-2021-cooking-and-donate/img/2x_1642745394_1b07adaa18dbe3e7445e.jpg" src="https://www.himatifusu.com/assets/img/news/20-desember-2021_mystery-event-himatif-2021-cooking-and-donate/img/2x_1642745394_1b07adaa18dbe3e7445e.jpg" /></a></div>
+            <div class="col-md-6"><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1642745394_1b07adaa18dbe3e7445e.jpg"><img alt="Mystery Event HIMATIF 2021 (Cooking and Donate)" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1642745394_1b07adaa18dbe3e7445e.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1642745394_1b07adaa18dbe3e7445e.jpg" /></a></div>
             </div>
 
             <p>Selama acara berlangsung juga diadakan live music yang diisi oleh mahasiswa TI sendiri sebagai wadah penyaluran bakat dan hobi yang dimiliki.</p>
 
-            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/20-desember-2021_mystery-event-himatif-2021-cooking-and-donate/img/1x_1642745518_e983a4174b59831e4406.jpg"><img alt="Mystery Event HIMATIF 2021 (Cooking and Donate)" class="blur-up lazyloaded" data-src="https://www.himatifusu.com/assets/img/news/20-desember-2021_mystery-event-himatif-2021-cooking-and-donate/img/2x_1642745518_e983a4174b59831e4406.jpg" src="https://www.himatifusu.com/assets/img/news/20-desember-2021_mystery-event-himatif-2021-cooking-and-donate/img/2x_1642745518_e983a4174b59831e4406.jpg" /></a></p>
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1642745518_e983a4174b59831e4406.jpg"><img alt="Mystery Event HIMATIF 2021 (Cooking and Donate)" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1642745518_e983a4174b59831e4406.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1642745518_e983a4174b59831e4406.jpg" /></a></p>
 
             <p>Untuk keseruan dan kelengkapan acara Mystery Event &ndash; Cooking and Donate kali ini dapat diakses pada halaman youtube himatif :</p>
 
@@ -313,7 +314,142 @@ class DatabaseSeeder extends Seeder
                     mozallowfullscreen="mozallowfullscreen" 
                     msallowfullscreen="msallowfullscreen" 
                     oallowfullscreen="oallowfullscreen" 
-                    webkitallowfullscreen="webkitallowfullscreen" src="https://www.youtube.com/embed/0ANkTrnV3z0"></iframe></p>','division_id' => '2','viewed' => '42','created_at' => '2021-12-20 07:00:00','updated_at' => '2022-03-10 17:32:07')
+                    webkitallowfullscreen="webkitallowfullscreen" src="https://www.youtube.com/embed/0ANkTrnV3z0"></iframe></p>','division_id' => '2','viewed' => '42','created_at' => '2021-12-20 07:00:00','updated_at' => '2022-03-10 17:32:07'),
+            array('id' => '7','title' => 'SOSIALISASI BEASISWA HIMATIF 2022: ‘Make the Impossible Possible’','slug' => 'sosialisasi-beasiswa-himatif-2022-make-the-impossible-possible','hero_image' => '1649210626_b2e5c4f329958eec10e6.png','article' => '<p>Rabu, 26 Januari 2022 Himpunan Mahasiswa Teknologi Informasi (HIMATIF) USU telah melaksanakan Sosialisasi Beasiswa dengan tema &lsquo;Make the Impossible Possible&rsquo; yang bertempat di Ruang Kuliah 101 dan 103 Teknologi Informasi.</p>
+
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1649210464_d3b5330d484e73675eb7.jpg"><img alt="SOSIALISASI BEASISWA HIMATIF 2022: ‘Make the Impossible Possible’" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1649210464_d3b5330d484e73675eb7.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1649210464_d3b5330d484e73675eb7.jpg" /></a></p>
+
+            <p>Dalam kegiatan tersebut, HIMATIF menghadirkan pembicara yang berasal dari mahasiswa teknologi informasi, Ruth Calista (TI 2018) penerima IISMA, Bella Fransiska (TI 2019) penerima GenBI dan M. Afifan (TI 2019) penerima KSE.</p>
+
+            <p>Para pembicara yang hadir membagikan pengalaman dengan menceritakan bagaimana sampai mereka bisa mendapatkan beasiswa tersebut dan bagaimana cara mereka mempertahanlan beasiswa tersebut. Tidak hanya itu para pembicara juga menceritakan pengalaman suka dan duka selama mendapatkan beasiswa tersebut.</p>
+
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1649210477_77db509ed5aa7b2ce33f.jpg"><img alt="SOSIALISASI BEASISWA HIMATIF 2022: ‘Make the Impossible Possible’" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1649210477_77db509ed5aa7b2ce33f.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1649210477_77db509ed5aa7b2ce33f.jpg" /></a></p>
+
+            <p>Acara ini diikuti dengan sangat antusias oleh 89 mahasiswa teknologi informasi yang aktif bertanya pada para pembicara guna mendapat saran untuk mendapatkan beasiswa, mengikuti student exchange dan mengikuti student mobility</p>','division_id' => '2','viewed' => '42','created_at' => '2021-01-28 07:00:00','updated_at' => '2022-03-10 17:32:07'),
+            array('id' => '8','title' => "WEBINAR: ’FROM ZERO TO CEO’",'slug' => 'webinar-from-zero-to-ceo','hero_image' => '1649210900_22d9ea139f67df9ebe3f.png','article' => '<p>Himpunan Mahasiswa Teknologi Informasi (HIMATIF) USU telah mengadakan Webinar dengan tema &lsquo;From Zero to CEO&rsquo; untuk membangkitkan kesadaran dan pola pikir para Mahasiswa dimasa pandemic (29/01/2022).</p>
+
+            <p>Kegiatan tersebut diselenggarakan melalui platform Zoom yang diisi oleh Abdul Latif Wahid Nasution selaku CEO dari Kepul (PT. Indonesia Bebas Sampah). Kepul sendiri merupakan sebuah inovasi dalam upaya optimalisasi jual beli sampah yang dapat didaur ulang. Aplikasi ini digunakan oleh masyarakat yang ingin menjual sampah kepada para pengepul, mereka yang bermata pencaharian dengan membeli sampah dari masyarakat untuk kemudian dijual kembali kepada pengepul besar, ataupun pabrik daur ulang sampah. Di kepul, masyarakat bisa menjual lebih dari 60 jenis sampah sampah organik dan non-organik.</p>
+
+            <p>Acara dimulai dengan pembukaan dan kata sambutan dari Wakil Ketua Himatif (Bagoes) dilanjutkan dengan pemaraparan materi oleh pembicara dan sesi tanya jawab.</p>
+
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1649210772_c8ef9b774f3a5be2441a.png"><img alt="WEBINAR: ’FROM ZERO TO CEO’" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1649210772_c8ef9b774f3a5be2441a.png" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1649210772_c8ef9b774f3a5be2441a.png" /></a></p>
+
+            <p>&#39;Para mahasiswa harus memiliki pemikiran untuk tidak takut gagal dan berani mencoba walau banyak pihak yang pasti akan meremehkan kita&rsquo; ucap CEO dari Kepul tersebut.<br />
+            Kegiatan berlangsung sukses dilihat dari antusiasi para mahasiswa didalam sesi tanya jawab dan diakhiri dengan sesi foto bersama para narasumber.</p>
+
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1649210797_3bff7ffe50d12e6eee2c.png"><img alt="WEBINAR: ’FROM ZERO TO CEO’" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1649210797_3bff7ffe50d12e6eee2c.png" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1649210797_3bff7ffe50d12e6eee2c.png" /></a></p>','division_id' => '2','viewed' => '17','created_at' => '2021-01-31 07:00:00','updated_at' => '2022-03-10 17:32:07'),
+            array('id' => '9','title' => 'KONGKOW – KONGKOW ILMU PENGETAHUAN: ‘START YOUR EXPERIENCE, BE A GREAT ANIMATOR’','slug' => 'kongkow-kongkow-ilmu-pengetahuan-start-your-experience-be-a-great-animator','hero_image' => '1649304489_2a34fbb02a033244521e.png','article' => '<p>Kongkow &ndash; kongkow ilmu pengetahuan atau program kerja HIMATIF yang biasa disebut Kongkil Kembali dilaksanakan pada Sabtu, 12 Maret 2022 untuk memberikan mahasiswa Teknologi Informasi wadah mendapatkan ilmu tentang dunia kerja. Pada kesempatan kali ini HIMATIF mengusung tema &lsquo;Start Your Experience, Be A Great Animator&rsquo; dan mengundang Fanny Ramadhana sebagai pembicara. Fanny sendiri merupakan alumni Teknologi Informasi yang sekarang bekerja sebagai Animator di Ruangguru.</p>
+
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1649303888_f824db45af76fac232d3.png"><img alt="KONGKOW – KONGKOW ILMU PENGETAHUAN: ‘START YOUR EXPERIENCE, BE A GREAT ANIMATOR’" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1649303888_f824db45af76fac232d3.png" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1649303888_f824db45af76fac232d3.png" /></a></p>
+
+            <p>Rangkaian acara dimulai dengan kata sambutan dari Ketua HIMATIF (Muhammad Daifullah) , dan kemudian dilanjutkan oleh pembawaan materi. Materi pada kongkil kali ini mencakup beberapa tips and trick yang bisa dilakukan jika ingin memulai karir sebagai seorang animator. Kegiatan ini juga dilengkapi oleh sesi tanya jawab yang diikuti oleh antusias para peserta.</p>
+
+            <p><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1649304062_1f9098828ef593815ac1.png"><img alt="KONGKOW – KONGKOW ILMU PENGETAHUAN: ‘START YOUR EXPERIENCE, BE A GREAT ANIMATOR’" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1649304062_1f9098828ef593815ac1.png" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1649304062_1f9098828ef593815ac1.png" /></a></p>
+
+            <p>Kegiatan diakhiri dengan sesi dokumentasi yang diikuti oleh pembicara dan seluruh peserta. Dengan kegiatan ini diharapkan para mahasiswa TI yang memiliki ketertarikan pada bidang animasi dapat terbantu dalam menyalurkan minat dan bakatnya.</p>','division_id' => '2','viewed' => '12','created_at' => '2021-03-14 07:00:00','updated_at' => '2022-03-10 17:32:07'),
+            array('id' => '10','title' => 'MYSTERY EVENT HIMATIF 2022 (IT-BULAGA)','slug' => 'mystery-event-himatif-2022-it-bulaga','hero_image' => '1649305219_677f9ab4b5c8ad33f63d.jpg','article' => '<p>Untuk menyalurkan aspirasi mahasiswa Teknologi Informasi, HIMATIF Kembali menyelenggarakan Mystery Event yang kali ini bertemakan IT-Bulaga. Pada IT-Bulaga sendiri terrdapat beberapa cabang lomba yang bisa diikuti oleh mahasiswa TI, yaitu IT pintar, whisper challenge dan cerdas cermat. IT-Bulaga diadakan pada Sabtu, 19 Maret 2022 di Pendopo Fasilkom-TI.</p>
+
+            <p>Terdapat 10 tim yang mendaftarkan diri pada kegiatan IT-Bulaga kali ini, masing-masing tim berasal dari angkatan aktif teknologi informasi yang terdiri dari 3 orang. Teknis dari games yang ada pada IT-Bulaga bersifat poin dimana tim dengan nilai tertinggi akan melaju ke babak selanjutnya dan tim dengan poin rendah akan di eliminasi.</p>
+
+            <p>Games yang pertama dimainkan adalah IT Pintar dimana para pemain harus menebak kata yang ada pada kepala rekan satu timnya dengan menyebutkan clue-clue yang mengarah pada kata dan teman tim nya hanya boleh menjawab &lsquo;ya&rsquo;, &lsquo;tidak&rsquo;, dan &lsquo;bisa jadi&rsquo;.</p>
+
+            <div class="row">
+            <div class="col-md-6 mb-2"><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1649304716_7900a5da716c57478e28.jpg"><img alt="MYSTERY EVENT HIMATIF 2022 (IT-BULAGA))" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1649304716_7900a5da716c57478e28.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1649304716_7900a5da716c57478e28.jpg" /></a></div>
+
+            <div class="col-md-6"><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1649304730_7417848467d31ec21710.jpg"><img alt="MYSTERY EVENT HIMATIF 2022 (IT-BULAGA)" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1649304730_7417848467d31ec21710.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1649304730_7417848467d31ec21710.jpg" /></a></div>
+            </div>
+
+            <p>Beberapa tim dengan poin tinggi akan lanjut ke permainan selanjutnya yaitu whisper challenge dimana para pemain harus menebak kata yang diucapkan rekan satu timnya namun dengan telinga yang menggunakan headphone.</p>
+
+            <div class="row">
+            <div class="col-md-6 mb-2"><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1649304910_0017159397ec61d66615.jpg"><img alt="MYSTERY EVENT HIMATIF 2022 (IT-BULAGA))" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1649304910_0017159397ec61d66615.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1649304910_0017159397ec61d66615.jpg" /></a></div>
+
+            <div class="col-md-6"><a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1649304921_ca5c95275f7d27715993.jpg"><img alt="MYSTERY EVENT HIMATIF 2022 (IT-BULAGA)" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1649304921_ca5c95275f7d27715993.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1649304921_ca5c95275f7d27715993.jpg" /></a></div>
+            </div>
+
+            <p>4 tim dengan poin tertinggi akhirnya masuk ke babak terakhir dimana para pemain harus menebak beberapa soal yang mencakup pertanyaan umum dan pertanyaan tentang dunia IT.</p>
+
+            <a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1649305054_fc42d798ab16b749d9c7.jpg"><img alt="MYSTERY EVENT HIMATIF 2022 (IT-BULAGA)" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1649305054_fc42d798ab16b749d9c7.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1649305054_fc42d798ab16b749d9c7.jpg" /></a>
+
+            <p>Acara diakhiri dengan pemberian hadiah kepada para pemenang lomba yang terdiri dari Juara 1, Juara 2, Juara 3 dan Juara Favorit.</p>
+
+            <a class="lightbox" href="https://www.himatifusu.com/assets/img/news/article_image/1x_1649305070_8f62e2c9c2b409d74780.jpg"><img alt="MYSTERY EVENT HIMATIF 2022 (IT-BULAGA)" class="blur-up lazyload" data-src="https://www.himatifusu.com/assets/img/news/article_image/1x_1649305070_8f62e2c9c2b409d74780.jpg" src="https://www.himatifusu.com/assets/img/news/article_image/2x_1649305070_8f62e2c9c2b409d74780.jpg" /></a>
+
+            <p>Untuk keseruan dan kelengkapan acara Mystery Event ( IT-Bulaga ) kali ini dapat diakses pada halaman youtube himatif :</p>
+
+            <p><iframe allowfullscreen="allowfullscreen" frameborder="0" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" scrolling="no" src="https://www.youtube.com/embed/KsM4ZJ7gwyQ" webkitallowfullscreen="webkitallowfullscreen"></iframe></p>','division_id' => '2','viewed' => '24','created_at' => '2021-03-21 07:00:00','updated_at' => '2022-03-10 17:32:07')
+        );
+
+        /* `db_himatif`.`article__images` */
+        $article__images = array(
+            array('id' => '1','posts_id' => '1','photo' => '1x_1638966437_a790aa31304c1ae9553a.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '2','posts_id' => '1','photo' => '2x_1638966437_a790aa31304c1ae9553a.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '3','posts_id' => '1','photo' => '1x_1638966488_d5addb10ba6cf14f835d.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '4','posts_id' => '1','photo' => '2x_1638966488_d5addb10ba6cf14f835d.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '5','posts_id' => '1','photo' => '1x_1638966584_dc0b93df051133184577.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '6','posts_id' => '1','photo' => '2x_1638966584_dc0b93df051133184577.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '7','posts_id' => '2','photo' => '1x_1638968820_09312275cc3fb1a970dd.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '8','posts_id' => '2','photo' => '2x_1638968820_09312275cc3fb1a970dd.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '9','posts_id' => '2','photo' => '1x_1638968993_952ae6c4f25b0992aba7.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '10','posts_id' => '2','photo' => '2x_1638968993_952ae6c4f25b0992aba7.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '11','posts_id' => '2','photo' => '1x_1638968853_3b565cbf45150f1c68c9.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '12','posts_id' => '2','photo' => '1x_1638968853_3b565cbf45150f1c68c9.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '13','posts_id' => '2','photo' => '1x_1638968922_6a8d4b4adb986be73f94.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '14','posts_id' => '2','photo' => '2x_1638968922_6a8d4b4adb986be73f94.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '15','posts_id' => '2','photo' => '1x_1638968939_5783d3d9c1586d96fd3a.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '16','posts_id' => '2','photo' => '2x_1638968939_5783d3d9c1586d96fd3a.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '17','posts_id' => '2','photo' => '1x_1638968956_7f86d9960a82127c88f9.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '18','posts_id' => '2','photo' => '2x_1638968956_7f86d9960a82127c88f9.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '19','posts_id' => '4','photo' => '1x_1638970561_9e4a302d82fb713e85d7.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '20','posts_id' => '4','photo' => '2x_1638970561_9e4a302d82fb713e85d7.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '21','posts_id' => '4','photo' => '1x_1638970593_1b5a9726e79b49a72d12.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '22','posts_id' => '4','photo' => '2x_1638970593_1b5a9726e79b49a72d12.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '23','posts_id' => '4','photo' => '1x_1638970606_4f012a4be19bc1a27681.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '24','posts_id' => '4','photo' => '2x_1638970606_4f012a4be19bc1a27681.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '25','posts_id' => '4','photo' => '1x_1638970621_1acb28c7593c73a63f27.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '26','posts_id' => '4','photo' => '2x_1638970621_1acb28c7593c73a63f27.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '27','posts_id' => '4','photo' => '1x_1638970635_537d8a8dc887347e9cc8.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '28','posts_id' => '4','photo' => '2x_1638970635_537d8a8dc887347e9cc8.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '29','posts_id' => '4','photo' => '1x_1638970650_8cb8ced129e05374e0c2.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '30','posts_id' => '4','photo' => '2x_1638970650_8cb8ced129e05374e0c2.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '31','posts_id' => '5','photo' => '1x_1638971435_54bf792e97e1ebfac213.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '32','posts_id' => '5','photo' => '2x_1638971435_54bf792e97e1ebfac213.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '33','posts_id' => '5','photo' => '1x_1638971458_f494cf8991f662341d26.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '34','posts_id' => '5','photo' => '2x_1638971458_f494cf8991f662341d26.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '35','posts_id' => '6','photo' => '1x_1642744977_4986f28cf16e63005f82.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '36','posts_id' => '6','photo' => '2x_1642744977_4986f28cf16e63005f82.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '37','posts_id' => '6','photo' => '1x_1642744994_0447af4d897a3b6f2056.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '38','posts_id' => '6','photo' => '2x_1642744994_0447af4d897a3b6f2056.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '39','posts_id' => '6','photo' => '1x_1642745376_b137b0e85fc625989e48.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '40','posts_id' => '6','photo' => '2x_1642745376_b137b0e85fc625989e48.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '41','posts_id' => '6','photo' => '1x_1642745394_1b07adaa18dbe3e7445e.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '42','posts_id' => '6','photo' => '2x_1642745394_1b07adaa18dbe3e7445e.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '43','posts_id' => '6','photo' => '1x_1642745518_e983a4174b59831e4406.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '44','posts_id' => '6','photo' => '2x_1642745518_e983a4174b59831e4406.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '45','posts_id' => '7','photo' => '1x_1649210464_d3b5330d484e73675eb7.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '46','posts_id' => '7','photo' => '2x_1649210464_d3b5330d484e73675eb7.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '47','posts_id' => '7','photo' => '1x_1649210477_77db509ed5aa7b2ce33f.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '48','posts_id' => '7','photo' => '2x_1649210477_77db509ed5aa7b2ce33f.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '49','posts_id' => '8','photo' => '1x_1649210772_c8ef9b774f3a5be2441a.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '50','posts_id' => '8','photo' => '2x_1649210772_c8ef9b774f3a5be2441a.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '51','posts_id' => '8','photo' => '1x_1649210797_3bff7ffe50d12e6eee2c.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '52','posts_id' => '8','photo' => '2x_1649210797_3bff7ffe50d12e6eee2c.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '53','posts_id' => '9','photo' => '1x_1649303888_f824db45af76fac232d3.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '54','posts_id' => '9','photo' => '2x_1649303888_f824db45af76fac232d3.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '55','posts_id' => '9','photo' => '1x_1649304062_1f9098828ef593815ac1.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '56','posts_id' => '9','photo' => '2x_1649304062_1f9098828ef593815ac1.png','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '57','posts_id' => '10','photo' => '1x_1649304716_7900a5da716c57478e28.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '58','posts_id' => '10','photo' => '2x_1649304716_7900a5da716c57478e28.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '59','posts_id' => '10','photo' => '1x_1649304730_7417848467d31ec21710.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '60','posts_id' => '10','photo' => '2x_1649304730_7417848467d31ec21710.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '61','posts_id' => '10','photo' => '1x_1649304910_0017159397ec61d66615.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '62','posts_id' => '10','photo' => '2x_1649304910_0017159397ec61d66615.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '63','posts_id' => '10','photo' => '1x_1649304921_ca5c95275f7d27715993.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '64','posts_id' => '10','photo' => '2x_1649304921_ca5c95275f7d27715993.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '65','posts_id' => '10','photo' => '1x_1649305054_fc42d798ab16b749d9c7.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '66','posts_id' => '10','photo' => '2x_1649305054_fc42d798ab16b749d9c7.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '67','posts_id' => '10','photo' => '1x_1649305070_8f62e2c9c2b409d74780.jpg','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '68','posts_id' => '10','photo' => '2x_1649305070_8f62e2c9c2b409d74780.jpg','created_at' => NULL,'updated_at' => NULL)
         );
 
         /* `db_himatif`.`product__categories` */
@@ -330,7 +466,8 @@ class DatabaseSeeder extends Seeder
             array('id' => '3','color' => 'Navy','hex_code' => '#0B0B45','created_at' => NULL,'updated_at' => NULL),
             array('id' => '4','color' => 'Army','hex_code' => '#47422A','created_at' => NULL,'updated_at' => NULL),
             array('id' => '5','color' => 'Grey','hex_code' => '#808080','created_at' => NULL,'updated_at' => NULL),
-            array('id' => '6','color' => 'Maroon','hex_code' => '#830300','created_at' => NULL,'updated_at' => NULL)
+            array('id' => '6','color' => 'Maroon','hex_code' => '#830300','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '15','color' => 'Orange','hex_code' => '#ffa500','created_at' => '2022-04-05 16:41:39','updated_at' => '2022-04-05 16:41:39'),
         );
 
         /* `db_himatif`.`product__galleries` */
@@ -353,6 +490,20 @@ class DatabaseSeeder extends Seeder
             array('id' => '16','shop__items_id' => '10','photo' => '1632369857_5dc3b917054ae9282c4e.jpg','photo_order' => '2','created_at' => NULL,'updated_at' => NULL),
             array('id' => '17','shop__items_id' => '11','photo' => '1632369957_60bc38dd2a28aae44d23.jpg','photo_order' => '1','created_at' => NULL,'updated_at' => NULL),
             array('id' => '18','shop__items_id' => '12','photo' => '1632369994_c0b0ce36cfbad9c812fd.jpg','photo_order' => '2','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '19','shop__items_id' => '15','photo' => 'cbd6e81f-bca7-484a-acd8-0d3cb991f4f5.jpg','photo_order' => '1','created_at' => '2022-04-05 15:31:08','updated_at' => '2022-04-05 15:31:08'),
+            array('id' => '20','shop__items_id' => '15','photo' => '7b04724b-518a-4e00-8a6f-df5ab1824211.jpg','photo_order' => '2','created_at' => '2022-04-05 15:31:08','updated_at' => '2022-04-05 15:31:08'),
+            array('id' => '21','shop__items_id' => '15','photo' => '2bd0c62a-4635-4fc4-a201-89fb52f8ae73.jpg','photo_order' => '3','created_at' => '2022-04-05 15:31:09','updated_at' => '2022-04-05 15:31:09'),
+            array('id' => '22','shop__items_id' => '16','photo' => 'a1f7c74f-7ee6-419c-92f5-d390da990ac8.jpg','photo_order' => '1','created_at' => '2022-04-05 15:56:21','updated_at' => '2022-04-05 15:56:21'),
+            array('id' => '23','shop__items_id' => '16','photo' => 'fff3bad8-b2cb-4210-9fb5-0b01d5455c35.jpg','photo_order' => '2','created_at' => '2022-04-05 15:56:21','updated_at' => '2022-04-05 15:56:21'),
+            array('id' => '24','shop__items_id' => '16','photo' => '53a526f3-3e86-4534-92ce-82b3ef906acc.jpg','photo_order' => '3','created_at' => '2022-04-05 15:56:22','updated_at' => '2022-04-05 15:56:22'),
+            array('id' => '25','shop__items_id' => '17','photo' => '6625346c-f927-4785-bb3b-f57ee43d0980.jpg','photo_order' => '1','created_at' => '2022-04-05 16:02:27','updated_at' => '2022-04-05 16:02:27'),
+            array('id' => '26','shop__items_id' => '2','photo' => '0b51005d-2ca1-4745-bb9b-76c88dff3d3e.jpg','photo_order' => '2','created_at' => '2022-04-05 16:26:08','updated_at' => '2022-04-05 16:26:08'),
+            array('id' => '27','shop__items_id' => '3','photo' => 'c56efacb-61cd-474b-b094-3f41507a8e20.jpg','photo_order' => '2','created_at' => '2022-04-05 16:30:12','updated_at' => '2022-04-05 16:30:12'),
+            array('id' => '28','shop__items_id' => '18','photo' => '61243c63-722c-4252-8d37-12d4030dfa26.jpg','photo_order' => '3','created_at' => '2022-04-05 16:32:44','updated_at' => '2022-04-05 16:35:46'),
+            array('id' => '29','shop__items_id' => '18','photo' => 'f8ebbe1a-d0ff-428b-88be-d1e1523ccb0d.jpg','photo_order' => '2','created_at' => '2022-04-05 16:32:44','updated_at' => '2022-04-05 16:35:46'),
+            array('id' => '30','shop__items_id' => '18','photo' => '8df013f7-979e-41b3-b061-1f629f416fee.jpg','photo_order' => '1','created_at' => '2022-04-05 16:32:44','updated_at' => '2022-04-05 16:35:46'),
+            array('id' => '31','shop__items_id' => '19','photo' => '29fc6dc6-7fa5-4114-ae80-589962b4f80c.jpg','photo_order' => '1','created_at' => '2022-04-05 16:46:41','updated_at' => '2022-04-05 21:53:56'),
+            array('id' => '32','shop__items_id' => '19','photo' => 'bdd3f1d2-85ee-4668-b9d2-7e0830d367aa.jpg','photo_order' => '2','created_at' => '2022-04-05 16:46:42','updated_at' => '2022-04-05 21:53:56'),
         );
 
         /* `db_himatif`.`product__prices` */
@@ -374,6 +525,11 @@ class DatabaseSeeder extends Seeder
             array('id' => '15','shop__items_id' => '10','price' => '25000','created_at' => NULL,'updated_at' => NULL),
             array('id' => '16','shop__items_id' => '11','price' => '20000','created_at' => NULL,'updated_at' => NULL),
             array('id' => '17','shop__items_id' => '12','price' => '20000','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '18','shop__items_id' => '15','price' => '17000','created_at' => '2022-04-05 15:31:09','updated_at' => '2022-04-05 15:31:09'),
+            array('id' => '19','shop__items_id' => '16','price' => '17000','created_at' => '2022-04-05 15:56:22','updated_at' => '2022-04-05 15:56:22'),
+            array('id' => '20','shop__items_id' => '17','price' => '17000','created_at' => '2022-04-05 16:02:27','updated_at' => '2022-04-05 16:02:27'),
+            array('id' => '21','shop__items_id' => '18','price' => '45000','created_at' => '2022-04-05 16:32:44','updated_at' => '2022-04-05 16:32:44'),
+            array('id' => '22','shop__items_id' => '19','price' => '10000','created_at' => '2022-04-05 16:46:42','updated_at' => '2022-04-05 21:53:56'),
         );
 
         /* `db_himatif`.`product__with__colors` */
@@ -402,6 +558,10 @@ class DatabaseSeeder extends Seeder
             array('id' => '22','shop__items_id' => '4','product__colors_id' => '4','created_at' => NULL,'updated_at' => NULL),
             array('id' => '23','shop__items_id' => '4','product__colors_id' => '5','created_at' => NULL,'updated_at' => NULL),
             array('id' => '24','shop__items_id' => '4','product__colors_id' => '6','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '25','shop__items_id' => '18','product__colors_id' => '2','created_at' => '2022-04-05 16:32:44','updated_at' => '2022-04-05 16:32:44'),
+            array('id' => '26','shop__items_id' => '19','product__colors_id' => '2','created_at' => '2022-04-05 16:46:42','updated_at' => '2022-04-05 16:46:42'),
+            array('id' => '27','shop__items_id' => '19','product__colors_id' => '3','created_at' => '2022-04-05 16:46:42','updated_at' => '2022-04-05 16:46:42'),
+            array('id' => '28','shop__items_id' => '19','product__colors_id' => '15','created_at' => '2022-04-05 16:46:42','updated_at' => '2022-04-05 16:46:42')
         );
 
         /* `db_himatif`.`services` */
@@ -462,6 +622,47 @@ class DatabaseSeeder extends Seeder
             array('id' => '10','item' => 'Kebab Special','slug' => 'kebab-special','description' => '<p>Buruan cobain kebab isian lengkap, yang pastinya murah dan bikin kenyang.</p>','product__categories_id' => '2','created_at' => NULL,'updated_at' => NULL),
             array('id' => '11','item' => 'Kebab Daging','slug' => 'kebab-daging','description' => '<p>Buruan cobain kebab isian daging, yang pastinya murah dan bikin kenyang.</p>','product__categories_id' => '2','created_at' => NULL,'updated_at' => NULL),
             array('id' => '12','item' => 'Kebab Pisang Keju Coklat Lumer','slug' => 'kebab-pisang-keju-coklat-lumer','description' => '<p>Buruan cobain kebab isian lengkap pisang colat keju lumer, yang pastinya murah dan bikin kenyang.</p>','product__categories_id' => '2','created_at' => NULL,'updated_at' => NULL),
+            array('id' => '15','item' => 'Masker Himatif','slug' => 'masker-himatif','description' => '<p>
+            ✅ Masker tali stopper<br />
+            ✅ 2ply<br />
+            ✅ Bisa diatur kekencangannya<br />
+            ✅ All Size<br />
+            ✅ Jahitan rapi dan nyaman dipakai<br />
+            <br />
+            Masker untuk unisex dan terdapat tali telinga untuk mengaitkan masker dan juga terdapat connector untuk menaruh masker dileher.<br />
+            <br />
+            Masker juga bisa dicuci dan digunakan kembali</p>','product__categories_id' => '1','created_at' => '2022-04-05 15:31:06','updated_at' => '2022-04-05 15:31:06'),
+            array('id' => '16','item' => 'Masker Dino','slug' => 'masker-dino','description' => '<p>
+            ✅ Masker tali stopper<br />
+            ✅ 2ply<br />
+            ✅ Bisa diatur kekencangannya<br />
+            ✅ All Size<br />
+            ✅ Jahitan rapi dan nyaman dipakai<br />
+            <br />
+            Masker untuk unisex dan terdapat tali telinga untuk mengaitkan masker dan juga terdapat connector untuk menaruh masker dileher.<br />
+            <br />
+            Masker juga bisa dicuci dan digunakan kembali</p>','product__categories_id' => '1','created_at' => '2022-04-05 15:56:21','updated_at' => '2022-04-05 15:56:21'),
+            array('id' => '17','item' => 'Masker Atif','slug' => 'masker-atif','description' => '<p>
+            ✅ Masker tali stopper<br />
+            ✅ 2ply<br />
+            ✅ Bisa diatur kekencangannya<br />
+            ✅ All Size<br />
+            ✅ Jahitan rapi dan nyaman dipakai<br />
+            <br />
+            Masker untuk unisex dan terdapat tali telinga untuk mengaitkan masker dan juga terdapat connector untuk menaruh masker dileher.<br />
+            <br />
+            Masker juga bisa dicuci dan digunakan kembali</p>','product__categories_id' => '1','created_at' => '2022-04-05 16:02:26','updated_at' => '2022-04-05 16:02:26'),
+            array('id' => '18','item' => 'Tote Bag','slug' => 'tote-bag','description' => '<p>✅ Canvas<br />
+            ✅ +- P 30 cm T 40 cm<br />
+            ✅ Penutup Resleting Full<br />
+            <br />
+            Totebag unisex, bisa dipakai oleh laki-laki maupun perempuan. Berbahan halus dan bisa memuat banyak barang.</p>','product__categories_id' => '1','created_at' => '2022-04-05 16:32:43','updated_at' => '2022-04-05 16:34:40'),
+            array('id' => '19','item' => 'Gelang Himatif','slug' => 'gelang-himatif','description' => '<p>✅ Diameter 8.5cm, Lebar 1.5cm<br />
+            ✅ Motif Timbul<br />
+            ✅ Tulisan Glow in the Dark<br />
+            ✅ Bahan Doff<br />
+            <br />
+            Gelang elastis muat dilingkar tangan laki-laki dan perempuan, tahan air, tidak mudah putus dan tulisan tidak mudah luntur</p>','product__categories_id' => '1','created_at' => '2022-04-05 16:46:40','updated_at' => '2022-04-05 21:53:56')
         );
 
         /* `db_himatif`.`social__media` */
@@ -574,5 +775,6 @@ class DatabaseSeeder extends Seeder
         collect($work__programs)->each(function ($program) { Work_Program::create($program); });
         collect($commitees)->each(function ($commitee) { Commitee::create($commitee); });
         collect($posts)->each(function ($post) { Post::create($post); });
+        collect($article__images)->each(function ($image) { Article_Image::create($image); });
     }
 }

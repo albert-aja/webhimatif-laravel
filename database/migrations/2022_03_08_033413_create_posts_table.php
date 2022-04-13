@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('article')->comment('Artikel Berita');
             $table->foreignId('division_id')->nullable()->comment('Divisi Terkait')
                     ->constrained()->nullOnDelete()->onUpdate('cascade');
-            $table->string('viewed')->comment('Jumlah Pembaca');
+            $table->integer('viewed')->default(0)->comment('Jumlah Pembaca');
             $table->timestamps();
         });
     }

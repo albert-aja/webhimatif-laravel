@@ -16,11 +16,10 @@ class LatestNewsViewModel extends ViewModel
     public function latestNews(){
         $this->article_max = 100; //panjang maksimal artikel
         return collect($this->data)->map(function($dt){
-            $img_loc = General::getNewsPhoto($dt['created_at'], $dt['slug']);
             $article = (strlen($dt['article']) <= $this->article_max) ? $dt['article'] : substr($dt['article'], 0, $this->article_max) . '...';
 
             return collect($dt)->merge([
-                'hero_image'    => 'img/news/' .$img_loc. '/3x_' .$dt['hero_image'],
+                'hero_image'    => 'img/news/hero_image/3x_' .$dt['hero_image'],
                 'created_at'    => General::indonesia_date($dt['created_at']),
                 'article'       => $article,
             ])->except('division_id', 'viewed');

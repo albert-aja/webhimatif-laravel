@@ -220,25 +220,26 @@
         });
     }
 
-    
+    function try_link() {
+        var el = $("#linkTo");
+        if ($(".linkMediaSosial").val().match(/^http([s]?):\/\/[a-zA-Z0-9-\.]+\.[a-z]{2,4}/)) {
+            el.attr("href", $(".linkMediaSosial").val());
+            el.css("pointer-events", "visible");
+            el.addClass("btn-primary");
+            el.removeClass("btn-secondary");
+        } else {
+            el.css("pointer-events", "none");
+            el.addClass("btn-secondary");
+            el.removeClass("btn-primary");
+        }
+    }
+
     function preview_social() {
         if ($(".linkMediaSosial").length > 0) {
-            function socialMediaLink() {
-                if ($(".linkMediaSosial").val().match("https://.*")) {
-                    var el = $("#linkTo");
-                    el.attr("href", $(".linkMediaSosial").val());
-                    el.css("pointer-events", "visible");
-                    el.addClass("btn-primary");
-                    el.removeClass("btn-secondary");
-                }
-            }
-
-            if (document.querySelector(".linkMediaSosial").value.length != 0) {
-                socialMediaLink();
-            }
+            try_link();
 
             $(".linkMediaSosial").keyup(function () {
-                socialMediaLink();
+                try_link();
                 $("#preview-btn").attr("href", $(".linkMediaSosial").val());
             });
 

@@ -97,7 +97,7 @@ class UMContactController extends AdminController
 	public function edit(Request $request){
 		$this->data['title']   = __('admin/crud.edit', $this->data['page']);
         $this->data['existed'] = UM_Contact::all()->except($request->id);
-        $this->data['contact'] = UM_Contact::where('id', '=', $request->id)->first();
+        $this->data['contact'] = UM_Contact::where('id', $request->id)->first();
         $this->data['icon_arr'] = self::prepare_iconArray($this->data['existed'], $this->data['contact']);
 
 		return view('v_admin.shop.contact.modal_edit', $this->data);

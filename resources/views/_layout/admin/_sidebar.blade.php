@@ -15,14 +15,14 @@
                 </li>
 
             <li class="menu-header">Berita</li>
-                <li class="nav-item dropdown {{ (request()->routeIs('post-*')) ? 'active' : '' }}">
+                <li class="nav-item dropdown {{ (request()->routeIs('post-*') || request()->routeIs('article-*')) ? 'active' : '' }}">
                     <a href="#" class="nav-link has-dropdown"><i class="fas fa-file-alt"></i> <span>Berita</span></a>
                     <ul class="dropdown-menu">
-                        <li {{ (request()->routeIs('post-*') && !request()->routeIs('post-create')) ? 'class=active' : '' }}>
-                            <a class="nav-link" href="{{ route('post-data') }}">Data</a>
+                        <li {{ (request()->routeIs('post-*')) ? 'class=active' : '' }}>
+                            <a class="nav-link" href="{{ route('post-data') }}">Berita</a>
                         </li>
-                        <li {{ (request()->routeIs('post-create')) ? 'class=active' : '' }}>
-                            <a class="nav-link" href="{{ route('post-create') }}">Tulis</a>
+                        <li {{ (request()->routeIs('article-photos')) ? 'class=active' : '' }}>
+                            <a class="nav-link" href="{{ route('article-photos') }}">Foto Artikel</a>
                         </li>
                     </ul>
                 </li>
@@ -59,38 +59,38 @@
                         </ul>
                     </li>
 
-            {{-- <li class="menu-header">Web Config</li>
-                <li class="nav-item dropdown {{ (strtolower($request->uri->getSegment(2)) == 'config') ? 'active' : '' }}">
+            <li class="menu-header">Web Config</li>
+                <li class="nav-item dropdown {{ request()->routeIs('config-*') ? 'active' : '' }}">
                     <a href="#" class="nav-link has-dropdown"><i class="fas fa-cogs"></i> <span>Konfigurasi</span></span></a>
                     <ul class="dropdown-menu">
-                        <li {{ (strtolower($request->uri->getSegment(3)) == 'periode') ? 'class=active' : '' }}>
-                            <a class="nav-link " href="/Admin/Config/Periode">Periode</a>
+                        <li {{ request()->routeIs('config-year') ? 'class=active' : '' }}>
+                            <a class="nav-link " href="{{ route('config-year') }}">Periode</a>
                         </li>
-                        <li {{ (strtolower($request->uri->getSegment(3)) == 'sejarah') ? 'class=active' : '' }}>
-                            <a class="nav-link " href="/Admin/Config/Sejarah">Sejarah</a>
+                        <li {{ request()->routeIs('config-history') ? 'class=active' : '' }}>
+                            <a class="nav-link " href="{{ route('config-history') }}">Sejarah</a>
                         </li>
-                        <li {{ (strtolower($request->uri->getSegment(3)) == 'visi') ? 'class=active' : '' }}>
-                            <a class="nav-link" href="/Admin/Config/Visi">Visi</a>
+                        <li {{ request()->routeIs('config-vision') ? 'class=active' : '' }}>
+                            <a class="nav-link" href="{{ route('config-vision') }}">Visi</a>
                         </li>
-                        <li {{ (strtolower($request->uri->getSegment(3)) == 'misi') ? 'class=active' : '' }}>
-                            <a class="nav-link" href="/Admin/Config/Misi">Misi</a>
+                        <li {{ request()->routeIs('config-mission') ? 'class=active' : '' }}>
+                            <a class="nav-link" href="{{ route('config-mission') }}">Misi</a>
                         </li>
-                        <li {{ (strtolower($request->uri->getSegment(3)) == 'service') ? 'class=active' : '' }}>
-                            <a class="nav-link" href="/Admin/Config/Service">Service</a>
+                        <li {{ request()->routeIs('config-service') ? 'class=active' : '' }}>
+                            <a class="nav-link" href="{{ route('config-service') }}">Service</a>
                         </li>
-                        <li {{ (strtolower($request->uri->getSegment(3)) == 'sosial') ? 'class=active' : '' }}>
-                            <a class="nav-link" href="/Admin/Config/Sosial">Media Sosial</a>
+                        <li {{ request()->routeIs('config-socialmedia') == 'sosial' ? 'class=active' : '' }}>
+                            <a class="nav-link" href="{{ route('config-socialmedia') }}">Media Sosial</a>
                         </li>
                     </ul>
                 </li>
 
             <li class="menu-header">Database Config</li>
-                <li class="nav-item dropdown {{ (strtolower($request->uri->getSegment(2)) == 'truncate') ? 'active' : '' }}">
+                <li class="nav-item dropdown {{ request()->routeIs('database-*') ? 'active' : '' }}">
                     <a href="#" class="nav-link has-dropdown"><i class="fas fa-skull-crossbones"></i> <span>Truncate</span></span></a>
                     <ul class="dropdown-menu">
-                        <li {{ (strtolower($request->uri->getSegment(2)) == 'truncate') ? 'class=active' : '' }}>
-                            <a class="nav-link" href="/Admin/truncate">Danger Zone</a>
-                        </li> --}}
+                        <li {{ request()->routeIs('database-data') ? 'class=active' : '' }}>
+                            <a class="nav-link" href="{{ route('database-data') }}">Danger Zone</a>
+                        </li>
         </ul>
 
         <div class="my-4 px-5 py-3 hide-sidebar-mini">
