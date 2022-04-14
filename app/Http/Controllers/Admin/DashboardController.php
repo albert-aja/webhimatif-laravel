@@ -8,7 +8,6 @@ use App\Models\Commitee;
 use App\Models\Division;
 use App\Models\Shop_Item;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\AdminController;
 use App\ViewModels\Admin\Dashboard\LatestNewsViewModel;
 use App\ViewModels\Admin\Dashboard\NewsStatChartViewModel;

@@ -56,20 +56,20 @@
                         </div>
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">@lang('admin/crud.variable.position')<sup class="text-danger">@lang('admin/crud.form.required')</sup></label>
-                            <div class="form-group col-sm-12 col-md-7">
-                                <div class="input-group">
+                            <div class="col-sm-12 col-md-7 row">
+                                <div class="col-sm-11 col-md-11">
                                     <select class="form-control select2" name="position_id" id="position_id">
                                         <option value="" disabled selected>--- @lang('admin/crud.variable.position') ---</option>
                                         @foreach($positions as $position)
                                         <option value="{{ $position->id }}">{{ $position->position }}</option>
                                         @endforeach
                                     </select>
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-primary" id="modal_add">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
                                     <div class="invalid-feedback" id="position_id-feedback"></div>
+                                </div>
+                                <div class="col-sm-1 col-md px-0">
+                                    <button type="button" class="btn btn-primary" id="modal_add">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>

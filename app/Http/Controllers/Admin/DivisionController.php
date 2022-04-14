@@ -16,7 +16,7 @@ class DivisionController extends AdminController
 		parent::__construct();
 		$this->data['page'] = ['page' => 'Divisi'];
 
-		$this->division_dir = 'img/divisi/';
+		$this->division_dir = 'img/division/';
 	}
 
 	public function index(){

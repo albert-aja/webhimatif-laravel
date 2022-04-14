@@ -29,7 +29,7 @@ use App\Http\Controllers\Admin\UMContactController;
 use App\Http\Controllers\Admin\SocialMediaController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\FeatureController;
-use App\Http\Controllers\Admin\DBController;
+use App\Http\Controllers\Admin\TruncateController;
 
 //Web
 Route::controller(WebController::class)->group(function () {
@@ -230,10 +230,10 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
         });
     });
 
-    Route::controller(DBController::class)->group(function() {
+    Route::controller(TruncateController::class)->group(function() {
         Route::get('Database', 'index')->name('database-data');
-        // Route::get('getTable', 'getTable')->name('truncate-getdata');
-        Route::get('Database/detail', 'getTableDetail')->name('database-tabledetail');
+        Route::get('Database/detail', 'getTableDetail');
+        Route::get('Database/truncate', 'truncateHandler');
     });
 
     Route::controller(FeatureController::class)->group(function() {

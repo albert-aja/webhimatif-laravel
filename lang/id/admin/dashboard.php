@@ -25,7 +25,7 @@ return [
         ],
         'latestNews' => [
             'title'         => 'Berita Terbaru',
-            'Date'          => 'Tanggal Terbit :',
+            'date'          => 'Tanggal Terbit :',
             'tooltipAdd'    => 'Tambah Berita',
             'tooltipEdit'   => 'Edit Berita',
         ],

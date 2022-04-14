@@ -12,7 +12,7 @@ return [
         'post'      => 'Himatif News',
         'division'  => 'Division commitees',
         'shop'      => 'Himatif Shop\'s Product',
-    ]
+    ],
 ]
 
 ?>

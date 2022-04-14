@@ -16,11 +16,10 @@ class NewsStatChartViewModel extends ViewModel
     public function chart(){
         $startMonth = $this->data->first()['date']. '-01';
 		$endMonth   = date('Y-m-d');
-		
+
 		$start    = new \DateTime($startMonth);
 		$end      = new \DateTime($endMonth);
 		$interval = new \DateInterval('P1M');
-
 		$period   = new \DatePeriod($start, $interval, $end);
 
 		$this->date_arr = [];
@@ -31,7 +30,7 @@ class NewsStatChartViewModel extends ViewModel
 			$this->date_arr[$i]['total']        = '';
 			$i++;
 		}
-            
+
         foreach($this->data as &$mt) {
             $mt['date'] = General::ambilBulanTahun($mt['date']. '-01');
             foreach($this->date_arr as &$date){

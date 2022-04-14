@@ -53,7 +53,7 @@ class General
      * @return string image folder path
      */
     public static function getCommiteePhoto($slug, $photo, $size = ''){
-        return 'img/divisi/' .$slug. '/' .$photo. '/' .$size.$photo;
+        return 'img/division/' .$slug. '/' .$photo. '/' .$size.$photo;
     }
 
     /**

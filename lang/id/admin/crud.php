@@ -32,6 +32,7 @@ return [
         'vision'        =>  'Visi',
         'mission'       =>  'Misi',
         'service'       =>  'Layanan',
+        'table'         =>  'Tabel',
     ],
     'table' => [
         'index'     =>  '#',
