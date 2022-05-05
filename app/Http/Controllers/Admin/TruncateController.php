@@ -10,19 +10,6 @@ use Yajra\DataTables\Facades\DataTables;
 
 class TruncateController extends AdminController
 {
-	public function __construct() {
-		//memanggil constructor parent agar tidak tertimpa constructor baru
-		parent::__construct();
-
-		//HARD-CODED
-		//nama table dan direktori gambarnya
-		$this->gbr = [
-			['post', 'assets/img/news'],
-			['shop', 'assets/img/shop'],
-			['divisi', 'assets/img/divisi']
-		];
-	}
-
     public function index(){
 		$this->data['title'] = "Truncate Table";
 
@@ -42,9 +29,9 @@ class TruncateController extends AdminController
 		//array_diff untuk hapus spesifik value dan array_values untuk mereset index
 		$query = array_values(array_diff($all_tables, 
 			[
-				"maintenance__infos", "users",
-				"histories", "management__years", 
-				"password_resets", "personal_access_tokens", "migrations"
+				'maintenance__infos', 'users',
+				'histories', 'management__years', 'article__images',
+				'password_resets', 'personal_access_tokens', 'migrations'
 			]
 		));
 
@@ -87,19 +74,25 @@ class TruncateController extends AdminController
 	public function truncateHandler(Request $request){
 		$table = $request->table;
 
+		//HARD-CODED
+		$image_dir = [
+			['posts', 'img/news'],
+			['shop__items', 'img/shop'],
+			['divisions', 'img/division']
+		];
+
 		if($table == '*'){
 			foreach($this->data['table_data'] as $td){
 				DB::table($td)->truncate();
 			}
 
-			//function untuk menghapus direktori dan seluruh isinya
-			foreach($this->gbr as $g){
-				General::clearStorage($g[1]);
+			foreach($image_dir as $dir){
+				General::clearStorage($dir[1]);
 			}
 		} else {
-			foreach($this->gbr as $g){
-				if(in_array($table, $g)){
-					General::clearStorage($g[1]);
+			foreach($image_dir as $dir){
+				if(in_array($table, $dir)){
+					General::clearStorage($dir[1]);
 				}
 				break;
 			}

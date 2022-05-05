@@ -11,7 +11,7 @@
             <form method="post" id="form_edit_year">
             @method('PUT')
             @csrf
-                <input type="hidden" name="id" value="{{ $tahun_kepengurusan->id }}">
+                <input type="hidden" name="id" value="{{ $periode->id }}">
                 <div class="card-body">
                     <div class="form-group row mb-4">
                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">@lang('admin/crud.variable.year')</label>
@@ -20,7 +20,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Himatif</span>
                                 </div>
-                                <input type="text" name="year" id="year" class="form-control datemask" placeholder="@lang('admin/crud.variable.year')" value="{{ substr($tahun_kepengurusan->year, -9) }}" autofocus>
+                                <input type="text" name="year" id="year" class="form-control datemask" placeholder="@lang('admin/crud.variable.year')" value="{{ substr($periode->year, -9) }}" autofocus>
                                 <div class="invalid-feedback" id="year-feedback"></div>
                             </div>
                         </div>

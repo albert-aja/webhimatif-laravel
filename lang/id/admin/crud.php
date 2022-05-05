@@ -33,6 +33,10 @@ return [
         'mission'       =>  'Misi',
         'service'       =>  'Layanan',
         'table'         =>  'Tabel',
+        'pw'            =>  'Kata Sandi',
+        'old_pw'        =>  'Kata Sandi Lama',
+        'new_pw'        =>  'Kata Sandi Baru',
+        'confirm_new_pw'=>  'Konfirmasi Kata Sandi Baru',
     ],
     'table' => [
         'index'     =>  '#',

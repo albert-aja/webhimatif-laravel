@@ -18,8 +18,8 @@ class AdminController extends Controller
 		$breadcrumbs = new Breadcrumbs;
 
 		$this->data = [
-			'tahun_kepengurusan' => Management_Year::first(),
-			'breadcrumb'		 => $breadcrumbs->buildAutoTag(),
+			'periode' 		=> Management_Year::first(),
+			'breadcrumb'	=> $breadcrumbs->buildAutoTag(),
 		];
 	}
 

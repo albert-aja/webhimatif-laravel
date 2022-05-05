@@ -2,29 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Helpers\Auth;
 use App\Models\Maintenance_Info;
 use App\Models\User;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Password;
 
-class FeatureController extends Controller
+class FeatureController extends AdminController
 {
 	private function tahunSelanjutnya(){
-		$tahun_kepengurusan = explode(' ', $this->data['tahun_kepengurusan']['tahun']);
-		$arr_tahun = explode('/', $tahun_kepengurusan[1]);
+		$periode = explode(' ', $this->data['periode']['year']);
+		$tahun_kepengurusan = explode('/', $periode[1]);
 
-		//+1 untuk kedua tahun
-		foreach ($arr_tahun as &$at) {
+		foreach ($tahun_kepengurusan as &$at) {
 			$at = $at + 1;
 		}
 
-		$periode_depan = implode('/', $arr_tahun);
-
-		return $tahun_kepengurusan[0]. ' ' .$periode_depan;
+		return $periode[0]. ' ' .implode('/', $tahun_kepengurusan);
 	}
 
 	public function get_status(){
@@ -65,56 +61,25 @@ class FeatureController extends Controller
 		Artisan::call('up');
 	}
 
-	public function change_password(){
-        $this->data['title'] = 'Ubah Password';
-		
-		return view('v_admin.profile', $this->data);
-	}
+	// public function change_password(){
+	// 	$this->data['title'] = __('admin/global.change.pw');
 
-	public function insert_new_password(){
-		//validation 
-		if(!$this->validate([
-			'old_pass' => [
-				'rules'  => 'required',
-				'errors' => [
-					'required' => 'Password lama belum diisi.',				
-				]
-			],
-			'new_pass' => [
-				'rules'  => 'required|min_length[8]',
-				'errors' => [
-					'required' 	 => 'Password baru belum diisi.',
-					'min_length' => 'Password memiliki panjang minimal 8 karakter',	
-				]
-			],
-			'confirm_pass' => [
-				'rules'  => 'required|matches[new_pass]',
-				'errors' => [
-					'required' => 'Password belum dikonfirmasi',
-					'matches'  => 'Password baru tidak cocok',				
-				]
-			],
-		])) {
-			return redirect()->back()->withInput();
-		}
+    //     return view('v_admin.changePassword', $this->data);
+	// }
 
-		$old_data = $this->m_users->oldPassword();
+	// public function edit_password(Request $request){
+	// 	$val = self::validator($request->all());
 
-		//cek kecocokan password lama
-		if(Password::verify($this->request->getVar('old_pass'), $old_data['password_hash'])){
-			$this->m_users->update($old_data['id'], [
-				'password_hash' => Password::hash($this->request->getVar('new_pass')),
-				'created_at' 	=> date('Y-m-d H:i:s')
-			]);
+	// 	if(!empty($val->errors()->messages())){
+	// 		$feedback = self::error_feedback($val);
+	// 	} else {
+	// 		User::findOrFail($request->id)->update(['password' => password_hash($request->password, config('auth.hashAlgorithm'))]);
 
-			session()->setFlashdata('pesan', 'Password berhasil diubah');
+	// 		$feedback['status'] = __('admin/crud.val_success');
+	// 	}
 
-			return redirect()->back();
-		}
-
-		$msg = 'Password tidak cocok dengan password lama.';
-		return redirect()->back()->with('msg_t', $msg)->withInput();
-	}
+	// 	echo json_encode($feedback);
+	// }
 
 	public function fresh_start(){
         $this->data['title'] = 'Ganti Kepengurusan';
@@ -168,5 +133,24 @@ class FeatureController extends Controller
 				$this->truncateDir($g[1]);
 			}
 		}
+	}
+
+    private function validator(array $data){
+        return Validator::make($data, [
+			'password'					=> 'required|min:' .config('auth.minimumPasswordLength'). '|confirmed',
+            'password_confirmation'		=> 'required',
+		], [
+			'password.required' 				=> __('admin/validation.required.input', ['field' => __('admin/crud.variable.new_pw')]),
+			'password.confimed' 				=> 'Password tidak cocok',
+			'password_confirmation.required' 	=> __('admin/validation.required.input', ['field' => __('admin/crud.variable.confirm_new_pw')]),
+		]);
+    }
+
+	private function error_feedback($val){
+		return [
+			'status' 				=> __('admin/crud.val_failed'),
+			'password' 				=> $val->errors()->first('password') ?? false,
+			'password_confirmation' => $val->errors()->first('password_confirmation') ?? false,
+		];
 	}
 }

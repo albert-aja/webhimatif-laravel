@@ -39,7 +39,7 @@
                             <span class="text-job">Perubahan pada tahun kepengurusan</span>
                         </div>
                         <span class="badge badge-info">
-                            <?= $this->data['tahun_kepengurusan']['tahun'] ?>
+                            <?= $this->data['periode']->year ?>
                         </span>
                         &nbsp;
                         <i class="fas fa-arrow-right"></i>

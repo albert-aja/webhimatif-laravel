@@ -12,7 +12,7 @@
             x.type = "password";
         }
     }
-    
+
     function pass_confirm_show_hide() {
         var x = document.getElementById("pass_confirm");
         if (x.type === "password") {

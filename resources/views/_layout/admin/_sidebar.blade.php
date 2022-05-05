@@ -1,7 +1,7 @@
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="{{ route('admin-dashboard') }}">{{ $tahun_kepengurusan->year }}</a>
+            <a href="{{ route('admin-dashboard') }}">{{ $periode->year }}</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
             <a href="{{ route('admin-dashboard') }}"><img src="{{ asset('img/logo/black/black_100.png') }}"></a>
@@ -84,13 +84,6 @@
                     </ul>
                 </li>
 
-            <li class="menu-header">Database Config</li>
-                <li class="nav-item dropdown {{ request()->routeIs('database-*') ? 'active' : '' }}">
-                    <a href="#" class="nav-link has-dropdown"><i class="fas fa-skull-crossbones"></i> <span>Truncate</span></span></a>
-                    <ul class="dropdown-menu">
-                        <li {{ request()->routeIs('database-data') ? 'class=active' : '' }}>
-                            <a class="nav-link" href="{{ route('database-data') }}">Danger Zone</a>
-                        </li>
         </ul>
 
         <div class="my-4 px-5 py-3 hide-sidebar-mini">

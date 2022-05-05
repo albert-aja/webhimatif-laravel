@@ -41,12 +41,12 @@
         editor.config.autoGrow_maxHeight = 800;
     }
 
-	function call_modal(modal,data){
-		$('#modal-div').html(data);
-		$(modal).modal('show');
+	function call_modal(modalID, data, appendTo = '#modal-div'){
+		$(appendTo).html(data);
+		$(modalID).modal('show');
 
-        $(modal).on('shown.bs.modal', function () {
-			$(modal).find('input[type!=hidden]:first').focus();
+        $(modalID).on('shown.bs.modal', function () {
+			$(modalID).find('input[type!=hidden]:first').focus();
 		});
 	}
 
@@ -102,6 +102,54 @@
             "{{ __('admin/swal.error.msg') }}",
             'error',
         );
+    }
+    function select2() {
+        if (jQuery().select2) {
+            $(".select2").select2({
+                dropdownParent: $('.modal-body')
+            });
+        }
+    }
+
+    function tooltip(){
+        let tooltipTriggerList = [].slice.call(
+            document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        );
+        let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    }
+
+    function try_link() {
+        var el = $("#linkTo");
+        if ($(".linkMediaSosial").val().match(/^http([s]?):\/\/[a-zA-Z0-9-\.]+\.[a-z]{2,4}/)) {
+            el.attr("href", $(".linkMediaSosial").val());
+            el.css("pointer-events", "visible");
+            el.addClass("btn-primary");
+            el.removeClass("btn-secondary");
+        } else {
+            el.css("pointer-events", "none");
+            el.addClass("btn-secondary");
+            el.removeClass("btn-primary");
+        }
+    }
+
+    function preview_social() {
+        if ($(".linkMediaSosial").length > 0) {
+            try_link();
+
+            $(".linkMediaSosial").keyup(function () {
+                try_link();
+                $("#preview-btn").attr("href", $(".linkMediaSosial").val());
+            });
+
+            $("input[name='icon']").click(function () {
+                $("#preview-icon").removeClass();
+                $("#preview-icon").addClass(
+                    $("input[name='icon']:checked").val()
+                );
+            });
+        }
     }
 
     function getWebStatus(){
@@ -203,52 +251,60 @@
         }
     })
 
-    function select2() {
-        if (jQuery().select2) {
-            $(".select2").select2({
-                dropdownParent: $('.modal-body')
+	$(document).on("click", "#changePassword", function() {
+		$.ajax({
+            type: 'GET',
+            url: '/Admin/changepw',
+            beforeSend: function(){
+				show_loader();
+			},
+		}).done(function(data) {
+			hide_loader();
+			call_modal('#modal_change_password', data, '#feature-div');
+            $('#show_password').change(function(){
+                let y = document.getElementById('new');
+                let z = document.getElementById('confirm');
+
+                if (y.type === "password") {
+                    y.type = "text";
+                    z.type = "text";
+                } else {
+                    y.type = "password";
+                    z.type = "password";
+                }
             });
-        }
-    }
+		})
+	})
 
-    function tooltip(){
-        let tooltipTriggerList = [].slice.call(
-            document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        );
-        let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
-        });
-    }
+    $(document).on('submit', '#form_change_password', function(e) {
+		let data = $(this).serialize();
 
-    function try_link() {
-        var el = $("#linkTo");
-        if ($(".linkMediaSosial").val().match(/^http([s]?):\/\/[a-zA-Z0-9-\.]+\.[a-z]{2,4}/)) {
-            el.attr("href", $(".linkMediaSosial").val());
-            el.css("pointer-events", "visible");
-            el.addClass("btn-primary");
-            el.removeClass("btn-secondary");
-        } else {
-            el.css("pointer-events", "none");
-            el.addClass("btn-secondary");
-            el.removeClass("btn-primary");
-        }
-    }
+		$.ajax({
+			method: "POST",
+			url: '/Admin/editpw',
+			data: data,
+            beforeSend: function(){
+                show_loader();
+            },
+		}).done(function(res) {
+			let feedback = jQuery.parseJSON(res);
+            hide_loader();
 
-    function preview_social() {
-        if ($(".linkMediaSosial").length > 0) {
-            try_link();
+			if (feedback.status.toLowerCase() == "{{ __('admin/crud.val_failed') }}") {
+				validation(feedback.password, '#new', '#new-feedback');
+				validation(feedback.password_confirmation, '#confirm', '#confirm-feedback');
+			} else {
+				$('#modal_change_password').modal('hide');
+                Swal.fire({
+					title: '{{ __("admin/swal.success") }}',
+					text: 'Password berhasil diperbarui!',
+					icon: 'success',
+                    timer: 2000,
+                    timerProgressBar: true,
+				})
+			}
+		})
+		e.preventDefault();
+	})
 
-            $(".linkMediaSosial").keyup(function () {
-                try_link();
-                $("#preview-btn").attr("href", $(".linkMediaSosial").val());
-            });
-
-            $("input[name='icon']").click(function () {
-                $("#preview-icon").removeClass();
-                $("#preview-icon").addClass(
-                    $("input[name='icon']:checked").val()
-                );
-            });
-        }
-    }
 </script>

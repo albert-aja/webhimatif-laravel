@@ -233,14 +233,15 @@ Route::prefix('Admin')->middleware(['isActive', 'auth'])->group(function () {
     Route::controller(TruncateController::class)->group(function() {
         Route::get('Database', 'index')->name('database-data');
         Route::get('Database/detail', 'getTableDetail');
-        Route::get('Database/truncate', 'truncateHandler');
+        Route::post('Database/truncate', 'truncateHandler');
     });
 
     Route::controller(FeatureController::class)->group(function() {
         Route::get('get_status', 'get_status');
         Route::get('a2m', 'maintenance_mode');
         Route::get('m2a', 'active_mode');
-        Route::get('Change_Password', 'change_password')->name('admin-changepassword');
+        Route::get('changepw', 'change_password');
+        Route::post('editpw', 'edit_password');
         Route::get('Fresh_Start', 'fresh_start')->name('admin-freshstart');
     });
 });

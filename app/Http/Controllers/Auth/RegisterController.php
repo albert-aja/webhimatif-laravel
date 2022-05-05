@@ -4,13 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Helpers\Auth;
-use App\Models\Social_Media;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Redirect;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller

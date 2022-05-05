@@ -2,14 +2,12 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
   <head>
     <!-- Title -->
-    <title>
-      {{ $title }} | Admin Himatif USU
-    </title>
+    <title>{{ $title }} | Admin Himatif USU</title>
 
     <!-- Favicon -->
     <x-favicon/>
-    
-<!-- meta -->
+
+    <!-- meta -->
     @include('_layout.admin._meta')
 
     <!-- css -->
@@ -21,7 +19,7 @@
   <body>
     <!-- preloader -->
     @include('_layout.admin._preloader')
-    
+
     <div id="app">
       <div class="main-wrapper">
 
@@ -32,7 +30,7 @@
 
         <!-- Sidebar -->
         @include('_layout.admin._sidebar')
-        
+
         <!-- Main Content -->
         <div class="main-content">
 
@@ -40,6 +38,8 @@
           @yield('content')
 
         </div>
+
+        <div id="feature-div"></div>
 
         <!-- footer -->
         @include('_layout.admin._footer')

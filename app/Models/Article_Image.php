@@ -11,7 +11,7 @@ class Article_Image extends Model
         'posts_id', 'photo'
     ];
 
-    public function shop_item(){
+    public function article(){
         return $this->belongsTo(Post::class, 'posts_id', 'id');
     }
 }

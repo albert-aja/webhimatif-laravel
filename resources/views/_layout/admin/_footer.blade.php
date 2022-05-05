@@ -3,6 +3,6 @@
     &copy; Copyright <strong><span><script>document.write(new Date().getFullYear());</script> Himatif USU</span></strong>. All Rights Reserved.
   </div>
   <div class="footer-right">
-    {{ $tahun_kepengurusan['year'] }}
+    {{ $periode->year }}
   </div>
 </footer>

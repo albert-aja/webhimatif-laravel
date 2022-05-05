@@ -5,7 +5,7 @@ return [
         'division'  => 'Total Divisi',
         'commitee'  => 'Total Pengurus',
         'post'      => 'Total Berita',
-        'product'   => 'Total Product',
+        'product'   => 'Total Produk',
         'info'      => 'Selengkapnya',
     ],
     'collapse' => [

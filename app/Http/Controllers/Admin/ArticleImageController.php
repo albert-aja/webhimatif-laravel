@@ -7,13 +7,15 @@ use App\Models\Article_Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
+use Yajra\DataTables\Facades\DataTables;
 
 class ArticleImageController extends AdminController
 {
 	public function __construct(){
 		parent::__construct();
-		$this->data['page'] = ['page' => 'Berita'];
+		$this->data['page'] = ['page' => 'Foto Artikel'];
 
+		//HARD-CODED
 		$this->article_img_dir 	= 'img/news/article_image/';
 	}
 
@@ -38,5 +40,23 @@ class ArticleImageController extends AdminController
 		echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($functionNumber, ['$url', '$url1'], $message)</script>";
 		// echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($functionNumber, '$url', $message)</script>";
 	}
-    
+
+	public function index(){
+		$this->data['title'] = __('admin/crud.data', $this->data['page']);
+
+		if(request()->ajax()){
+            return Datatables::of(Article_Image::with(['article']))
+					->addColumn('title', function($item){
+						return $item->article->title;
+					})
+					->editColumn('photo', function($item){
+						return '<img src="' .asset($this->article_img_dir . $item->photo). '" style="height: 6rem"/>';
+					})
+					->rawColumns(['photo'])
+					->addIndexColumn()
+					->make();
+        }
+
+		return view('v_admin.post.article.data', $this->data);
+	}
 }

@@ -18,7 +18,7 @@ class PostController extends AdminController
 		parent::__construct();
 		$this->data['page'] = ['page' => 'Berita'];
 
-		$this->hero_img_dir 	= 'img/news/hero_image/';
+		$this->hero_img_dir = 'img/news/hero_image/';
 	}
 
     public function uploadHeroImage($image){

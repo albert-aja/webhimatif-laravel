@@ -12,11 +12,11 @@
       <div class="d-sm-none d-lg-inline-block me-1">Hi, {{ Auth::user()->username }} </div>
       <img alt="image" src="{{ asset('img/web/avatar.png') }}" class="rounded-circle mr-1"></a>
       <div class="dropdown-menu dropdown-menu-end" id="dropdown-toggle">
-        <a href="{{ route('admin-changepassword') }}" class="dropdown-item has-icon">
-          <i class="fas fa-lock"></i> Ganti Password
-        </a>
+        {{-- <a type="button" class="dropdown-item has-icon" id="changePassword">
+          <i class="fas fa-lock"></i> @lang('admin/global.change.pw')
+        </a> --}}
         <a href="{{ route('admin-freshstart') }}" class="dropdown-item has-icon">
-          <i class="fas fa-sync"></i> Ganti Kepengurusan
+          <i class="fas fa-sync"></i> @lang('admin/global.change.year')
         </a>
         <div class="dropdown-divider"></div>
         <a href="{{ route('auth-logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item text-danger">
