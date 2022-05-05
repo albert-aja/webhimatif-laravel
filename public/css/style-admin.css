@@ -1192,7 +1192,7 @@ select.form-control:not([size]):not([multiple]) {
 }
 .activities .activity .activity-detail:before {
     content: "\f0d9";
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 6 Free";
     font-weight: 900;
     font-size: 20px;
     position: absolute;
@@ -2185,7 +2185,7 @@ h6 .badge {
     left: 34px;
     content: "\f0d8";
     font-weight: 600;
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 6 Free";
     color: #fff;
     font-size: 30px;
 }
@@ -3321,7 +3321,7 @@ body.sidebar-mini
     li
     a.has-dropdown:after {
     content: "";
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 6 Free";
     font-weight: 900;
     position: absolute;
     top: 50%;
@@ -3501,7 +3501,7 @@ body.layout-3
     > .nav-item
     > .nav-link.has-dropdown:after {
     content: "";
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 6 Free";
     font-weight: 900;
     position: absolute;
     top: 50%;
@@ -3569,7 +3569,7 @@ body.layout-3
     .nav-item
     .nav-link.has-dropdown:after {
     content: "";
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 6 Free";
     font-weight: 900;
     position: absolute;
     top: 50%;
@@ -3733,7 +3733,7 @@ body.layout-3 .main-footer {
 
 .main-sidebar .sidebar-menu li a.has-dropdown:after {
     content: "";
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 6 Free";
     font-weight: 900;
     position: absolute;
     top: 50%;

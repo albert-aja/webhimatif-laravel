@@ -1741,10 +1741,6 @@ img.back-logo {
         rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
-.katalog .grid-item .post-box {
-    background-color: #fff;
-}
-
 .katalog .grid-item .post-img {
     position: relative;
     height: auto;

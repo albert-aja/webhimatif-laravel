@@ -1,7 +1,7 @@
 <script src="{{ asset('vendor/jquery.min.js') }}"></script>
 <script src="{{ asset('vendor/jquery.transit.min.js') }}"></script>
 <script src="{{ asset('vendor/popper.js') }}"></script>
-<script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/form.js') }}"></script>
 <script>
     function password_show_hide() {

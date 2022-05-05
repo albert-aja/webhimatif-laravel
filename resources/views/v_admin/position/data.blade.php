@@ -9,6 +9,7 @@
 @endsection
 
 @push('addon-script')
+
 <script>
     let position_table = $('#tablePositions').DataTable({
 		processing: true,
