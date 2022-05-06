@@ -2,8 +2,9 @@
 
 namespace App\ViewModels;
 
-use App\Helpers\General;
 use Spatie\ViewModels\ViewModel;
+
+use App\Helpers\General;
 use App\ViewModels\LoadPostViewModel;
 
 class ArticleViewModel extends ViewModel

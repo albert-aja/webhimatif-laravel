@@ -42,9 +42,10 @@ Route::controller(WebController::class)->group(function () {
 
 //Web Ajax
 Route::controller(WebAjaxController::class)->group(function (){
-    Route::get('ajax_request/item_modal/{id}', 'call_modal')->name('ajax-itemmodal');
-    Route::get('ajax_request/load_post', 'load_post')->name('ajax-loadpost');
-    Route::get('ajax_request/search_title', 'search_title')->name('ajax-searchpost');
+    Route::get('ajax_request/item_modal/{id}', 'call_modal');
+    Route::get('ajax_request/post_total', 'get_total');
+    Route::get('ajax_request/load_post', 'load_post');
+    Route::get('ajax_request/search_title', 'search_title');
 });
 
 //Auth

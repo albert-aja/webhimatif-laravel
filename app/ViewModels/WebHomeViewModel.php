@@ -71,7 +71,7 @@ class WebHomeViewModel extends ViewModel
         for($i=0;$i<count($this->divisions);$i++){
             $this->divisions[$i]['number']  = '0'.$nomor;
             $this->divisions[$i]['delay']   = $delay;
-            
+
             $nomor++;
             $delay+=100;
 
@@ -79,7 +79,7 @@ class WebHomeViewModel extends ViewModel
                 $delay = 100;
             }
         }
-        
+
         return $this->divisions;
     }
 

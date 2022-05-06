@@ -14,7 +14,7 @@ class LatestNewsViewModel extends ViewModel
     }
 
     public function latestNews(){
-        $this->article_max = 100; //panjang maksimal artikel
+        $this->article_max = 100;
         return collect($this->data)->map(function($dt){
             $article = (strlen($dt['article']) <= $this->article_max) ? $dt['article'] : substr($dt['article'], 0, $this->article_max) . '...';
 

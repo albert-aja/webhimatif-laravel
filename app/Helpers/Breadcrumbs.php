@@ -2,89 +2,105 @@
 
 namespace App\Helpers;
 
-// Breadcrumbs adalah elemen pada website yang memiliki fungsi sebagai navigasi halaman.
-// Pada halaman admin, breadcrumb terletak pada header tiap halaman
-
+/**
+ * Breadcrumb handler helper
+ * 
+ * A breadcrumb is a type of secondary navigation scheme that reveals the user's location in a website or Web application.
+ * 
+ * On the user page, the breadcrumb can be found on every page (except the home page) at the bottom of the header title.
+ * On the admin page, the breadcrumb can be found on the right side of a header card.
+ */
 class Breadcrumbs
 {
-    private $breadcrumbs = array();
+    private $breadcrumbs = [];
     private $tags;
 
     public function __construct(){
         // true apabila ingin breadcrumb terakhir (halaman yang sedang dikunjungi) adalah sebuah link
-        // dan false adalah tidak
+        // false apabila tidak
         $this->nonClickable = true;
 
-        // element html bootstrap
+        // element html
         $this->tags['sectionopen']  = "<div class=\"section-header-breadcrumb\">";
         $this->tags['sectionclose'] = "</div>";
-        $this->tags['itemopen']   = "<div class=\"breadcrumb-item\">";
-        $this->tags['itemclose']  = "</div>";
+        $this->tags['itemopen']     = "<div class=\"breadcrumb-item\">";
+        $this->tags['itemclose']    = "</div>";
     }
 
-    public function add($crumb, $href = ''){
+    /**
+     * Add crumb to breadcrumb array (manual build).
+     * 
+     * @param string $crumb crumb text
+     * @param string $href link url
+     */
+    public function add(string $crumb, string $href = ''){
         if (!$crumb){
             return;
         } 
 
-        $this->breadcrumbs[] = array(
+        $this->breadcrumbs[] = [
             'crumb' => $crumb,
-            'href' => $href,
-        );
+            'href'  => $href,
+        ];
     }
 
-
+    /**
+     * Build the breadcrumb array (manual build).
+     * 
+     * @return string crumb output
+     */
     public function render(){
-        $output  = $this->tags['sectionopen'];
-        $count = count($this->breadcrumbs) - 1;
+        $crumbs = $this->tags['sectionopen'];
+        $count  = count($this->breadcrumbs) - 1;
 
         foreach ($this->breadcrumbs as $index => $breadcrumb) {
             if ($index == $count) {
-                $output .= $this->tags['itemopen'];
-                $output .= $breadcrumb['crumb'];
-                $output .= $this->tags['itemclose'];
+                $crumbs .= $this->tags['itemopen'] . $breadcrumb['crumb'] . $this->tags['itemclose'];
             } else {
-                $output .= $this->tags['itemopen'];
-                $output .= '<a href="' . route('home') . $breadcrumb['href'] . '">';
-                $output .= $breadcrumb['crumb'];
-                $output .= '</a>';
-                $output .= $this->tags['itemclose'];
+                $crumbs .= $this->tags['itemopen'] . '<a href="' . route('home') . $breadcrumb['href'] . '">' . $breadcrumb['crumb'] . '</a>' . $this->tags['itemclose'];
             }
         }
 
-        $output .= $this->tags['sectionclose'];
+        $crumbs .= $this->tags['sectionclose'];
 
-        return $output;
+        return $crumbs;
     }
 
-    public function buildAuto($useSlug = false){
-        $crumbs = ['Home'];
+    /**
+     * Auto build user page breadcrumb.
+     * 
+     * @param bool $useSlug whether there is a slug in the URL. 
+     * 
+     * @return string crumb output
+     */
+    public function userCrumb($useSlug = false){
+        $crumbs = array_merge(['Home'], request()->segments());
 
-        $crumbs = array_merge($crumbs, request()->segments());
-
+        //remove slug from the crumbs array
         if($useSlug){
             array_pop($crumbs);
         }
 
         foreach($crumbs as &$crumb){
-            $name = ucwords(str_replace(array(".php", "_"), array("", " "), $crumb));
-            $crumb = ucwords(str_replace('-', ' ', $name));
+            $name   = ucwords(str_replace(array(".php", "_"), array("", " "), $crumb));
+            $crumb  = ucwords(str_replace('-', ' ', $name));
         }
 
         return $crumbs;
     }
 
-    public function buildAutoTag() {
-        $output  = $this->tags['sectionopen'];
-
+    /**
+     * Auto build admin page breadcrumb.
+     * 
+     * @return string crumb output
+     */
+    public function adminCrumb() {
+        $output = $this->tags['sectionopen'];
         $crumbs = array_merge(request()->segments());
-
         $result = array();
-        $path = '';
+        $path   = '';
+        $count  = count($crumbs);
 
-        $count = count($crumbs);
-
-        // -1 apabila link terakhir bukan merupakan link
         if ($this->nonClickable){
             $count = count($crumbs) -1;
         }
@@ -92,8 +108,8 @@ class Breadcrumbs
         foreach ($crumbs as $k => $crumb) {
             $path .= '/' . $crumb;
 
-            //mengakali halaman home pada Admin Page
-            // NB : Halaman home admin adalah /Admin/Dashboard, bukan /Admin
+            // shift home page route
+            // NB : admin home page is /Admin/Dashboard, not /Admin
             if(strtolower($path) === '/admin'){
                 $path = '/Admin/Dashboard';
             }
@@ -101,7 +117,7 @@ class Breadcrumbs
             $name = ucwords(str_replace(array(".php", "_"), array("", " "), $crumb));
             $name = ucwords(str_replace('-', ' ', $name));
 
-            //Mengakali nama halaman 'Admin' menjadi 'Home'
+            // shift page name from 'Admin' to 'Home'
             if((strtolower($name)) === 'admin'){
                 $name = 'Home';
             }
@@ -112,7 +128,7 @@ class Breadcrumbs
                 $result[] = $this->tags['itemopen'] . $name . $this->tags['itemclose'];
             }
 
-            //memperbaiki link untuk breadcrumb seterusnya
+            // shift back the route
             if(strtolower($path) === '/admin/dashboard'){
                 $path = '/Admin';
             }

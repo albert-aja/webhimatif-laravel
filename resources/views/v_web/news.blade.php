@@ -57,7 +57,7 @@
                 return;
             }
             if(total > document.getElementById("load_post").childElementCount - 1){
-                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 800) {
+                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 850) {
                     if (isLoading == false) {
                         isLoading = true;
                         page++;
@@ -77,6 +77,16 @@
             url: "/ajax_request/load_post?page=" + page,
             type: "GET",
             dataType: "html",
+            beforeSend: function(){
+                $("#loader").show();
+                $.ajax({
+                    url: "/ajax_request/post_total",
+                    type: "GET",
+                    dataType: "html",
+                }).done(function (total){
+                    $('#load_post').append(total).show();
+                });
+            },
         }).done(function (data) {
             $('#loader').hide();
             $('#load_post').append(data).show();

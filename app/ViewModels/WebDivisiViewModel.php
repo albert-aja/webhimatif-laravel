@@ -63,7 +63,7 @@ class WebDivisiViewModel extends ViewModel
 
             $delay += 75;
         }
-        
+
         return $this->programs;
     }
 }

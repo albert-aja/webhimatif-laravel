@@ -20,10 +20,10 @@ class SearchPostViewModel extends ViewModel
         return collect($this->results)->map(function($result){
             $title = $result['title'];
 
-            //potong judul apabila kepanjangan
+            //cut the title if it's too long
             $show_title = (strlen($title) <= $this->max) ? $title : substr($title, 0, $this->max) . '...';
 
-            //highlight keyword yang dicari
+            //highlight keyword
             $marked_title = preg_filter('/' .preg_quote($this->query, '/'). '/i', '<b>$0</b>', $show_title);
 
             return collect($result)->merge([

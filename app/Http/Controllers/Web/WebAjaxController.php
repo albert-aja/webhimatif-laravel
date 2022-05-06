@@ -11,6 +11,9 @@ use App\ViewModels\LoadPostViewModel;
 use App\ViewModels\ItemModalViewModel;
 use App\ViewModels\SearchPostViewModel;
 
+/**
+ * User page AJAX request handler
+ */
 class WebAjaxController extends Controller
 {
     public function call_modal($id){
@@ -30,8 +33,13 @@ class WebAjaxController extends Controller
 		return view('v_web.ajax.item_modal', $this->data);
 	}
 
+	public function get_total(){
+		echo '<input type="hidden" id="post_total" value="' .Post::count(). '">';
+		exit();
+	}
+
 	public function load_post(){
-		$limit = 9; //jumlah berita per request di news page
+		$limit = 9; //news limit per request
 		$page  = $limit * $_GET['page'];
 
 		$posts = Post::latest()->skip($page)->take($limit)->get();

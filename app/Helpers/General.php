@@ -39,9 +39,7 @@ class General
      * @return string
      */
     public static function ambilBulanTahun(string $date){
-        $date = self::indonesia_date($date);
-
-        return substr($date, 3);
+        return substr(self::indonesia_date($date), 3);
     }
 
     /**
@@ -69,8 +67,8 @@ class General
     }
 
     /**
-     * Outsmart the difference in photo size by providing a width,
-     * that matches the dimensions (w x h) of the photo.
+     * Fix the difference in photo size issue, 
+     * by providing a width that matches the dimensions (w x h) of the photo.
      * Purpose: to ensure that all photos of the commitees are neatly arranged.
      * 
      *  ===========================
@@ -79,7 +77,7 @@ class General
      * 
      * W   : photo's width
      * H   : photo's height
-     * 34  : constant value set (change this value if you feel it doesn't fit)
+     * 34  : constant value set (change this value if you feel it doesnot fit)
      * 
      * @return string adjusted width.
      */

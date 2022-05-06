@@ -19,7 +19,7 @@ class AdminController extends Controller
 
 		$this->data = [
 			'periode' 		=> Management_Year::first(),
-			'breadcrumb'	=> $breadcrumbs->buildAutoTag(),
+			'breadcrumb'	=> $breadcrumbs->adminCrumb(),
 		];
 	}
 

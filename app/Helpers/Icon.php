@@ -2,11 +2,11 @@
     
 namespace App\Helpers;
 
+/**
+ * List of remixicon social media icons.
+ */
 class Icon 
 { 
-    /**
-     * List of remixicon social media icons.
-     */
     public static function icon_array(){
         return [
             ['name' => 'Behance', 'icon' => 'ri-behance-fill ri-lg'],

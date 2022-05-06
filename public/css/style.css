@@ -1636,6 +1636,9 @@ img.back-logo {
     border-radius: 0.3rem;
     max-height: 100%;
     overflow-y: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(202, 202, 202) transparent;
 }
 
 #shop .modal-content {

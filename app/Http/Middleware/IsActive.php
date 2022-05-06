@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class IsActive
 {
     /**
-     * Check if registration is allowed
+     * Check if user account have been activated
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next

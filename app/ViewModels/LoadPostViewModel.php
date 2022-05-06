@@ -12,9 +12,10 @@ class LoadPostViewModel extends ViewModel
     public function __construct($posts = []){
         $this->posts = $posts;
     }
-    
+
     public function post_config($posts){
-        $this->article_max = config('web.ARTICLE_MAX'); //panjang maksimal artikel
+        $this->article_max = config('web.ARTICLE_MAX');
+
         return collect($posts)->map(function($post){
             $article = (strlen($post['article']) <= $this->article_max) ? $post['article'] : substr($post['article'], 0, $this->article_max) . '...';
 
